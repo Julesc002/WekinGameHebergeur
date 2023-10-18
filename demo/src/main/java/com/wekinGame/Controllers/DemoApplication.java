@@ -1,4 +1,5 @@
 package com.wekinGame.Controllers;
+
 import org.bson.Document;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -58,7 +59,19 @@ public class DemoApplication {
         return String.format(res);
     }
     @GetMapping("/searchEntry/{data}")
-    public String searchEntry(@PathVariable String data){
-        Document searchQuery
+    public String searchEntry(@PathVariable("data") String data){
+        Document searchQuery = new Document();
+        searchQuery.put("nom",new Document("$regex",data).append("$options","i"));
+        MongoCollection<Document> collection = database.getCollection("entrees");
+        FindIterable<Document> cursor = collection.find(searchQuery);
+
+        String res = "";
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while(cursorIterator.hasNext()){
+                res += cursorIterator.next();
+                res += "\n";
+            }
+        }
+        return String.format(res);
     }
 }
