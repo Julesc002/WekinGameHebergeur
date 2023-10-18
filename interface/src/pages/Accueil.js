@@ -1,11 +1,13 @@
 import React from 'react';
-//import Recherche from '../components/Recherche';
-import { NavLink } from 'react-router-dom';
 
 const Home = () => {
+    const handleClick = () => {
+        window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley'; // Remplacez par le lien de la vidéo YouTube
+    };
+
     return (
         <div>
-            <h1>feur</h1>
+            <h1 onClick={handleClick} style={{ cursor: 'pointer' }}>feur</h1>
         </div>
     );
 };

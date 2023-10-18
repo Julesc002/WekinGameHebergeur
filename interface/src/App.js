@@ -16,21 +16,3 @@ const App = () => {
 };
 
 export default App;
-
-
-// import React, { useEffect } from 'react';
-
-// function App() {
-//   useEffect(() => {
-//       window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley';
-//   }, []);
-
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
