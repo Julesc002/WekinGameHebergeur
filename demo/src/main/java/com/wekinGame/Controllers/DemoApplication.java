@@ -42,12 +42,16 @@ public class DemoApplication {
         return String.format(res);
     }
 
-    @GetMapping("/wiki/{nom}")
-    public String getWiki(@PathVariable("nom") String nom) {
+    
+    String idEntrees;
+    
+    @GetMapping("/entrees/{idEntrees}")
+
+    public String getEntrees(@PathVariable("idEntrees") String idEntrees) {
         Document searchQuery = new Document();
-        searchQuery.put("nom", nom);
-        MongoCollection<Document> collection = database.getCollection("wikis");
-        FindIterable<Document> cursor = collection.find(searchQuery);
+        searchQuery.put("_id", Integer.parseInt(idEntrees));
+        MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
+        FindIterable<Document> cursor = collectionEntrees.find(searchQuery);
 
         String res = "";
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
@@ -72,6 +76,24 @@ public class DemoApplication {
                 res += "\n";
             }
         }
+        return String.format(res);
+    }
+
+    @GetMapping("/wiki/{nom}")
+    public String getWiki(@PathVariable("nom") String nom) {
+        Document searchQuery = new Document();
+        searchQuery.put("nom", nom);
+        MongoCollection<Document> collection = database.getCollection("wikis");
+        FindIterable<Document> cursor = collection.find(searchQuery);
+
+
+        String res = "";
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while (cursorIterator.hasNext()) {
+                res += cursorIterator.next();
+            }
+        }
+
         return String.format(res);
     }
 }
