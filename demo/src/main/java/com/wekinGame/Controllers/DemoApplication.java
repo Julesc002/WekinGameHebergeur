@@ -19,7 +19,6 @@ import com.mongodb.client.MongoDatabase;
 public class DemoApplication {
     MongoClient mongoClient = MongoClients.create("mongodb+srv://gamer:ratio@bdwekingame.decr9eq.mongodb.net/");
     MongoDatabase database = mongoClient.getDatabase("WekinGame");
-    MongoCollection<Document> collection = database.getCollection("wikis");
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -29,6 +28,7 @@ public class DemoApplication {
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
         Document searchQuery = new Document();
         searchQuery.put("_id", 1);
+        MongoCollection<Document> collection = database.getCollection("wikis");
         FindIterable<Document> cursor = collection.find(searchQuery);
 
         String res = "";
@@ -40,7 +40,6 @@ public class DemoApplication {
 
         return String.format(res);
     }
-
 
     
     String idEntrees;
@@ -63,4 +62,21 @@ public class DemoApplication {
         return String.format(res);
     }
 
+    @GetMapping("/wiki/{nom}")
+    public String getWiki(@PathVariable("nom") String nom) {
+        Document searchQuery = new Document();
+        searchQuery.put("nom", nom);
+        MongoCollection<Document> collection = database.getCollection("wikis");
+        FindIterable<Document> cursor = collection.find(searchQuery);
+
+
+        String res = "";
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while (cursorIterator.hasNext()) {
+                res += cursorIterator.next();
+            }
+        }
+
+        return String.format(res);
+    }
 }
