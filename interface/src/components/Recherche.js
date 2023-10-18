@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import { API_WIKI_URL} from '../config';
 
 function Recherche() {
     const [data, setData] = useState([]);
+    const [wikis, setWikis] = useState([]);
     const [recherche, setRecherche] = useState("");
 
     const majRecherche = (e) => {
@@ -11,15 +13,21 @@ function Recherche() {
 
     useEffect(() => {
         axios
-            .get(`${API_WIKI_URL}/search/wiki?game=` + recherche)
+            .get(`${API_WIKI_URL}/search/wiki?game=`)
             .then((res) => setData(res.data));        
     }, [])
 
-    const wikiFiltres = data.filter(function(nom) {
-        return wiki.nom.toLowerCase().startsWith(recherche.toLowerCase());
+    useEffect(() => {
+        const wikis = data.map(document => document.nom);
+        setWikis(wikis);
+        console.log(wikis);
+    })
+
+    const wikisFiltres = wikis.filter(function(nom) {
+        return nom.toLowerCase().startsWith(recherche.toLowerCase());
     });
-    
-    if (wikiFiltres.length === 0) {
+
+    if (wikisFiltres.length === 0 && recherche.length > 1) {
         return (
             <div>
                 <input type="text" placeholder='Recherche' onChange={majRecherche}></input>
@@ -30,8 +38,8 @@ function Recherche() {
         return (
             <div>
                 <input type="text" placeholder='Recherche' onChange={majRecherche}></input>
-                {recherche !== "" && nomsFiltres.map(function(wiki) {
-                    return <p>{wiki.nom}</p>;
+                {recherche !== "" && wikisFiltres.map(function(nom, index) {
+                    return <p key={index}>{nom}</p>;
                 })}
             </div>
         );
