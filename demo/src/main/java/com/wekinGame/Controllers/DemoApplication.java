@@ -1,4 +1,5 @@
 package com.wekinGame.Controllers;
+
 import org.bson.Document;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,12 +42,50 @@ public class DemoApplication {
         return String.format(res);
     }
 
+    
+    String idEntrees;
+    
+    @GetMapping("/entrees/{idEntrees}")
+
+    public String getEntrees(@PathVariable("idEntrees") String idEntrees) {
+        Document searchQuery = new Document();
+        searchQuery.put("_id", Integer.parseInt(idEntrees));
+        MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
+        FindIterable<Document> cursor = collectionEntrees.find(searchQuery);
+
+        String res = "";
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while (cursorIterator.hasNext()) {
+                res += cursorIterator.next();
+            }
+        }
+
+        return String.format(res);
+    }
+    @GetMapping("/searchEntry/{data}")
+    public String searchEntry(@PathVariable("data") String data){
+        Document searchQuery = new Document();
+        searchQuery.put("nom",new Document("$regex",data).append("$options","i"));
+        MongoCollection<Document> collection = database.getCollection("entrees");
+        FindIterable<Document> cursor = collection.find(searchQuery);
+
+        String res = "";
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while(cursorIterator.hasNext()){
+                res += cursorIterator.next();
+                res += "\n";
+            }
+        }
+        return String.format(res);
+    }
+
     @GetMapping("/wiki/{nom}")
     public String getWiki(@PathVariable("nom") String nom) {
         Document searchQuery = new Document();
         searchQuery.put("nom", nom);
         MongoCollection<Document> collection = database.getCollection("wikis");
         FindIterable<Document> cursor = collection.find(searchQuery);
+
 
         String res = "";
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
