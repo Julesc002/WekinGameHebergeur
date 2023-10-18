@@ -100,12 +100,12 @@ public class DemoApplication {
     }
 
     @GetMapping("/search/wiki")
-    public String getWikisByPrefix(@RequestParam(value = "game") String game) {
+    public List<Document> getWikisByPrefix(@RequestParam(value = "game") String game) {
         List<Document> results = searchWikisByPrefix(game);
         if (results.size() > 10) {
             results = results.subList(0, 10);
         }
-        return results.toString();
+        return results;
     }
 
     private List<Document> searchWikisByPrefix(String prefix) {
