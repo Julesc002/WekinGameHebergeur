@@ -29,7 +29,7 @@ public class DemoApplication {
     }
 
     @GetMapping("/")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+    public String testId() {
         Document searchQuery = new Document();
         searchQuery.put("_id", 1);
         MongoCollection<Document> collection = database.getCollection("wikis");
