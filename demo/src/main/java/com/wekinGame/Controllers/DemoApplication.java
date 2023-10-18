@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.wekinGame.Controllers;
 import org.bson.Document;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
