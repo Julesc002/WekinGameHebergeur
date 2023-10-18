@@ -1,0 +1,43 @@
+openapi: 3.0.2
+info:
+  title: WekinGames
+  description: "Application managing wikis."
+  termsOfService: http://swagger.io/terms/
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1-SNAPSHOT
+paths:
+  /ping:
+    get:
+      summary: Verify the application is working
+      operationId: ping
+      responses:
+        200:
+          description: application is working.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ping'
+components:
+  schemas:
+    Ping:
+      type: object
+      properties:
+        text:
+          type: string
+  securitySchemes:
+    reflectoring_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://reflectoring.swagger.io/oauth/dialog
+          scopes:
+            write:users: modify users
+            read:users: read users
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+security: 
+  - api_key: []
