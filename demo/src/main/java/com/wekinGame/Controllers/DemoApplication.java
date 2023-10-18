@@ -3,6 +3,7 @@ import org.bson.Document;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,4 +40,27 @@ public class DemoApplication {
 
         return String.format(res);
     }
+
+
+    
+    String idEntrees;
+    
+    @GetMapping("/entrees/{idEntrees}")
+
+    public String getEntrees(@PathVariable("idEntrees") String idEntrees) {
+        Document searchQuery = new Document();
+        searchQuery.put("_id", Integer.parseInt(idEntrees));
+        MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
+        FindIterable<Document> cursor = collectionEntrees.find(searchQuery);
+
+        String res = "";
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while (cursorIterator.hasNext()) {
+                res += cursorIterator.next();
+            }
+        }
+
+        return String.format(res);
+    }
+
 }
