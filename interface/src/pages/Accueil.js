@@ -1,4 +1,5 @@
 import React from 'react';
+import Recherche from '../components/Recherche';
 
 const Home = () => {
     const handleClick = () => {
@@ -8,6 +9,7 @@ const Home = () => {
     return (
         <div>
             <h1 onClick={handleClick} style={{ cursor: 'pointer' }}>feur</h1>
+            <Recherche />
         </div>
     );
 };
