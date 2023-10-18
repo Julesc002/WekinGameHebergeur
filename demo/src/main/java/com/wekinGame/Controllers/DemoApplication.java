@@ -1,5 +1,8 @@
 package com.wekinGame.Controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bson.Document;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,9 +45,8 @@ public class DemoApplication {
         return String.format(res);
     }
 
-    
     String idEntrees;
-    
+
     @GetMapping("/entrees/{idEntrees}")
 
     public String getEntrees(@PathVariable("idEntrees") String idEntrees) {
@@ -62,16 +64,17 @@ public class DemoApplication {
 
         return String.format(res);
     }
+
     @GetMapping("/searchEntry/{data}")
-    public String searchEntry(@PathVariable("data") String data){
+    public String searchEntry(@PathVariable("data") String data) {
         Document searchQuery = new Document();
-        searchQuery.put("nom",new Document("$regex",data).append("$options","i"));
+        searchQuery.put("nom", new Document("$regex", data).append("$options", "i"));
         MongoCollection<Document> collection = database.getCollection("entrees");
         FindIterable<Document> cursor = collection.find(searchQuery);
 
         String res = "";
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
-            while(cursorIterator.hasNext()){
+            while (cursorIterator.hasNext()) {
                 res += cursorIterator.next();
                 res += "\n";
             }
@@ -86,7 +89,6 @@ public class DemoApplication {
         MongoCollection<Document> collection = database.getCollection("wikis");
         FindIterable<Document> cursor = collection.find(searchQuery);
 
-
         String res = "";
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
             while (cursorIterator.hasNext()) {
@@ -95,5 +97,32 @@ public class DemoApplication {
         }
 
         return String.format(res);
+    }
+
+    @GetMapping("/search/wiki")
+    public String getWikisByPrefix(@RequestParam(value = "game") String game) {
+        List<Document> results = searchWikisByPrefix(game);
+        if (results.size() > 10) {
+            results = results.subList(0, 10);
+        }
+        return results.toString();
+    }
+
+    private List<Document> searchWikisByPrefix(String prefix) {
+        List<Document> results = new ArrayList<>();
+
+        Document searchQuery = new Document();
+        searchQuery.put("nom", new Document("$regex", "^" + prefix).append("$options", "i"));
+
+        MongoCollection<Document> collection = database.getCollection("wikis");
+        FindIterable<Document> cursor = collection.find(searchQuery);
+
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while (cursorIterator.hasNext()) {
+                results.add(cursorIterator.next());
+            }
+        }
+
+        return results;
     }
 }

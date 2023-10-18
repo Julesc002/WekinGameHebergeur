@@ -44,27 +44,4 @@ public class DemoApplication {
     return String.format(res);
   }
 
-  @GetMapping("/search/wiki")
-  public String getWikisByPrefix(@RequestParam(value = "game") String game) {
-    List<Document> results = searchWikisByPrefix(game);
-    return results.toString();
-  }
-
-  private List<Document> searchWikisByPrefix(String prefix) {
-    List<Document> results = new ArrayList<>();
-
-    Document searchQuery = new Document();
-    searchQuery.put("nom", new Document("$regex", "^" + prefix));
-
-    FindIterable<Document> cursor = collection.find(searchQuery);
-
-    try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
-      while (cursorIterator.hasNext()) {
-        results.add(cursorIterator.next());
-      }
-    }
-
-    return results;
-  }
-
 }
