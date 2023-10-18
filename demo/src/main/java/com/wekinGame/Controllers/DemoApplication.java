@@ -65,21 +65,20 @@ public class DemoApplication {
         return String.format(res);
     }
 
-    @GetMapping("/searchEntry/{data}")
-    public String searchEntry(@PathVariable("data") String data) {
+    @GetMapping("/searchEntry")
+    public List<Document> searchEntry(@RequestParam(value ="name", defaultValue = "") String data) {
+        List<Document> results = new ArrayList<Document>();
         Document searchQuery = new Document();
         searchQuery.put("nom", new Document("$regex", data).append("$options", "i"));
         MongoCollection<Document> collection = database.getCollection("entrees");
         FindIterable<Document> cursor = collection.find(searchQuery);
 
-        String res = "";
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
             while (cursorIterator.hasNext()) {
-                res += cursorIterator.next();
-                res += "\n";
+                results.add(cursorIterator.next());
             }
         }
-        return String.format(res);
+        return results;
     }
 
     @GetMapping("/wiki/{nom}")
