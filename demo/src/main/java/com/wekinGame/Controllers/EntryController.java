@@ -47,25 +47,29 @@ public class EntryController {
     @GetMapping("/searchEntry")
     public List<Document> searchEntry(@RequestParam(value ="name", defaultValue = "") String data) {
         List<Document> results = new ArrayList<Document>();
-        Document searchQuery = new Document();
-        searchQuery.put("nom", new Document("$regex", data).append("$options", "i"));
-        List<Bson> pipeline = Arrays.asList(
-            Aggregates.match(searchQuery),  // Filtrer les documents dans la collection actuelle
-            Aggregates.lookup("wikis", "id_wiki", "_id", "wiki"),  // Fusionner avec une autre collection
-            Aggregates.unwind("$wiki"),  // "Déplier" le résultat de la fusion
-            Aggregates.project(Projections.fields(
-                Projections.include("_id", "nom", "categories", "wiki.nom")  // Sélectionner les champs nécessaires
-            ))
-        );
+        if (data.length() == 0) {
+            return results;
+        } else {
+            Document searchQuery = new Document();
+            searchQuery.put("nom", new Document("$regex", data).append("$options", "i"));
+            List<Bson> pipeline = Arrays.asList(
+                Aggregates.match(searchQuery),  // Filtrer les documents dans la collection actuelle
+                Aggregates.lookup("wikis", "id_wiki", "_id", "wiki"),  // Fusionner avec une autre collection
+                Aggregates.unwind("$wiki"),  // "Déplier" le résultat de la fusion
+                Aggregates.project(Projections.fields(
+                    Projections.include("_id", "nom", "categories", "wiki.nom")  // Sélectionner les champs nécessaires
+                ))
+            );
 
-        MongoCollection<Document> collection = database.getCollection("entrees");
-        AggregateIterable<Document> cursor = collection.aggregate(pipeline);
+            MongoCollection<Document> collection = database.getCollection("entrees");
+            AggregateIterable<Document> cursor = collection.aggregate(pipeline);
 
-        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
-            while (cursorIterator.hasNext()) {
-                results.add(cursorIterator.next());
+            try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+                while (cursorIterator.hasNext()) {
+                    results.add(cursorIterator.next());
+                }
             }
+            return results;
         }
-        return results;
     }
 }
