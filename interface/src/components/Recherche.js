@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { API_WIKI_URL } from '../config';
+import { API_URL } from '../config';
 import _ from 'lodash';
 
 function RechercheDeWiki() {
@@ -13,9 +13,8 @@ function RechercheDeWiki() {
   };
 
   const rechercheAPI = _.debounce((query) => {
-    axios.get(`${API_WIKI_URL}/search/wiki?game=` + query).then((res) => {
-      const wikis = res.data.map((document) => document.nom);
-      setWikis(wikis);
+    axios.get(`${API_URL}/search/wiki?game=` + query).then((res) => {
+      setWikis(res.data);
     });
   }, 300);
 
@@ -33,8 +32,8 @@ function RechercheDeWiki() {
         <input type="text" placeholder="Recherche" onChange={majRecherche}></input>
         {recherche !== '' && <p>Wikis :</p>}
         {recherche !== '' &&
-          wikis.map(function (nom, index) {
-            return <p key={index}>{nom}</p>;
+          wikis.map(function (wiki) {
+            return <p key={wiki._id}>{wiki.nom}</p>;
           })}
       </div>
     );

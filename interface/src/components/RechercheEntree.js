@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { API_ENTREE_URL } from '../config';
+import { API_URL } from '../config';
 import _ from 'lodash';
 
 function RechercheEntree() {
@@ -13,9 +13,8 @@ function RechercheEntree() {
   };
 
   const rechercheAPI = _.debounce((query) => {
-    axios.get(`${API_ENTREE_URL}/search/wiki?game=` + query).then((res) => {
-      const entrees = res.data.map((document) => document.nom);
-      setEntrees(entrees);
+    axios.get(`${API_URL}/searchEntry?name=` + query).then((res) => {
+      setEntrees(res.data);
     });
   }, 300);
 
@@ -31,9 +30,18 @@ function RechercheEntree() {
       <div>
         <input type="text" placeholder="Recherche" onChange={majRecherche}></input>
         {recherche !== '' &&
-          entrees.map(function (nom, index) {
-            return <p key={index}>{nom}</p>;
-          })}
+          entrees.map(function (entree) {
+            return (
+                <div key={entree._id}>
+                  <p>{entree.nom} : {entree.wiki.nom}</p>
+                  <ul>
+                    {entree.categories.map((categorie, index) => (
+                      <li key={index}>{categorie}</li>
+                    ))}
+                  </ul>
+                </div>
+            );    
+        })}
       </div>
     );
   }
