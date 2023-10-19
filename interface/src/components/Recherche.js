@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
+import { Link } from 'react-router-dom';
 
 function RechercheDeWiki() {
   const [wikis, setWikis] = useState([]);
@@ -47,8 +48,10 @@ function RechercheDeWiki() {
         entrees.map(function (entree) {
           return (
             <div key={entree._id}>
-              <p>{entree.nom} : {entree.wiki.nom}</p>
-              Catégorie(s) :
+            <Link to={`/entree/${entree._id}`}>
+              <p style={{ cursor: 'pointer' }}>{entree.nom} : {entree.wiki.nom}</p>
+            </Link>
+              <h6> Catégorie(s) : </h6>
                 <ul>
                   {entree.categories.map((categorie, index) => (
                     <li key={index}>{categorie}</li>
