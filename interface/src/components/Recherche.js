@@ -5,12 +5,14 @@ import { API_URL } from '../config';
 function RechercheDeWiki() {
   const [wikis, setWikis] = useState([]);
   const [entrees, setEntrees] = useState([]);
+  const [mentions, setMentions] = useState([]);
   const [recherche, setRecherche] = useState('');
   const [debouncedRecherche] = useDebouncedValue(recherche, 300);
 
   useEffect(() => {
     rechercheWikiAPI(debouncedRecherche);
     rechercheEntreeAPI(debouncedRecherche);
+    rechercheMentionAPI(debouncedRecherche);
   }, [debouncedRecherche]);
 
   const majRecherche = (e) => {
@@ -26,6 +28,12 @@ function RechercheDeWiki() {
   const rechercheEntreeAPI = (query) => {
     axios.get(`${API_URL}/searchEntry?name=` + query).then((res) => {
       setEntrees(res.data);
+    });
+  };
+
+  const rechercheMentionAPI = (query) => {
+    axios.get(`${API_URL}/searchEntryByDesc?name=` + query).then((res) => {
+      setMentions(res.data);
     });
   };
 
@@ -51,6 +59,24 @@ function RechercheDeWiki() {
               <h6>Catégorie(s) :</h6>
                 <ul>
                   {entree.categories.map((categorie, index) => (
+                    <li key={index}>{categorie}</li>
+                  ))}
+                </ul>
+            </div>
+          );
+        })
+      )}
+      {recherche !== '' && <h5>{recherche} est mentionné dans :</h5>}
+      {mentions.length === 0 && recherche.length > 1 ? (
+        <p>Pas de résultat</p>
+      ) : (
+        mentions.map(function (mention) {
+          return (
+            <div key={mention._id}>
+              <p>{mention.nom} : {mention.wiki.nom}</p>
+              <h6>Catégorie(s) :</h6>
+                <ul>
+                  {mention.categories.map((categorie, index) => (
                     <li key={index}>{categorie}</li>
                   ))}
                 </ul>
