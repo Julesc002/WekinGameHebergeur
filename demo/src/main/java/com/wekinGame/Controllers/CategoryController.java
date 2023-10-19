@@ -18,20 +18,23 @@ public class CategoryController {
     MongoClient mongoClient = MongoClients.create("mongodb+srv://gamer:ratio@bdwekingame.decr9eq.mongodb.net/");
     MongoDatabase database = mongoClient.getDatabase("WekinGame");
 
-    @GetMapping("category/{idCategory}")
-    public String getEntry(@PathVariable("idEntry") String idEntry) {
+    @GetMapping("/category/{idWiki}")
+    public Object getCategoryWithIdWiki(@PathVariable("idWiki") String idWiki) {
         Document searchQuery = new Document();
-        searchQuery.put("_id", Integer.parseInt(idEntry));
-        MongoCollection<Document> collectionEntrees = database.getCollection("categories");
-        FindIterable<Document> cursor = collectionEntrees.find(searchQuery);
+        searchQuery.put("_id", Integer.parseInt(idWiki));
 
-        String res = "";
+        MongoCollection<Document> collection = database.getCollection("wikis");
+        FindIterable<Document> cursor = collection.find(searchQuery);
+
+        Document resultsQuery = new Document();
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
             while (cursorIterator.hasNext()) {
-                res += cursorIterator.next();
+                resultsQuery = cursorIterator.next();
             }
         }
 
-        return String.format(res);
+        return resultsQuery.get("categories");
     }
+
+    
 }
