@@ -55,7 +55,7 @@ public class WikiController {
         } else {
 
             Document searchQuery = new Document();
-            searchQuery.put("nom", new Document("$regex", "^" + prefix).append("$options", "i"));
+            searchQuery.put("nom", new Document("$regex",prefix).append("$options", "i"));
 
             MongoCollection<Document> collection = database.getCollection("wikis");
             FindIterable<Document> cursor = collection.find(searchQuery);
