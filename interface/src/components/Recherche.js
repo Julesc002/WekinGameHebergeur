@@ -48,14 +48,12 @@ function RechercheDeWiki() {
           return (
             <div key={entree._id}>
               <p>{entree.nom} : {entree.wiki.nom}</p>
-              <li>
-                <h6>Catégorie(s) :</h6>
+              Catégorie(s) :
                 <ul>
                   {entree.categories.map((categorie, index) => (
                     <li key={index}>{categorie}</li>
                   ))}
                 </ul>
-              </li>
             </div>
           );
         })
