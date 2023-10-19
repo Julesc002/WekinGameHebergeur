@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import { API_WIKI_URL} from '../config';
+import React, { useEffect, useState } from 'react';
+import { API_WIKI_URL } from '../config';
 
 function Recherche() {
     const [data, setData] = useState([]);
@@ -14,14 +14,11 @@ function Recherche() {
     useEffect(() => {
         axios
             .get(`${API_WIKI_URL}/search/wiki?game=`)
-            .then((res) => setData(res.data));        
-    }, [])
-
-    useEffect(() => {
-        const wikis = data.map(document => document.nom);
-        setWikis(wikis);
-        console.log(wikis);
-    })
+            .then((res) => {
+                const wikis = res.data.map(document => document.nom);
+                setWikis(wikis);
+            });        
+    }, []);
 
     const wikisFiltres = wikis.filter(function(nom) {
         return nom.toLowerCase().startsWith(recherche.toLowerCase());
