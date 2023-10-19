@@ -76,7 +76,9 @@ function RechercheDeWiki() {
         mentions.map(function (mention) {
           return (
             <div key={mention._id}>
-              <p>{mention.nom} : {mention.wiki.nom}</p>
+              <Link to={`/entree/${mention._id}`}>
+                <p style={{ cursor: 'pointer' }}>{mention.nom} : {mention.wiki.nom}</p>
+              </Link>
               <h6>Catégorie(s) :</h6>
                 <ul>
                   {mention.categories.map((categorie, index) => (
