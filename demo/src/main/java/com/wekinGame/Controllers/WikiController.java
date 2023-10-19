@@ -50,19 +50,23 @@ public class WikiController {
 
     private List<Document> searchWikisByPrefix(String prefix) {
         List<Document> results = new ArrayList<>();
+        if (prefix.length() == 0) {
+            return results;
+        } else {
 
-        Document searchQuery = new Document();
-        searchQuery.put("nom", new Document("$regex", "^" + prefix).append("$options", "i"));
+            Document searchQuery = new Document();
+            searchQuery.put("nom", new Document("$regex", "^" + prefix).append("$options", "i"));
 
-        MongoCollection<Document> collection = database.getCollection("wikis");
-        FindIterable<Document> cursor = collection.find(searchQuery);
+            MongoCollection<Document> collection = database.getCollection("wikis");
+            FindIterable<Document> cursor = collection.find(searchQuery);
 
-        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
-            while (cursorIterator.hasNext()) {
-                results.add(cursorIterator.next());
+            try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+                while (cursorIterator.hasNext()) {
+                    results.add(cursorIterator.next());
+                }
             }
-        }
 
-        return results;
+            return results;
+        }
     }
 }
