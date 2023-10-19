@@ -72,4 +72,39 @@ public class EntryController {
             return results;
         }
     }
+
+    @GetMapping("/searchEntryByDesc")
+    public List<Document> searchEntryByDesc(@RequestParam(value ="name", defaultValue = "") String data) {
+        List<Document> results = new ArrayList<Document>();
+        if (data.length() == 0) {
+            return results;
+        } else {
+            Document criteria1 = new Document("donnees.titre", new Document("$regex", data).append("$options", "i"));
+            Document criteria2 = new Document("donnees.contenu", new Document("$regex", data).append("$options", "i"));
+            List<Document> searchParameters = new ArrayList<>();
+
+            searchParameters.add(criteria1);
+            searchParameters.add(criteria2);
+            Document searchQuery = new Document("$or", searchParameters);
+
+            List<Bson> pipeline = Arrays.asList(
+                Aggregates.match(searchQuery),  // Filtrer les documents dans la collection actuelle
+                Aggregates.lookup("wikis", "id_wiki", "_id", "wiki"),  // Fusionner avec une autre collection
+                Aggregates.unwind("$wiki"),  // "Déplier" le résultat de la fusion
+                Aggregates.project(Projections.fields(
+                    Projections.include("_id", "nom", "categories", "wiki.nom")  // Sélectionner les champs nécessaires
+                ))
+            );
+
+            MongoCollection<Document> collection = database.getCollection("entrees");
+            AggregateIterable<Document> cursor = collection.aggregate(pipeline);
+
+            try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+                while (cursorIterator.hasNext()) {
+                    results.add(cursorIterator.next());
+                }
+            }
+            return results;
+        }
+    }
 }
