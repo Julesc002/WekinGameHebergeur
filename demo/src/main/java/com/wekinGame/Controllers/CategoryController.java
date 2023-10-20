@@ -1,16 +1,25 @@
 package com.wekinGame.Controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Projections;
+
 
 @RestController
 public class CategoryController {
@@ -35,6 +44,27 @@ public class CategoryController {
 
         return resultsQuery.get("categories");
     }
+    @GetMapping("/category/{idWiki}/{nameCategory}")
+    public List<Document> getEntryNameWithWikiIdAndCategoryName(@PathVariable("idWiki") String idWiki,@PathVariable("nameCategory") String nameCategory) {
+        List<Document> resultsQuery = new ArrayList<Document>();
+        Document searchQuery = new Document();
+        searchQuery.put("id_wiki", Integer.parseInt(idWiki));
+        List<Bson> pipeline = Arrays.asList(
+                Aggregates.match(searchQuery),
+                Aggregates.project(Projections.fields(
+                    Projections.include("_id", "nom")
+                ))
+            );
+        MongoCollection<Document> collection = database.getCollection("entrees");
+        AggregateIterable<Document> cursor = collection.aggregate(pipeline);
 
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while (cursorIterator.hasNext()) {
+                resultsQuery.add(cursorIterator.next());
+            }
+        }
+        return resultsQuery;
+    }
+    
     
 }
