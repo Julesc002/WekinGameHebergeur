@@ -3,9 +3,9 @@ import { API_URL } from '../config';
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-function DetailEntree() {
+function DetailCategorie() {
     const { id } = useParams();
-    const [entry, setEntry] = useState([]);
+    const [entries, setEntries] = useState([]);
     const navigate = useNavigate();
 
     const handleRetourClick = () => {
@@ -13,18 +13,18 @@ function DetailEntree() {
     };
 
     useEffect(() => {
-        searchDataEntry(id);
+        searchDataCategorie(id);
     }, [id]);
 
-    const searchDataEntry = (id) => {
+    const searchDataCategorie = (id) => {
         axios.get(`${API_URL}/entry/` + id).then((res) => {
-            setEntry(res.data);
+            setEntries(res.data);
         });
     };
 
     return (
         <div>
-            {entry && entry[0] && (
+            {entries.length > 0 && (
                 <div>
                     <h1>{entry[0].nom}</h1>
                     {entry[0].donnees.map((donnee, index) => (
@@ -40,4 +40,4 @@ function DetailEntree() {
     );
 }
 
-export default DetailEntree;
+export default DetailCategorie;
