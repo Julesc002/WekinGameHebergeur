@@ -62,7 +62,7 @@ function RechercheDeWiki() {
               <h6> Catégorie(s) : </h6>
                 <ul>
                   {entree.categories.map((categorie, index) => (
-                    <Link to={`/categorie/${entree.wiki._id}/$${categorie}`}>
+                    <Link to={`/categorie/${entree.wiki._id}/${categorie}`}>
                       <li style={{ cursor: 'pointer' }} key={index}>{categorie}</li>
                     </Link>
                   ))}
@@ -84,7 +84,9 @@ function RechercheDeWiki() {
               <h6>Catégorie(s) :</h6>
                 <ul>
                   {mention.categories.map((categorie, index) => (
-                    <li key={index}>{categorie}</li>
+                    <Link to={`/categorie/${mention.wiki._id}/${categorie}`}>
+                      <li style={{ cursor: 'pointer' }} key={index}>{categorie}</li>
+                    </Link>
                   ))}
                 </ul>
             </div>
