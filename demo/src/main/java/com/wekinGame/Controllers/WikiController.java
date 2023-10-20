@@ -21,22 +21,16 @@ public class WikiController {
 
     MongoClient mongoClient = MongoClients.create("mongodb+srv://gamer:ratio@bdwekingame.decr9eq.mongodb.net/");
     MongoDatabase database = mongoClient.getDatabase("WekinGame");
+    MongoCollection<Document> collection = database.getCollection("wikis");
 
-    @GetMapping("/wiki/{nom}")
-    public String getWiki(@PathVariable("nom") String nom) {
+    @GetMapping("/wiki/{id}")
+    public Object getWikiWithId(@PathVariable("id") String id) {
         Document searchQuery = new Document();
-        searchQuery.put("nom", nom);
-        MongoCollection<Document> collection = database.getCollection("wikis");
-        FindIterable<Document> cursor = collection.find(searchQuery);
+        searchQuery.put("_id", Integer.parseInt(id));
 
-        String res = "";
-        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
-            while (cursorIterator.hasNext()) {
-                res += cursorIterator.next();
-            }
-        }
+        Document result = collection.find(searchQuery).first();
 
-        return String.format(res);
+        return result;
     }
 
     @GetMapping("/search/wiki")
@@ -55,9 +49,8 @@ public class WikiController {
         } else {
 
             Document searchQuery = new Document();
-            searchQuery.put("nom", new Document("$regex",prefix).append("$options", "i"));
+            searchQuery.put("nom", new Document("$regex", prefix).append("$options", "i"));
 
-            MongoCollection<Document> collection = database.getCollection("wikis");
             FindIterable<Document> cursor = collection.find(searchQuery);
 
             try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
