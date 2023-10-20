@@ -16,7 +16,7 @@ function DetailCategorie() {
     useEffect(() => {
         searchDataCategorie(id);
         getWiki(id);
-    }, [id]);
+    });
 
     const searchDataCategorie = (id) => {
         axios.get(`${API_URL}/category/` + id + '/' + nom).then((res) => {
