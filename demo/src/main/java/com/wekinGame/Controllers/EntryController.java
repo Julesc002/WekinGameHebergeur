@@ -57,7 +57,7 @@ public class EntryController {
                 Aggregates.lookup("wikis", "id_wiki", "_id", "wiki"),  // Fusionner avec une autre collection
                 Aggregates.unwind("$wiki"),  // "Déplier" le résultat de la fusion
                 Aggregates.project(Projections.fields(
-                    Projections.include("_id", "nom", "categories", "wiki.nom")  // Sélectionner les champs nécessaires
+                    Projections.include("_id", "nom", "categories", "wiki.nom","wiki._id")  // Sélectionner les champs nécessaires
                 ))
             );
 
