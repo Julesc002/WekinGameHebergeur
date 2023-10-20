@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import Accueil from './pages/Accueil';
 import Layout from './components/Layout';
 import DetailEntree from './components/DetailEntree';
+import DetailCategorie from './components/DetailCategorie';
 
 const App = () => {
 
@@ -12,6 +13,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Accueil />} />
         <Route path="/entree/:id" element={<DetailEntree />} />
+        <Route path="/categorie/:id" element={<DetailCategorie />} />
       </Routes>
     </Layout>
   );

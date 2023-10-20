@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function DetailCategorie() {
-    const { id } = useParams();
+    const { id, nom } = useParams();
     const [entries, setEntries] = useState([]);
     const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ function DetailCategorie() {
     }, [id]);
 
     const searchDataCategorie = (id) => {
-        axios.get(`${API_URL}/entry/` + id).then((res) => {
+        axios.get(`${API_URL}/category/` + id + '/' + nom).then((res) => {
             setEntries(res.data);
         });
     };
@@ -26,8 +26,8 @@ function DetailCategorie() {
         <div>
             {entries.length > 0 && (
                 <div>
-                    <h1>{entry[0].nom}</h1>
-                    {entry[0].donnees.map((donnee, index) => (
+                    <h1>{entries[0].nom}</h1>
+                    {entries[0].donnees.map((donnee, index) => (
                         <div key={index}>
                             <h3>{donnee.titre}</h3>
                             <p>{donnee.contenu}</p>
