@@ -1,7 +1,7 @@
 import axios from "axios";
-import { API_URL } from '../config';
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { API_URL } from '../config';
 
 function DetailCategorie() {
     const { id, nom } = useParams();
