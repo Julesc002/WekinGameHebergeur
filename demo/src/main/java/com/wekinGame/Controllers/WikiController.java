@@ -96,6 +96,14 @@ public class WikiController {
             }
         }
 
+        // Créer la liste d'objets pour la clé "categories"
+        List<Document> categoryList = new ArrayList<>();
+        for (Map.Entry<String, List<Document>> entry : categorizedEntries.entrySet()) {
+            Document categoryObject = new Document();
+            categoryObject.put(entry.getKey(), entry.getValue());
+            categoryList.add(categoryObject);
+        }
+
         // Créer le résultat final
         Document result = new Document();
         result.put("_id", wiki.getInteger("_id"));
@@ -103,11 +111,7 @@ public class WikiController {
         result.put("date_creation", wiki.getString("date_creation"));
         result.put("description", wiki.getString("description"));
         result.put("admins", wiki.get("admins"));
-
-        // Ajouter les entrées organisées par catégorie
-        for (Map.Entry<String, List<Document>> entry : categorizedEntries.entrySet()) {
-            result.put(entry.getKey(), entry.getValue());
-        }
+        result.put("categories", categoryList);
 
         return result;
     }
