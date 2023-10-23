@@ -46,8 +46,13 @@ function RechercheDeWiki() {
         <p>Pas de résultat</p>
       ) : (
         wikis.map(function (wiki) {
-          return <p key={wiki._id}>{wiki.nom}</p>;
-        })
+          return(
+            <div>
+              <Link to={`/wiki/${wiki._id}`}>
+                <p style={{ cursor: 'pointer' }} key={wiki._id}>{wiki.nom}</p>
+              </Link>
+            </div>
+          )})
       )}
       {recherche !== '' && <h5>Entrées :</h5>}
       {entrees.length === 0 && recherche.length > 1 ? (
