@@ -25,6 +25,13 @@ function WikiContent() {
     return (
         <div>
             <h1>Wiki {wiki ? wiki.nom : ""}</h1>
+            <p>{wiki ? wiki.description : ""}</p>
+            <h4>Catégories : </h4>
+            {wiki && wiki.categories.map(function (categorie) {
+                <h6>{}</h6>
+            })}
+
+
             <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
         </div>
     );
