@@ -27,10 +27,10 @@ function WikiContent() {
             <h1>Wiki {wiki ? wiki.nom : ""}</h1>
             <p>{wiki ? wiki.description : ""}</p>
             <NavLink to="/createCategorie">
-                <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Ajouter une catérogie</button>
+                <button style={{ cursor: 'pointer' }}>Ajouter une catérogie</button>
             </NavLink>
             <NavLink to="/createEntry">
-                <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Ajouter une entrée</button>
+                <button style={{ cursor: 'pointer' }}>Ajouter une entrée</button>
             </NavLink>
             {wiki && wiki.categories.map(function (categorie) {
                 return (

@@ -26,10 +26,11 @@ function DetailEntree() {
         <div>
             {entry && entry[0] && (
                 <div>
-                    <h1>{entry[0].nom}</h1>
+                    <h1>Wiki {}</h1>
+                    <h3>{entry[0].nom}</h3>
                     {entry[0].donnees.map((donnee, index) => (
                         <div key={index}>
-                            <h3>{donnee.titre}</h3>
+                            <h4>{donnee.titre}</h4>
                             <p>{donnee.contenu}</p>
                         </div>
                     ))}

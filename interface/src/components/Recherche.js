@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 function RechercheDeWiki() {
   const [wikis, setWikis] = useState([]);
@@ -43,7 +43,12 @@ function RechercheDeWiki() {
       <input type="text" placeholder="Recherche" onChange={majRecherche}></input>
       {recherche !== '' && <h5>Wikis :</h5>}
       {wikis.length === 0 && recherche.length > 1 ? (
-        <p>Pas de résultat</p>
+        <div>
+          <p>Pas de résultat</p>
+          <NavLink to="/createWiki">
+            <button style={{ cursor: 'pointer' }}>Créer le wiki {recherche}</button>
+          </NavLink>
+        </div>
       ) : (
         wikis.map(function (wiki) {
           return(
