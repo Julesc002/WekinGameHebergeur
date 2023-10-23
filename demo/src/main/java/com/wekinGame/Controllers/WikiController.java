@@ -100,7 +100,9 @@ public class WikiController {
         List<Document> categoryList = new ArrayList<>();
         for (Map.Entry<String, List<Document>> entry : categorizedEntries.entrySet()) {
             Document categoryObject = new Document();
-            categoryObject.put(entry.getKey(), entry.getValue());
+            String categoryName = entry.getKey();
+            categoryObject.put("nom", categoryName);
+            categoryObject.put(categoryName, entry.getValue());
             categoryList.add(categoryObject);
         }
 
