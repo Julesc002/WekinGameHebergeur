@@ -68,7 +68,6 @@ public class WikiController {
     @GetMapping("/wiki/{id}/content")
     public Document getContentForOneWiki(@PathVariable("id") String id) {
         Document wiki = getWikiWithId(id);
-        List<String> categories = (List<String>) wiki.get("categories");
 
         Document searchQuery = new Document();
         searchQuery.put("id_wiki", Integer.parseInt(id));
@@ -102,7 +101,7 @@ public class WikiController {
             Document categoryObject = new Document();
             String categoryName = entry.getKey();
             categoryObject.put("nom", categoryName);
-            categoryObject.put(categoryName, entry.getValue());
+            categoryObject.put("entrees", entry.getValue());
             categoryList.add(categoryObject);
         }
 
