@@ -26,9 +26,17 @@ function WikiContent() {
         <div>
             <h1>Wiki {wiki ? wiki.nom : ""}</h1>
             <p>{wiki ? wiki.description : ""}</p>
-            <h4>Catégories : </h4>
             {wiki && wiki.categories.map(function (categorie) {
-                <h6>{}</h6>
+                return (
+                    <div>
+                        <h3>{categorie.nom} :</h3>
+                        {categorie && categorie.entrees.map(function (entree) {
+                            return (
+                                <p>{entree.nom}</p>
+                            )
+                        })}
+                    </div>
+                )
             })}
 
 
