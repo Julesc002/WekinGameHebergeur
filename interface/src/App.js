@@ -3,21 +3,21 @@ import { Routes, Route } from 'react-router-dom';
 
 import Accueil from './pages/Accueil';
 import Layout from './components/Layout';
-import DetailEntree from './components/DetailEntree';
-import DetailCategorie from './components/DetailCategorie';
-import WikiContent from './components/WikiContent';
-import MessageErreur from './components/MessageErreur';
+import Wiki from './pages/Wiki';
+import Categorie from './pages/Categorie';
+import Entree from './pages/Entree';
+import PageErreur from './pages/PageErreur';
 
 const App = () => {
 
   return (
     <Layout>
       <Routes>
-        <Route path='*' element={<MessageErreur />} />
+        <Route path='*' element={<PageErreur />} />
         <Route path='/' element={<Accueil />} />
-        <Route path="/entree/:id" element={<DetailEntree />} />
-        <Route path="/categorie/:id/:nom" element={<DetailCategorie />} />
-        <Route path="/wiki/:id/" element={<WikiContent />} />
+        <Route path="/entree/:id" element={<Entree />} />
+        <Route path="/categorie/:id/:nom" element={<Categorie />} />
+        <Route path="/wiki/:id/" element={<Wiki />} />
       </Routes>
     </Layout>
   );
