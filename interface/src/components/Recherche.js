@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { API_URL } from '../config';
 
 function RechercheDeWiki() {
   const [wikis, setWikis] = useState([]);
@@ -40,68 +40,72 @@ function RechercheDeWiki() {
 
   return (
     <div>
-      <input type="text" placeholder="Recherche" onChange={majRecherche}></input>
-      {recherche !== '' && <h5>Wikis :</h5>}
-      {wikis.length === 0 && recherche.length > 1 ? (
-        <div>
-          <p>Pas de résultat</p>
-          <NavLink to="/createWiki">
-            <button style={{ cursor: 'pointer' }}>Créer le wiki {recherche}</button>
-          </NavLink>
-        </div>
-      ) : (
-        wikis.map(function (wiki) {
-          return(
+      <input type="text" placeholder="Recherche" onChange={majRecherche} class="text-medium"></input>
+      {recherche !== '' && (
+        <div class="popup-search">
+          <h5>Wikis :</h5>
+          {wikis.length === 0 && recherche.length > 1 ? (
             <div>
-              <Link to={`/wiki/${wiki._id}`}>
-                <p style={{ cursor: 'pointer' }} key={wiki._id}>{wiki.nom}</p>
-              </Link>
+              <p>Pas de résultat</p>
+              <NavLink to="/createWiki">
+                <button style={{ cursor: 'pointer' }}>Créer le wiki {recherche}</button>
+              </NavLink>
             </div>
-          )})
-      )}
-      {recherche !== '' && <h5>Entrées :</h5>}
-      {entrees.length === 0 && recherche.length > 1 ? (
-        <p>Pas de résultat</p>
-      ) : (
-        entrees.map(function (entree) {
-          return (
-            <div key={entree._id}>
-            <Link to={`/entree/${entree._id}`}>
-              <p style={{ cursor: 'pointer' }}>{entree.nom} : {entree.wiki.nom}</p>
-            </Link>
-              <h6> Catégorie(s) : </h6>
-                <ul>
-                  {entree.categories.map((categorie, index) => (
-                    <Link to={`/categorie/${entree.wiki._id}/${categorie}`}>
-                      <li style={{ cursor: 'pointer' }} key={index}>{categorie}</li>
-                    </Link>
-                  ))}
-                </ul>
-            </div>
-          );
-        })
-      )}
-      {recherche !== '' && <h5>{recherche} est mentionné dans :</h5>}
-      {mentions.length === 0 && recherche.length > 1 ? (
-        <p>Pas de résultat</p>
-      ) : (
-        mentions.map(function (mention) {
-          return (
-            <div key={mention._id}>
-              <Link to={`/entree/${mention._id}`}>
-                <p style={{ cursor: 'pointer' }}>{mention.nom} : {mention.wiki.nom}</p>
-              </Link>
-              <h6>Catégorie(s) :</h6>
-                <ul>
-                  {mention.categories.map((categorie, index) => (
-                    <Link to={`/categorie/${mention.wiki._id}/${categorie}`}>
-                      <li style={{ cursor: 'pointer' }} key={index}>{categorie}</li>
-                    </Link>
-                  ))}
-                </ul>
-            </div>
-          );
-        })
+          ) : (
+            wikis.map(function (wiki) {
+              return(
+                <div>
+                  <Link to={`/wiki/${wiki._id}`}>
+                    <p style={{ cursor: 'pointer' }} key={wiki._id}>{wiki.nom}</p>
+                  </Link>
+                </div>
+              )})
+          )}
+          <h5>Entrées :</h5>
+          {entrees.length === 0 && recherche.length > 1 ? (
+            <p>Pas de résultat</p>
+          ) : (
+            entrees.map(function (entree) {
+              return (
+                <div key={entree._id}>
+                <Link to={`/entree/${entree._id}`}>
+                  <p style={{ cursor: 'pointer' }}>{entree.nom} : {entree.wiki.nom}</p>
+                </Link>
+                  <h6> Catégorie(s) : </h6>
+                    <ul>
+                      {entree.categories.map((categorie, index) => (
+                        <Link to={`/categorie/${entree.wiki._id}/${categorie}`}>
+                          <li style={{ cursor: 'pointer' }} key={index}>{categorie}</li>
+                        </Link>
+                      ))}
+                    </ul>
+                </div>
+              );
+            })
+          )}
+          <h5>{recherche} est mentionné dans :</h5>
+          {mentions.length === 0 && recherche.length > 1 ? (
+            <p>Pas de résultat</p>
+          ) : (
+            mentions.map(function (mention) {
+              return (
+                <div key={mention._id}>
+                  <Link to={`/entree/${mention._id}`}>
+                    <p style={{ cursor: 'pointer' }}>{mention.nom} : {mention.wiki.nom}</p>
+                  </Link>
+                  <h6>Catégorie(s) :</h6>
+                    <ul>
+                      {mention.categories.map((categorie, index) => (
+                        <Link to={`/categorie/${mention.wiki._id}/${categorie}`}>
+                          <li style={{ cursor: 'pointer' }} key={index}>{categorie}</li>
+                        </Link>
+                      ))}
+                    </ul>
+                </div>
+              );
+            })
+          )}
+        </div>
       )}
     </div>
   );
