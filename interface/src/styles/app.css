@@ -6,6 +6,4 @@
 @import url("./pages/_accueil.css");
 */
 /* Import Components*/
-/*
-@import url("./pages/_recherche.css");
-*/
+@import url("./components/_detailCategorie.css");
