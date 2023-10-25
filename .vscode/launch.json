@@ -5,7 +5,7 @@
             "name": "DemoApplication",
             "request": "launch",
             "mainClass": "com.wekinGame.Controllers.DemoApplication",
-            "projectName": "spring-boot-openapi"
+            "projectName": "Controllers"
         },
         {
             "type": "java",

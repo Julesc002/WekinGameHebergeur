@@ -1,7 +1,85 @@
 /* Variables */
 
-/*
 :root {
-    
+    --darkest-color: #302925;
+    --middle-color: #473D36;
+    --lightest-color: #948074;
+    --highlight-color: #2395F2;
+
+    --slightly-yellow-color: #9C8E56;
+    --slightly-orange-color: #A17759;
+    --yellow-color: #B7B843;
 }
-*/
+
+body {
+    background-color: var(--darkest-color);
+    color: var(--lightest-color);
+    font-family: "Noto Sans", "sans-serif";
+}
+
+h1 {
+    color: var(--highlight-color);
+    margin-bottom: 0px;
+}
+
+h2 {
+    margin-top: 0px;
+    font-weight: normal;
+}
+
+input, select, textarea, button {
+    background-color: var(--lightest-color);
+    color: var(--darkest-color);
+    border-radius: 6px;
+    border-style: solid;
+    border-color: var(--middle-color);
+}
+
+button:hover {
+    background-color: var(--yellow-color);
+}
+
+::placeholder {
+    color: var(--darkest-color);
+    opacity: 0.7;
+}
+
+a {
+    color: var(--slightly-yellow-color);
+}
+
+a:visited {
+    color: var(--slightly-orange-color);
+}
+
+a:hover {
+    color: var(--yellow-color);
+}
+
+/* Scrollbar management */
+::-webkit-scrollbar {
+    width: 5px;
+    height:5px;
+  }
+  ::-webkit-scrollbar-track {
+    background: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--slightly-yellow-color);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--yellow-color);
+  }
+
+  .bottom-right {
+      position:absolute;
+      bottom: 30px;
+      right: 10px;
+  }
+
+  .text-medium{
+    font-size: medium;
+  }
