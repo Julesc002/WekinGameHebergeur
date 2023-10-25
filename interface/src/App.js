@@ -1,12 +1,13 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import Accueil from './pages/Accueil';
+import AjoutCategorie from './components/AjoutCategorie';
 import Layout from './components/Layout';
-import Wiki from './pages/Wiki';
+import Accueil from './pages/Accueil';
 import Categorie from './pages/Categorie';
 import Entree from './pages/Entree';
 import PageErreur from './pages/PageErreur';
+import Wiki from './pages/Wiki';
 
 const App = () => {
 
@@ -15,6 +16,7 @@ const App = () => {
       <Routes>
         <Route path='*' element={<PageErreur />} />
         <Route path='/' element={<Accueil />} />
+        <Route path="/wiki/:id/ajoutcategorie" element={<AjoutCategorie />} />
         <Route path="/entree/:id" element={<Entree />} />
         <Route path="/categorie/:id/:nom" element={<Categorie />} />
         <Route path="/wiki/:id/" element={<Wiki />} />
