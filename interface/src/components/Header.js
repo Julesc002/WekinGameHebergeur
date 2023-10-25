@@ -10,7 +10,7 @@ function Header() {
     return (
     <div className="Header">
       <div>
-        <h1 onClick={handleClick}>WekinGames - Acceuil</h1>
+        <h1 onClick={handleClick}>WekinGames</h1>
         <h2>Recherche parmis tout les wikis</h2>
       </div>
       <div class="bottom-right"> <Recherche /> </div>

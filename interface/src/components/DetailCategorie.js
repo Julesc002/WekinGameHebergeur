@@ -32,11 +32,13 @@ function DetailCategorie() {
 
     return (
         <div>
-            <h1 class="MainTitle">Entrées de la catégorie {nom} du wiki </h1>
-            <Link to={`/wiki/${wiki ? wiki._id : ""}`}>
-                <h1 class="MainTitle">{wiki ? wiki.nom : ""}</h1>
-            </Link>
-            <h1 class="MainTitle"> :</h1>
+            <h1 class="MainTitle">
+                Entrées de la catégorie {nom} du wiki&nbsp;
+                <Link to={`/wiki/${wiki ? wiki._id : ""}`}>
+                    {wiki ? wiki.nom : ""}
+                </Link>
+                &nbsp;:
+            </h1>
             {entries.length > 0 && entries.map((entry) => (
                 <div key={entry._id}>
                     <Link to={`/entree/${entry._id}`}>
