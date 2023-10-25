@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
 
-function CreationDeCompte(){
+function ConnexionAuCompte(){
     const[name, setName]=useState('');
     const[email, setEmail]=useState('');
     const[password, setPassword]=useState('');
