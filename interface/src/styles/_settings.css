@@ -15,6 +15,7 @@ body {
     background-color: var(--darkest-color);
     color: var(--lightest-color);
     font-family: "Noto Sans", "sans-serif";
+    padding-left: 20px;
 }
 
 h1 {
@@ -33,6 +34,10 @@ input, select, textarea, button {
     border-radius: 6px;
     border-style: solid;
     border-color: var(--middle-color);
+}
+
+button{
+    margin: 5px;
 }
 
 button:hover {
