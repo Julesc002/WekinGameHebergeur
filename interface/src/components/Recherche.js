@@ -43,12 +43,12 @@ function RechercheDeWiki() {
       <input type="text" placeholder="Recherche" onChange={majRecherche} class="text-medium"></input>
       {recherche !== '' && (
         <div class="popup-search">
-          <h5>Wikis :</h5>
+          <h4>Wikis :</h4>
           {wikis.length === 0 && recherche.length > 1 ? (
             <div>
-              <p>Pas de résultat</p>
+              <p class="text-small">Pas de résultat</p>
               <NavLink to="/createWiki">
-                <button style={{ cursor: 'pointer' }}>Créer le wiki {recherche}</button>
+                <button class="text-small">Créer le wiki {recherche}</button>
               </NavLink>
             </div>
           ) : (
@@ -56,26 +56,26 @@ function RechercheDeWiki() {
               return(
                 <div>
                   <Link to={`/wiki/${wiki._id}`}>
-                    <p style={{ cursor: 'pointer' }} key={wiki._id}>{wiki.nom}</p>
+                    <p class="text-small" key={wiki._id}>{wiki.nom}</p>
                   </Link>
                 </div>
               )})
           )}
-          <h5>Entrées :</h5>
+          <h4>Entrées :</h4>
           {entrees.length === 0 && recherche.length > 1 ? (
-            <p>Pas de résultat</p>
+            <p class="text-small">Pas de résultat</p>
           ) : (
             entrees.map(function (entree) {
               return (
                 <div key={entree._id}>
                 <Link to={`/entree/${entree._id}`}>
-                  <p style={{ cursor: 'pointer' }}>{entree.nom} : {entree.wiki.nom}</p>
+                  <p class="text-small">{entree.nom} : {entree.wiki.nom}</p>
                 </Link>
-                  <h6> Catégorie(s) : </h6>
+                  <h5> Catégorie(s) : </h5>
                     <ul>
                       {entree.categories.map((categorie, index) => (
                         <Link to={`/categorie/${entree.wiki._id}/${categorie}`}>
-                          <li style={{ cursor: 'pointer' }} key={index}>{categorie}</li>
+                          <li class="text-small" key={index}>{categorie}</li>
                         </Link>
                       ))}
                     </ul>
@@ -83,21 +83,21 @@ function RechercheDeWiki() {
               );
             })
           )}
-          <h5>{recherche} est mentionné dans :</h5>
+          <h4>{recherche} est mentionné dans :</h4>
           {mentions.length === 0 && recherche.length > 1 ? (
-            <p>Pas de résultat</p>
+            <p class="text-small">Pas de résultat</p>
           ) : (
             mentions.map(function (mention) {
               return (
                 <div key={mention._id}>
                   <Link to={`/entree/${mention._id}`}>
-                    <p style={{ cursor: 'pointer' }}>{mention.nom} : {mention.wiki.nom}</p>
+                    <p class="text-small">{mention.nom} : {mention.wiki.nom}</p>
                   </Link>
-                  <h6>Catégorie(s) :</h6>
+                  <h5>Catégorie(s) :</h5>
                     <ul>
                       {mention.categories.map((categorie, index) => (
                         <Link to={`/categorie/${mention.wiki._id}/${categorie}`}>
-                          <li style={{ cursor: 'pointer' }} key={index}>{categorie}</li>
+                          <li class="text-small" key={index}>{categorie}</li>
                         </Link>
                       ))}
                     </ul>

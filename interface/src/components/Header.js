@@ -1,6 +1,6 @@
 import React from 'react';
 import Recherche from '../components/Recherche';
-import '../styles/components/_Header.css';
+import '../styles/components/_header.css';
 
 function Header() {
     const handleClick = () => {
@@ -10,7 +10,7 @@ function Header() {
     return (
     <div className="Header">
       <div>
-        <h1 onClick={handleClick}>WekinGames</h1>
+        <h1 style={{ cursor: 'pointer' }} onClick={handleClick}>WekinGames</h1>
         <h2>Recherche parmis tout les wikis</h2>
       </div>
       <div class="bottom-right"> <Recherche /> </div>

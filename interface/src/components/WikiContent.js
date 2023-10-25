@@ -1,8 +1,8 @@
 import axios from "axios";
-import { API_URL } from '../config';
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
 import AjoutCategorie from "./AjoutCategorie";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { API_URL } from '../config';
 
 function WikiContent() {
     const { id } = useParams();
@@ -25,7 +25,7 @@ function WikiContent() {
 
     return (
         <div>
-            <h1>Wiki {wiki ? wiki.nom : ""}</h1>
+            <h2>Wiki {wiki ? wiki.nom : ""}</h2>
             <p>{wiki ? wiki.description : ""}</p>
             <h2>Ajouter une catégorie :</h2>
             <AjoutCategorie />
