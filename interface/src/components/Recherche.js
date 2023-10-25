@@ -40,7 +40,7 @@ function RechercheDeWiki() {
 
   return (
     <div>
-      <input type="text" placeholder="Recherche" onChange={majRecherche} class="text-medium"></input>
+      <input type="text" placeholder="Recherche" onChange={majRecherche} class="text-medium" id="search-bar"></input>
       {recherche !== '' && (
         <div class="popup-search">
           <h4>Wikis :</h4>

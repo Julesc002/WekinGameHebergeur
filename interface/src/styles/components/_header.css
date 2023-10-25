@@ -9,6 +9,7 @@
     padding: 10px;
     background-color: var(--middle-color);
     color: var(--lightest-color);
+  box-shadow: 0px 0px 20px 5px #05011746;
 }
 .popup-search {
     position: fixed;
