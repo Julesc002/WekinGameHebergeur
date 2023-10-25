@@ -6,7 +6,8 @@ import { API_URL } from '../config';
 function AjoutEntree() {
     const { id } = useParams();
     const [name, setName] = useState();
-    const [categories, setCategories] = useState();
+    const [categories, setCategories] = useState([]);
+    const [categoriesForEntree, setCategoriesForEntree] = useState([]);
     const [donnees, setDonnees] = useState([]);
     const navigate = useNavigate();
 
@@ -20,6 +21,15 @@ function AjoutEntree() {
 
     const addEntree = () => {
         
+    };
+
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        if (checked) {
+          setCategoriesForEntree((prevCategories) => [...prevCategories, name]);
+        } else {
+          setCategoriesForEntree((prevCategories) => prevCategories.filter((item) => item !== name));
+        }
     };
 
     const handleAjoutDonnee = () => {
@@ -63,7 +73,7 @@ function AjoutEntree() {
             {categories && categories.map(function (categorie) {
                 return (
                     <div>
-                        <input type="checkbox" name={categorie} />
+                        <input type="checkbox" name={categorie} onChange={handleCheckboxChange}/>
                         <label for={categorie}>{categorie}</label>
                     </div>
                 );
