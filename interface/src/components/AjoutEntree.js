@@ -14,16 +14,37 @@ function AjoutEntree() {
         navigate(-1);
     };
 
-    const handleAjoutClick = () => {
-        addEntree(id);
-    };
-
     const majNameEntree = (e) => {
         setName(e.target.value);
     };
 
-    const addEntree = (id) => {
+    const addEntree = () => {
         
+    };
+
+    const handleAjoutDonnee = () => {
+        const nouvelleDonnee = ["", ""];
+        const donneesCopie = [...donnees];
+        donneesCopie.push(nouvelleDonnee);
+        setDonnees(donneesCopie);
+    };
+
+    const handleSupprDonnee = (index) => {
+        const donneesCopie = [...donnees];
+        donneesCopie.splice(index, 1);
+        setDonnees(donneesCopie);
+    };
+
+    const handleMajDonneeTitle = (e, index) => {
+        const donneesCopie = [...donnees];
+        donneesCopie[index][0] = e.target.value;
+        setDonnees(donneesCopie);
+    };
+
+    const handleMajDonneeContent = (e, index) => {
+        const donneesCopie = [...donnees];
+        donneesCopie[index][1] = e.target.value;
+        setDonnees(donneesCopie);
     };
 
     useEffect(() => {
@@ -38,7 +59,7 @@ function AjoutEntree() {
 
     return (
         <div>
-            <input type="text" placeholder="Nom de l'entrée" onChange={majNameEntree} />
+            <input type="text" placeholder="Nom de l'entrée" onChange={(e) => majNameEntree(e)} />
             {categories && categories.map(function (categorie) {
                 return (
                     <div>
@@ -47,14 +68,17 @@ function AjoutEntree() {
                     </div>
                 );
             })}
-            {donnees && donnees.map(function (donnee) {
+            {donnees && donnees.map(function (donnee, index) {
                 return (
-                    <div>
-                        
+                    <div key={index}>
+                        <input type="text" placeholder="Titre" value={donnees[index][0]} onChange={(e) => handleMajDonneeTitle(e, index)} />
+                        <textarea value={donnees[index][1]} onChange={(e) => handleMajDonneeContent(e, index)} ></textarea>
+                        <button style={{ cursor: 'pointer' }} onClick={() => handleSupprDonnee(index)}>-</button>
                     </div>
                 );
             })}
-            <button style={{ cursor: 'pointer' }} onClick={handleAjoutClick}>Ajouter l'entrée</button>
+            <button style={{ cursor: 'pointer' }} onClick={handleAjoutDonnee}>+</button>
+            <button style={{ cursor: 'pointer' }} onClick={addEntree}>Ajouter l'entrée</button>
             <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
         </div>
     );
