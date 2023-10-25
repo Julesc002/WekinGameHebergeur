@@ -26,7 +26,7 @@ public class EntryController {
 
     MongoClient mongoClient = MongoClients.create("mongodb+srv://gamer:ratio@bdwekingame.decr9eq.mongodb.net/");
     MongoDatabase database = mongoClient.getDatabase("WekinGame");
-    
+
     @GetMapping("/entry/{idEntry}")
     public List<Document> getEntry(@PathVariable("idEntry") String idEntry) {
         Document searchQuery = new Document();
@@ -37,15 +37,34 @@ public class EntryController {
         List<Document> results = new ArrayList<>();
         try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
             while (cursorIterator.hasNext()) {
-                results.add(cursorIterator.next());
+                Document entry = cursorIterator.next();
+                String nomWiki = getNomWiki(entry.getInteger("id_wiki"));
+                entry.put("nom_wiki", nomWiki);
+                results.add(entry);
             }
         }
 
         return results;
     }
 
+    private String getNomWiki(int idWiki) {
+        MongoCollection<Document> collectionWikis = database.getCollection("wikis");
+        Document searchQuery = new Document();
+        searchQuery.put("_id", idWiki);
+        FindIterable<Document> cursor = collectionWikis.find(searchQuery);
+
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            if (cursorIterator.hasNext()) {
+                Document wiki = cursorIterator.next();
+                return wiki.getString("nom");
+            }
+        }
+
+        return null;
+    }
+
     @GetMapping("/searchEntry")
-    public List<Document> searchEntry(@RequestParam(value ="name", defaultValue = "") String data) {
+    public List<Document> searchEntry(@RequestParam(value = "name", defaultValue = "") String data) {
         List<Document> results = new ArrayList<Document>();
         if (data.length() == 0) {
             return results;
@@ -53,13 +72,14 @@ public class EntryController {
             Document searchQuery = new Document();
             searchQuery.put("nom", new Document("$regex", data).append("$options", "i"));
             List<Bson> pipeline = Arrays.asList(
-                Aggregates.match(searchQuery),  // Filtrer les documents dans la collection actuelle
-                Aggregates.lookup("wikis", "id_wiki", "_id", "wiki"),  // Fusionner avec une autre collection
-                Aggregates.unwind("$wiki"),  // "Déplier" le résultat de la fusion
-                Aggregates.project(Projections.fields(
-                    Projections.include("_id", "nom", "categories", "wiki.nom","wiki._id")  // Sélectionner les champs nécessaires
-                ))
-            );
+                    Aggregates.match(searchQuery), // Filtrer les documents dans la collection actuelle
+                    Aggregates.lookup("wikis", "id_wiki", "_id", "wiki"), // Fusionner avec une autre collection
+                    Aggregates.unwind("$wiki"), // "Déplier" le résultat de la fusion
+                    Aggregates.project(Projections.fields(
+                            Projections.include("_id", "nom", "categories", "wiki.nom", "wiki._id") // Sélectionner les
+                                                                                                    // champs
+                                                                                                    // nécessaires
+                    )));
 
             MongoCollection<Document> collection = database.getCollection("entrees");
             AggregateIterable<Document> cursor = collection.aggregate(pipeline);
@@ -74,7 +94,7 @@ public class EntryController {
     }
 
     @GetMapping("/searchEntryByDesc")
-    public List<Document> searchEntryByDesc(@RequestParam(value ="name", defaultValue = "") String data) {
+    public List<Document> searchEntryByDesc(@RequestParam(value = "name", defaultValue = "") String data) {
         List<Document> results = new ArrayList<Document>();
         if (data.length() == 0) {
             return results;
@@ -88,13 +108,14 @@ public class EntryController {
             Document searchQuery = new Document("$or", searchParameters);
 
             List<Bson> pipeline = Arrays.asList(
-                Aggregates.match(searchQuery),  // Filtrer les documents dans la collection actuelle
-                Aggregates.lookup("wikis", "id_wiki", "_id", "wiki"),  // Fusionner avec une autre collection
-                Aggregates.unwind("$wiki"),  // "Déplier" le résultat de la fusion
-                Aggregates.project(Projections.fields(
-                    Projections.include("_id", "nom", "categories", "wiki.nom","wiki._id")  // Sélectionner les champs nécessaires
-                ))
-            );
+                    Aggregates.match(searchQuery), // Filtrer les documents dans la collection actuelle
+                    Aggregates.lookup("wikis", "id_wiki", "_id", "wiki"), // Fusionner avec une autre collection
+                    Aggregates.unwind("$wiki"), // "Déplier" le résultat de la fusion
+                    Aggregates.project(Projections.fields(
+                            Projections.include("_id", "nom", "categories", "wiki.nom", "wiki._id") // Sélectionner les
+                                                                                                    // champs
+                                                                                                    // nécessaires
+                    )));
 
             MongoCollection<Document> collection = database.getCollection("entrees");
             AggregateIterable<Document> cursor = collection.aggregate(pipeline);
