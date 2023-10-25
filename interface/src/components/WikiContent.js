@@ -1,7 +1,7 @@
 import axios from "axios";
-import { API_URL } from '../config';
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
+import { API_URL } from '../config';
 
 function WikiContent() {
     const { id } = useParams();
@@ -24,7 +24,7 @@ function WikiContent() {
 
     return (
         <div>
-            <h1>Wiki {wiki ? wiki.nom : ""}</h1>
+            <h2>Wiki {wiki ? wiki.nom : ""}</h2>
             <p>{wiki ? wiki.description : ""}</p>
             <NavLink to="/createCategorie">
                 <button style={{ cursor: 'pointer' }}>Ajouter une catérogie</button>
