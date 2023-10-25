@@ -33,13 +33,19 @@
 			<artifactId>mongodb-driver-sync</artifactId>
 			<version>4.9.1</version>
 		</dependency>
-	
-   <dependency>
-     <groupId>org.mongodb</groupId>
-     <artifactId>mongo-java-driver</artifactId>
-     <version>3.11.0</version>
-   </dependency>
- </dependencies>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.5.0-b01</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.11.0</version>
+		</dependency>
+ 	</dependencies>
 
 	<build>
 		<plugins>
