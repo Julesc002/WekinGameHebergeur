@@ -26,7 +26,7 @@ function DetailCategorie() {
 
     const getWiki = (id) => {
         axios.get(`${API_URL}/wiki/` + id).then((res) => {
-          setWiki(res.data);
+            setWiki(res.data);
         });
     };
 

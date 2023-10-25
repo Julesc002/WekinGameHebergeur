@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { API_URL } from '../config';
 
 function AjoutCategorie() {
-    const { id, nom } = useParams();
+    const { id } = useParams();
     const [wiki, setWiki] = useState();
-    const navigate = useNavigate();
     const [recherche, setRecherche] = useState('');
 
     const majRecherche = (e) => {
@@ -23,29 +22,26 @@ function AjoutCategorie() {
         });
     };
 
-    const handleAddCategory = () => {
-        if (!categorieExist) {
-            alert('Category added successfully');
-        } else {
-            alert('Impossible d\'ajouter une catégorie déjà existante');
-        }
-    };
+    function handleAddCategory() {
 
-    function categorieExist(nomCategorie, wikis) {
-        return wiki.some(wiki => wiki.nom === nomCategorie);
+        const requestData = {
+            nom: recherche
+        };
+        axios.patch( API_URL+'/wiki/'+ id + '/category/create', requestData).then((response) => {
+            if (response.data.code === "200") {
+                alert('Catégorie ajoutée avec succès');
+            } else if (response.data.code === "409") {
+                alert('La catégorie existe déjà');
+            }
+        }).catch((error) => {
+            console.error("Erreur lors de l'ajout de la catégorie :", error);
+        });
     }
 
     return (
         <div>
             <h1>Ajout d'une catégorie dans le wiki {wiki ? wiki.nom : ""}:</h1>
             <input type="text" placeholder="Insérer nom" onChange={majRecherche} />
-            {categorieExist ? (
-            <p>Impossible d'ajouter une catégorie déjà existante</p>
-            ) : (
-            wiki.map(function (wiki) {
-                return <p key={wiki._id}>{wiki.nom}</p>;
-            })
-            )}
             <button onClick={handleAddCategory}>Ajouter</button>
         </div>
     );
