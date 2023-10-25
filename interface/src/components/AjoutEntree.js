@@ -5,8 +5,10 @@ import { API_URL } from '../config';
 
 function AjoutEntree() {
     const { id } = useParams();
+    const [entree, setEntree] = useState();
     const [name, setName] = useState();
-    const [categories, setCategories] = useState();
+    const [categories, setCategories] = useState([]);
+    const [categoriesForEntree, setCategoriesForEntree] = useState([]);
     const [donnees, setDonnees] = useState([]);
     const navigate = useNavigate();
 
@@ -18,8 +20,45 @@ function AjoutEntree() {
         setName(e.target.value);
     };
 
+    useEffect(() => {
+        const majEntree = {
+          nom: name,
+          id_wiki: id,
+          categories: categoriesForEntree,
+          donnees: donnees.map((donnee) => ({
+            titre: donnee[0],
+            contenu: donnee[1]
+          }))
+        };
+        setEntree(majEntree);
+      }, [name, id, categoriesForEntree, donnees]);
+      
+
     const addEntree = () => {
-        
+        console.log(entree);
+       
+        axios.post( API_URL+'/create/entry', entree).then((response) => {
+            if (response.data.code === "200") {
+                alert('Entree ajoutée avec succès');
+               
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1);
+                
+            } else if (response.data.code === "409") {
+                alert('marche po');
+            }
+        })
+       
+    };
+
+    const handleCheckboxChange = (event) => {
+        const { name, checked } = event.target;
+        if (checked) {
+          setCategoriesForEntree((prevCategories) => [...prevCategories, name]);
+        } else {
+          setCategoriesForEntree((prevCategories) => prevCategories.filter((item) => item !== name));
+        }
     };
 
     const handleAjoutDonnee = () => {
@@ -63,7 +102,7 @@ function AjoutEntree() {
             {categories && categories.map(function (categorie) {
                 return (
                     <div>
-                        <input type="checkbox" name={categorie} />
+                        <input type="checkbox" name={categorie} onChange={handleCheckboxChange}/>
                         <label for={categorie}>{categorie}</label>
                     </div>
                 );
