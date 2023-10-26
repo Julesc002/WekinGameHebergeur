@@ -4,12 +4,15 @@ import { Route, Routes } from 'react-router-dom';
 import ConnexionAuCompte from './components/ConnexionCompte';
 import CreationCompte from './components/CreationCompte';
 import InfoCompte from './components/InfoCompte';
+import Categorie from './pages/Categorie';
+import Wiki from './pages/Wiki';
 import Layout from './components/Layout';
 import Accueil from './pages/Accueil';
-import Categorie from './pages/Categorie';
 import Entree from './pages/Entree';
 import PageErreur from './pages/PageErreur';
 import Wiki from './pages/Wiki';
+import PageAjoutEntree from './pages/PageAjoutEntree';
+
 
 const App = () => {
 
@@ -24,6 +27,7 @@ const App = () => {
         <Route path="/wiki/:id/" element={<Wiki />} />
         <Route path="/account/info" element={<InfoCompte/>} />
         <Route path="/account/connect" element={<ConnexionAuCompte/>}/>
+        <Route path="/wiki/:id/ajoutEntree" element={<PageAjoutEntree />} />
       </Routes>
     </Layout>
   );

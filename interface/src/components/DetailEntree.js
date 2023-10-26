@@ -1,7 +1,7 @@
 import axios from "axios";
-import { API_URL } from '../config';
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { API_URL } from '../config';
 
 function DetailEntree() {
     const { id } = useParams();
@@ -26,20 +26,24 @@ function DetailEntree() {
         <div>
             {entry && entry[0] && (
                 <div>
-                    <Link to={`/wiki/${entry[0].id_wiki}`}>
-                        <h1 style={{ cursor: 'pointer' }}>Wiki {entry[0].nom_wiki}</h1>
-                    </Link>
-                    <h2>Catégories :</h2>
+                    <h2 class="MainTitle">
+                        Entrées du wiki&nbsp;
+                        <Link to={`/wiki/${entry[0].id_wiki}`}>
+                            {entry[0].nom_wiki}
+                        </Link>
+                        &nbsp;:
+                    </h2>
+                    <h3>Catégories :</h3>
                     {entry[0].categories.map((categorie) => (
                         <Link to={`/categorie/${entry[0].id_wiki}/${categorie}`}>
-                            <h2 style={{ cursor: 'pointer' }}>{categorie}</h2>
+                            <p>{categorie}</p>
                         </Link>
                     ))}
-                    <h3>{entry[0].nom}</h3>
+                    <h2>{entry[0].nom}</h2>
                     {entry[0].donnees.map((donnee, index) => (
                         <div key={index}>
-                            <h4>{donnee.titre}</h4>
-                            <p>{donnee.contenu}</p>
+                            <h3>{donnee.titre}</h3>
+                            <p class="tabulate">{donnee.contenu}</p>
                         </div>
                     ))}
                 </div>

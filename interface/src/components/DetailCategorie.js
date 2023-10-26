@@ -26,19 +26,19 @@ function DetailCategorie() {
 
     const getWiki = (id) => {
         axios.get(`${API_URL}/wiki/` + id).then((res) => {
-          setWiki(res.data);
+            setWiki(res.data);
         });
     };
 
     return (
         <div>
-            <h1 class="MainTitle">
+            <h2 class="MainTitle">
                 Entrées de la catégorie {nom} du wiki&nbsp;
                 <Link to={`/wiki/${wiki ? wiki._id : ""}`}>
                     {wiki ? wiki.nom : ""}
                 </Link>
                 &nbsp;:
-            </h1>
+            </h2>
             {entries.length > 0 && entries.map((entry) => (
                 <div key={entry._id}>
                     <Link to={`/entree/${entry._id}`}>

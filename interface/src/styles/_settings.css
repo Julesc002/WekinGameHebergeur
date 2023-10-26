@@ -1,20 +1,21 @@
 /* Variables */
 
 :root {
-    --darkest-color: #302925;
-    --middle-color: #473D36;
-    --lightest-color: #948074;
-    --highlight-color: #2395F2;
+    --darkest-color: #262530;
+    --middle-color: #363747;
+    --lightest-color: #748494;
+    --highlight-color: #ffc400;
 
-    --slightly-yellow-color: #9C8E56;
-    --slightly-orange-color: #A17759;
-    --yellow-color: #B7B843;
+    --slightly-yellow-color: #6f6fca;
+    --slightly-orange-color: #8459a1;
+    --yellow-color: #438bb8;
 }
 
 body {
     background-color: var(--darkest-color);
     color: var(--lightest-color);
     font-family: "Noto Sans", "sans-serif";
+    padding-left: 20px;
 }
 
 h1 {
@@ -33,6 +34,10 @@ input, select, textarea, button {
     border-radius: 6px;
     border-style: solid;
     border-color: var(--middle-color);
+}
+
+button{
+    margin: 5px;
 }
 
 button:hover {
@@ -82,4 +87,16 @@ a:hover {
 
   .text-medium{
     font-size: medium;
+  }
+
+  .text-small{
+    font-size: small;
+  }
+
+  .tabulate{
+    text-indent: 15px;
+  }
+
+  .highlight{
+    color: var(--highlight-color)
   }
