@@ -1,14 +1,15 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
-import Accueil from './pages/Accueil';
-import Layout from './components/Layout';
+import ConnexionAuCompte from './components/ConnexionCompte';
 import CreationCompte from './components/CreationCompte';
-import Wiki from './pages/Wiki';
+import InfoCompte from './components/InfoCompte';
+import Layout from './components/Layout';
+import Accueil from './pages/Accueil';
 import Categorie from './pages/Categorie';
 import Entree from './pages/Entree';
 import PageErreur from './pages/PageErreur';
-import ConnexionAuCompte from './components/ConnexionCompte';
+import Wiki from './pages/Wiki';
 
 const App = () => {
 
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/entree/:id" element={<Entree />} />
         <Route path="/categorie/:id/:nom" element={<Categorie />} />
         <Route path="/wiki/:id/" element={<Wiki />} />
+        <Route path="/accout/info" element={<InfoCompte/>} />
         <Route path="/account/connect" element={<ConnexionAuCompte/>}/>
       </Routes>
     </Layout>
