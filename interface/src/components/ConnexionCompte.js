@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { API_URL,APP_URL } from '../config';
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function ConnexionAuCompte(){
@@ -13,7 +13,10 @@ function ConnexionAuCompte(){
             password: password
         }
         axios.post(`${API_URL}/user/connect`,data)
-        .then((response) =>localStorage.setItem("account",response.data))
+        .then((response) =>
+        localStorage.setItem("account",response.data),
+        window.location.href = `${APP_URL}/account/info`
+        )
         .catch((error) =>console.error(error));
     };
 
