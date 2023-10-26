@@ -1,16 +1,15 @@
 import React from 'react';
-import Recherche from '../components/Recherche';
+import Header from '../components/Header';
 
 const Home = () => {
-    const handleClick = () => {
-        window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley';
-    };
-
     return (
         <div>
-            <h1 onClick={handleClick}>feur</h1>
-            <h4>Rechercher dans tous les wikis :</h4>
-            <Recherche />
+            <Header />
+            <h4>Bienvenue dans WekinGames, la référence du wiki jeux vidéo </h4>
+            <p>
+                Je sais pas ce qu'il y aurais d'autre dans cette page pour l'instant du coup.
+                J'aime les pommes.
+            </p>
         </div>
     );
 };
