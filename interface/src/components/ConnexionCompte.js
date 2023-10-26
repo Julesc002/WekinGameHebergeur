@@ -17,6 +17,7 @@ function ConnexionAuCompte(){
         console.log(response.data._id);
         localStorage.setItem("account",parseInt(response.data._id));
         window.location.href = `${APP_URL}/account/info`;
+
         })
         .catch((error) =>console.error(error));
     };
@@ -31,7 +32,6 @@ function ConnexionAuCompte(){
     const handleSubmit = (e) => {
         e.preventDefault();
         connectAccount(name,password);
-        window.location.href ='/account/info';
     }
 
     return (
