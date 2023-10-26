@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.bson.Document;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Sorts;
 import com.wekinGame.ressources.Hasher;
 import com.wekinGame.ressources.JavaMail;
 import com.wekinGame.ressources.idGenerator;
@@ -77,8 +80,22 @@ public class UserController{
 
     @GetMapping("/user/{id}/info")
     public Document getAccountInfo(@PathVariable int id){
-        Document queryParameter=new Document("_id",id);
-        return new Document("_id",id);
+        try{
+            Document queryParameter=new Document("_id",id);
+            MongoCollection<Document> collectionEntrees = database.getCollection("users");
+
+            Document accountInfo = (Document) collectionEntrees.find(queryParameter)
+                .projection(new Document("pseudo",1).append("date_naissance",1))
+                .first();
+            if (accountInfo != null) {
+                return accountInfo;
+            } else {
+            return new Document("msg","Erreur: non trouvé");
+        }
+    } catch (Exception e) {
+        // Gérer l'erreur ici, par exemple, en enregistrant l'erreur dans les journaux.
+        return new Document("msg","Erreur Interne du Serveur, c'est sad");
+    }
     }
 
     @PostMapping("/user/connect")

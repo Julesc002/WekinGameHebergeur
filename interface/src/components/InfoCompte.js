@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from '../config';
+import { API_URL,APP_URL } from '../config';
 
 function InfoCompte() {
     const navigate = useNavigate();
@@ -19,6 +19,8 @@ function InfoCompte() {
 
     const searchDataCompte = (id) => {
         axios.get(`${API_URL}/user/` + id + '/info').then((res) => {
+            setnom(res.data.getItem("pseudo"));
+            setbday(res.data.getItem("date_naissance"));
         });
     };
 
@@ -33,7 +35,8 @@ function InfoCompte() {
     };
 
     const decoCompte = () => {
-        localStorage.removeItem('account')
+        localStorage.removeItem('account');
+        window.location.href = `${APP_URL}/`;
         
     };
 
