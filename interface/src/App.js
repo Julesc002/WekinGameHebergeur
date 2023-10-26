@@ -8,6 +8,7 @@ import Wiki from './pages/Wiki';
 import Categorie from './pages/Categorie';
 import Entree from './pages/Entree';
 import PageErreur from './pages/PageErreur';
+import ConnexionAuCompte from './components/ConnexionCompte';
 
 const App = () => {
 
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/entree/:id" element={<Entree />} />
         <Route path="/categorie/:id/:nom" element={<Categorie />} />
         <Route path="/wiki/:id/" element={<Wiki />} />
+        <Route path="/account/connect" element={<ConnexionAuCompte/>}/>
       </Routes>
     </Layout>
   );

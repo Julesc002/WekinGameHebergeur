@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../config';
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function CreationDeCompte(){
     const[name, setName]=useState('');
@@ -36,49 +37,53 @@ function CreationDeCompte(){
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                E-mail :
-                <input
-                    type="email"
-                    name="Addresse E-Mail"
-                    value={email}
-                    onChange={handleInputEmailChange}
-                />
-            </label>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    E-mail :
+                    <input
+                        type="email"
+                        name="Addresse E-Mail"
+                        value={email}
+                        onChange={handleInputEmailChange}
+                    />
+                </label>
+                <br/>
+                <label>
+                    Nom :
+                    <input
+                        type="text"
+                        name="Pseudo"
+                        value={name}
+                        onChange={handleInputNameChange}
+                    />
+                </label>
+                <br/>
+                <label>
+                    Mot de Passe :
+                    <input
+                        type="text"
+                        name="Mot de Passe"
+                        value={password}
+                        onChange={handleInputPasswordChange}
+                    />
+                </label>
+                <br/>
+                <label>
+                    Date de naissance (au format mm/dd/yyyy) :
+                    <input
+                        type="texte"
+                        name="dnaissance"
+                        value={dnaissance}
+                        onChange={handleInputBirthChange}
+                    />
+                </label>
+                <br />
+                <button type="submit">Créer un compte</button>
+            </form>
             <br/>
-            <label>
-                Nom :
-                <input
-                    type="text"
-                    name="Pseudo"
-                    value={name}
-                    onChange={handleInputNameChange}
-                />
-            </label>
-            <br/>
-            <label>
-                Mot de Passe :
-                <input
-                    type="text"
-                    name="Mot de Passe"
-                    value={password}
-                    onChange={handleInputPasswordChange}
-                />
-            </label>
-            <br/>
-            <label>
-                Date de naissance (au format mm/dd/yyyy) :
-                <input
-                    type="texte"
-                    name="dnaissance"
-                    value={dnaissance}
-                    onChange={handleInputBirthChange}
-                />
-            </label>
-            <br />
-            <button type="submit">Créer un compte</button>
-        </form>
+            <Link to="/account/connect">Déjà un Compte? Se connecter</Link>
+        </div>
     );
 }
 export default CreationDeCompte;
