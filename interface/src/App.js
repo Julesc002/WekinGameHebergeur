@@ -10,7 +10,6 @@ import Layout from './components/Layout';
 import Accueil from './pages/Accueil';
 import Entree from './pages/Entree';
 import PageErreur from './pages/PageErreur';
-import Wiki from './pages/Wiki';
 import PageAjoutEntree from './pages/PageAjoutEntree';
 
 
