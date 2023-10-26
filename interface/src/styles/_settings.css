@@ -34,9 +34,6 @@ input, select, textarea, button {
     border-radius: 6px;
     border-style: solid;
     border-color: var(--middle-color);
-}
-
-button{
     margin: 5px;
 }
 
