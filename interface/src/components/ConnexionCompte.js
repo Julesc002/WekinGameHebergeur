@@ -6,7 +6,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 function ConnexionAuCompte(){
     const[name, setName]=useState('');
     const[password, setPassword]=useState('');
-    const[id, setId]=useState('');
 
     const connectAccount = (name, password,dnaissance,email) =>{
         const data={
@@ -14,12 +13,11 @@ function ConnexionAuCompte(){
             password: password
         }
         axios.post(`${API_URL}/user/connect`,data)
-        .then((response) =>
-        setId(response.data._id),
-        console.log(id),
-        localStorage.setItem("account",parseInt(id)),
-        //window.location.href = `${APP_URL}/account/info`
-        )
+        .then((response) =>{
+        console.log(response.data._id);
+        localStorage.setItem("account",parseInt(response.data._id));
+        window.location.href = `${APP_URL}/account/info`;
+        })
         .catch((error) =>console.error(error));
     };
 
