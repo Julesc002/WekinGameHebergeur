@@ -15,10 +15,10 @@ function ConnexionAuCompte(){
         }
         axios.post(`${API_URL}/user/connect`,data)
         .then((response) =>
-        setId(response.data),
+        setId(response.data._id),
         console.log(id),
-        localStorage.setItem("account",id),
-        window.location.href = `${APP_URL}/account/info`
+        localStorage.setItem("account",parseInt(id)),
+        //window.location.href = `${APP_URL}/account/info`
         )
         .catch((error) =>console.error(error));
     };

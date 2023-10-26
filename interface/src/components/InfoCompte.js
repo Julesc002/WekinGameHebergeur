@@ -13,14 +13,13 @@ function InfoCompte() {
     };
 
     useEffect(() => {
-        const id = localStorage.getItem("account");
-        searchDataCompte(id);
+        searchDataCompte();
     });
 
-    const searchDataCompte = (id) => {
-        axios.get(`${API_URL}/user/` + id + '/info').then((res) => {
-            setnom(res.data.getItem("pseudo"));
-            setbday(res.data.getItem("date_naissance"));
+    const searchDataCompte = () => {
+        axios.get(`${API_URL}/user/` + localStorage.getItem('account') + '/info').then((res) => {
+            setnom(res.data.pseudo);
+            setbday(res.data.date_naissance);
         });
     };
 
