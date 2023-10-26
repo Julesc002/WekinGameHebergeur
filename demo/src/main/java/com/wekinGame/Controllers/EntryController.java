@@ -77,6 +77,22 @@ public class EntryController {
         return null;
     }
 
+    // private String getNomWiki(int idWiki) {
+    //     MongoCollection<Document> collectionWikis = database.getCollection("wikis");
+    //     Document searchQuery = new Document();
+    //     searchQuery.put("_id", idWiki);
+    //     FindIterable<Document> cursor = collectionWikis.find(searchQuery);
+
+    //     try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+    //         if (cursorIterator.hasNext()) {
+    //             Document wiki = cursorIterator.next();
+    //             return wiki.getString("nom");
+    //         }
+    //     }
+
+    //     return null;
+    // }
+
     @GetMapping("/searchEntry")
     public List<Document> searchEntry(@RequestParam(value = "name", defaultValue = "") String data) {
         List<Document> results = new ArrayList<Document>();
