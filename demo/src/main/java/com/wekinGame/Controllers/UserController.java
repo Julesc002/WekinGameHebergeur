@@ -93,6 +93,9 @@ public class UserController{
         
         MongoCollection<Document> collection = database.getCollection("users");
         Document result = collection.find(searchQuery).projection(Projections.include("_id")).first();
+        if(result == null){
+            return new Document("_id",-1);
+        }
         return result;
     }
     

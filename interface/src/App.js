@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import ConnexionAuCompte from './components/ConnexionCompte';
 import CreationCompte from './components/CreationCompte';
 import InfoCompte from './components/InfoCompte';
 import Layout from './components/Layout';
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/categorie/:id/:nom" element={<Categorie />} />
         <Route path="/wiki/:id/" element={<Wiki />} />
         <Route path="/compte/:id/detail" element={<InfoCompte/>} />
+        <Route path="/account/connect" element={<ConnexionAuCompte/>}/>
       </Routes>
     </Layout>
   );
