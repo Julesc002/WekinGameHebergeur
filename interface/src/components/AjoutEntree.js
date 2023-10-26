@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { API_URL } from '../config';
+import { API_URL, APP_URL } from '../config';
 
 function AjoutEntree() {
     const { id } = useParams();
     const [entree, setEntree] = useState();
-    const [name, setName] = useState();
+    const [name, setName] = useState("");
     const [categories, setCategories] = useState([]);
     const [categoriesForEntree, setCategoriesForEntree] = useState([]);
     const [donnees, setDonnees] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const handleRetourClick = () => {
@@ -27,29 +28,39 @@ function AjoutEntree() {
           categories: categoriesForEntree,
           donnees: donnees.map((donnee) => ({
             titre: donnee[0],
-            contenu: donnee[1]
+            description: donnee[1]
           }))
         };
         setEntree(majEntree);
       }, [name, id, categoriesForEntree, donnees]);
       
 
-    const addEntree = () => {
-        console.log(entree);
-       
-        axios.post( API_URL+'/create/entry', entree).then((response) => {
-            if (response.data.code === "200") {
-                alert('Entree ajoutée avec succès');
-               
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1);
-                
-            } else if (response.data.code === "409") {
-                alert('marche po');
-            }
-        })
-       
+      const addEntree = () => {
+        const checkContentDonnees = donnees.some(function (donnee) {
+            return donnee[0].length === 0 || donnee[1].length === 0;
+        });
+    
+        if (name.length === 0) {
+            setErrorMessage("Veuillez donner un titre à votre entrée");
+        } else if (categoriesForEntree.length === 0) {
+            setErrorMessage("Veuillez sélectionner une catégorie");
+        } else if (donnees.length === 0) {
+            setErrorMessage("Veuillez ajouter une donnée à votre entrée");
+        } else if (checkContentDonnees) {
+            setErrorMessage("Veuillez compléter les champs de votre/vos donnee(s)");
+        } else {
+            setErrorMessage("");
+            axios.post(API_URL + '/create/entry', entree).then((response) => {
+                if (response.status === 200) {
+                    alert('Entree ajoutée avec succès');
+                    setTimeout(() => {
+                        window.location.href = `${APP_URL}/wiki/${id}`;
+                    }, 1);
+                } else if (response.data.code === "409") {
+                    alert("Erreur lors de la création de l'entrée");
+                }
+            });
+        }
     };
 
     const handleCheckboxChange = (event) => {
@@ -119,6 +130,7 @@ function AjoutEntree() {
             <button style={{ cursor: 'pointer' }} onClick={handleAjoutDonnee}>+</button>
             <button style={{ cursor: 'pointer' }} onClick={addEntree}>Ajouter l'entrée</button>
             <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
+            <p>{errorMessage}</p>
         </div>
     );
 }
