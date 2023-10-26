@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import { API_URL } from '../config';
-import { Link, useNavigate, useParams } from "react-router-dom";
 
 function ConnexionAuCompte(){
     const[name, setName]=useState('');
@@ -27,6 +27,7 @@ function ConnexionAuCompte(){
     const handleSubmit = (e) => {
         e.preventDefault();
         connectAccount(name,password);
+        window.location.href ='/account/info';
     }
 
     return (

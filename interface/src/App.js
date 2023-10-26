@@ -22,7 +22,7 @@ const App = () => {
         <Route path="/entree/:id" element={<Entree />} />
         <Route path="/categorie/:id/:nom" element={<Categorie />} />
         <Route path="/wiki/:id/" element={<Wiki />} />
-        <Route path="/accout/info" element={<InfoCompte/>} />
+        <Route path="/account/info" element={<InfoCompte/>} />
         <Route path="/account/connect" element={<ConnexionAuCompte/>}/>
       </Routes>
     </Layout>

@@ -1,16 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { API_URL } from '../config';
 
 function InfoCompte() {
-    const navigate = useNavigate();
     const [bday, setbday] = useState('');
     const [nom, setnom] = useState('');
-
-    const handleRetourClick = () => {
-        navigate(-1);
-    };
 
     useEffect(() => {
         const id = localStorage.getItem("account");
@@ -19,13 +13,15 @@ function InfoCompte() {
 
     const searchDataCompte = (id) => {
         axios.get(`${API_URL}/user/` + id + '/info').then((res) => {
+            setnom(res.data.nom);
+            setbday(res.data.bday);
         });
     };
 
     const deleteDataCompte = () => {
-        axios.delete(`${API_URL}/user/`+ localStorage.getItem('account') +`/delete`).then((res) => {
+        axios.get(`${API_URL}/user/`+ localStorage.getItem('account') +`/delete`).then(() => {
             setTimeout(() => {
-                window.location.reload();
+                window.location.href = '/';
             }, 1);
         }).catch((error) => {
             console.error("Erreur lors de la suppression du compte :", error);
@@ -40,6 +36,7 @@ function InfoCompte() {
     return (
         <div>
             <h1>compte de : {nom}</h1>
+            <h1>Date de naissance : {bday}</h1>
             <button style={{ cursor: 'pointer' }} onClick={deleteDataCompte}>Supprimer le compte</button>
             <button style={{ cursor: 'pointer' }} onClick={decoCompte}>Se déconnecter</button>
         </div>
