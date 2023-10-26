@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import { API_URL,APP_URL } from '../config';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from "react-router-dom";
+import { API_URL, APP_URL } from '../config';
 
 function ConnexionAuCompte(){
     const[name, setName]=useState('');
@@ -23,7 +23,7 @@ function ConnexionAuCompte(){
 
     const handleInputNameChange = (e) => {
         setName(e.target.value);
-    }; 
+    };
     const handleInputPasswordChange = (e) => {
         setPassword(e.target.value);
     };
@@ -31,6 +31,7 @@ function ConnexionAuCompte(){
     const handleSubmit = (e) => {
         e.preventDefault();
         connectAccount(name,password);
+        window.location.href ='/account/info';
     }
 
     return (
