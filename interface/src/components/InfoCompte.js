@@ -7,14 +7,13 @@ function InfoCompte() {
     const [nom, setnom] = useState('');
 
     useEffect(() => {
-        const id = localStorage.getItem("account");
-        searchDataCompte(id);
+        searchDataCompte();
     });
 
-    const searchDataCompte = (id) => {
-        axios.get(`${API_URL}/user/` + id + '/info').then((res) => {
-            setnom(res.data.nom);
-            setbday(res.data.bday);
+    const searchDataCompte = () => {
+        axios.get(`${API_URL}/user/` + localStorage.getItem('account') + '/info').then((res) => {
+            setnom(res.data.pseudo);
+            setbday(res.data.date_naissance);
         });
     };
 
