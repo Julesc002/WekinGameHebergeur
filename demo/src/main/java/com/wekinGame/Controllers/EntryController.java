@@ -192,7 +192,7 @@ public ResponseEntity<String> createEntry(@RequestBody Entry entry) {
         for(int i = 0; i < entry.getDonnees().size(); i++){
             donneesToTransfer.add(new Document()
             .append("titre", entry.getDonnees().get(i).getTitre())
-            .append("description", entry.getDonnees().get(i).getContenu()));
+            .append("contenu", entry.getDonnees().get(i).getContenu()));
         }
         Document dataToTransfer = new Document("_id",getIdMax()+1) //TODO autoincrement
                 .append("nom", entry.getNom())
