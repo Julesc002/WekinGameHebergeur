@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { API_URL } from '../config';
+import { API_URL, APP_URL } from '../config';
 
 function ConnexionAuCompte(){
     const[name, setName]=useState('');
     const[password, setPassword]=useState('');
+    const[id, setId]=useState('');
 
     const connectAccount = (name, password,dnaissance,email) =>{
         const data={
@@ -13,7 +14,12 @@ function ConnexionAuCompte(){
             password: password
         }
         axios.post(`${API_URL}/user/connect`,data)
-        .then((response) =>localStorage.setItem("account",response.data))
+        .then((response) =>
+        setId(response.data),
+        console.log(id),
+        localStorage.setItem("account",id),
+        window.location.href = `${APP_URL}/account/info`
+        )
         .catch((error) =>console.error(error));
     };
 

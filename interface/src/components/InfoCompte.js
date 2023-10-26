@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { API_URL } from '../config';
+import { API_URL, APP_URL } from '../config';
 
 function InfoCompte() {
     const [bday, setbday] = useState('');
@@ -29,7 +29,8 @@ function InfoCompte() {
     };
 
     const decoCompte = () => {
-        localStorage.removeItem('account')
+        localStorage.removeItem('account');
+        window.location.href = `${APP_URL}/`;
         
     };
 
