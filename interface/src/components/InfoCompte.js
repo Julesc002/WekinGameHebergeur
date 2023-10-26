@@ -1,30 +1,29 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { API_URL } from '../config';
 
 function InfoCompte() {
-    const { id } = useParams();
-    const {compte, setCompte}= useState();
     const navigate = useNavigate();
+    const [bday, setbday] = useState('');
+    const [nom, setnom] = useState('');
 
     const handleRetourClick = () => {
         navigate(-1);
     };
 
     useEffect(() => {
+        const id = localStorage.getItem("account");
         searchDataCompte(id);
     });
 
     const searchDataCompte = (id) => {
-        axios.post
         axios.get(`${API_URL}/user/` + id + '/info').then((res) => {
-        
         });
     };
 
-    const deleteDataCompte = (id) => {
-        axios.delete(`${API_URL}/user/`+ id +`/delete`).then((res) => {
+    const deleteDataCompte = () => {
+        axios.delete(`${API_URL}/user/`+ localStorage.getItem('account') +`/delete`).then((res) => {
             setTimeout(() => {
                 window.location.reload();
             }, 1);
@@ -33,17 +32,16 @@ function InfoCompte() {
         });
     };
 
-    const handleSupprCompte = (id) => {
-        const userConfirmed = window.confirm('Cette étape supprimera votre compte ainsi que toutes vos donnée, pour confirmer, veuillez tapez votre mot de passe.');
-    
-        if (userConfirmed) {
-        }
+    const decoCompte = () => {
+        localStorage.removeItem('account')
+        
     };
 
     return (
         <div>
-            <h1>compte de : {compte ? compte.nom : ""}</h1>
-            <button style={{ cursor: 'pointer' }} onClick={handleSupprCompte}>Supprimer le compte</button>
+            <h1>compte de : {nom}</h1>
+            <button style={{ cursor: 'pointer' }} onClick={deleteDataCompte}>Supprimer le compte</button>
+            <button style={{ cursor: 'pointer' }} onClick={decoCompte}>Se déconnecter</button>
         </div>
     );
 }
