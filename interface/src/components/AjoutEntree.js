@@ -28,7 +28,7 @@ function AjoutEntree() {
           categories: categoriesForEntree,
           donnees: donnees.map((donnee) => ({
             titre: donnee[0],
-            description: donnee[1]
+            contenu: donnee[1]
           }))
         };
         setEntree(majEntree);
@@ -37,10 +37,10 @@ function AjoutEntree() {
 
       const addEntree = () => {
         const checkContentDonnees = donnees.some(function (donnee) {
-            return donnee[0].length === 0 || donnee[1].length === 0;
+            return donnee[0].trim().length === 0 || donnee[1].trim().length === 0;
         });
     
-        if (name.length === 0) {
+        if (name.trim().length === 0) {
             setErrorMessage("Veuillez donner un titre à votre entrée");
         } else if (categoriesForEntree.length === 0) {
             setErrorMessage("Veuillez sélectionner une catégorie");
