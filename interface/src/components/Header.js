@@ -21,7 +21,7 @@ function Header() {
       </div>
       <div>
         <h1 style={{ cursor: 'pointer' }} onClick={handleClickTitle}>WekinGames</h1>
-        <h2 class="highlight">Recherche parmis tout les wikis</h2>
+        <h2 class="highlight">La référence Wiki sur vos jeux favoris</h2>
       </div>
       <div class="bottom-right"> <Recherche /> </div>
     </div>
