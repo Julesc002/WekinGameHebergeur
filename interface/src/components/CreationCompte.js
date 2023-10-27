@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import { API_URL, APP_URL } from '../config';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from '../config';
 
 function CreationDeCompte(){
     const[name, setName]=useState('');
@@ -38,45 +38,49 @@ function CreationDeCompte(){
         navigate(-1);
     }
 
+    const handleRetourClick = () => {
+        navigate(-1);
+    };
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div class="small-box">
+            <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     E-mail :
                     <input
                         type="email"
                         name="Addresse E-Mail"
                         value={email}
+                        placeholder='Ex: "adresse@mail.com"'
                         onChange={handleInputEmailChange}
                     />
                 </label>
-                <br/>
                 <label>
-                    Nom :
+                    Pseudo :
                     <input
                         type="text"
                         name="Pseudo"
                         value={name}
+                        placeholder='Ex: "Jacob"'
                         onChange={handleInputNameChange}
                     />
                 </label>
-                <br/>
                 <label>
                     Mot de Passe :
                     <input
-                        type="text"
+                        type="password"
                         name="Mot de Passe"
                         value={password}
                         onChange={handleInputPasswordChange}
                     />
                 </label>
-                <br/>
                 <label>
-                    Date de naissance (au format mm/dd/yyyy) :
+                    Date de naissance :
                     <input
                         type="texte"
                         name="dnaissance"
                         value={dnaissance}
+                        placeholder="(mm/dd/yyyy)"
                         onChange={handleInputBirthChange}
                     />
                 </label>
@@ -84,7 +88,10 @@ function CreationDeCompte(){
                 <button type="submit">Créer un compte</button>
             </form>
             <br/>
-            <Link to="/account/connect">Déjà un Compte? Se connecter</Link>
+            <div>
+                <div class="text-small">Déjà un Compte? <Link to="/account/connect">Se connecter</Link></div>
+                <button class="bottom-near right" onClick={handleRetourClick}>Retour</button>
+            </div>
         </div>
     );
 }
