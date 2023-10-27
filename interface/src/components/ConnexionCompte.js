@@ -16,6 +16,9 @@ function ConnexionAuCompte(){
         axios.post(`${API_URL}/user/connect`,data)
         .then((response) =>{
         console.log(response.data._id);
+        if(response.data._id == -1){
+            return;
+        }
         localStorage.setItem("account",parseInt(response.data._id));
         window.location.href = `${APP_URL}/`;
 
@@ -40,8 +43,9 @@ function ConnexionAuCompte(){
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div class="small-box">
+            <h2>Connexion : </h2>
+            <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     Nom :
                     <input
@@ -51,7 +55,6 @@ function ConnexionAuCompte(){
                         onChange={handleInputNameChange}
                     />
                 </label>
-                <br/>
                 <label>
                     Mot de Passe :
                     <input
@@ -61,12 +64,15 @@ function ConnexionAuCompte(){
                         onChange={handleInputPasswordChange}
                     />
                 </label>
-                <br />
-                <button type="submit">Se connecter</button>
+                <br/>
+                <button class="button-highlight text-medium" type="submit">Se connecter</button>
             </form>
             <br/>
-            <Link to="/account/new">Pas de Compte? Créer un Compte</Link>
-            <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
+            <br/>
+            <div>
+                <div class="text-small">Pas de Compte? <Link to="/account/new">Créer un Compte</Link></div>
+                <button class="bottom-near right" onClick={handleRetourClick}>Retour</button>
+            </div>
         </div>
     );
 }

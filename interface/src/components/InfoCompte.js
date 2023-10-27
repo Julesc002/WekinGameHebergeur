@@ -41,9 +41,9 @@ function InfoCompte() {
     };
 
     return (
-        <div>
-            <h1>compte de : {nom}</h1>
-            <h1>Date de naissance : {bday}</h1>
+        <div class="small-box">
+            <h2>compte de : {nom}</h2>
+            <p>Date de naissance : {bday}</p>
             <button style={{ cursor: 'pointer' }} onClick={deleteDataCompte}>Supprimer le compte</button>
             <button style={{ cursor: 'pointer' }} onClick={decoCompte}>Se déconnecter</button>
             <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>

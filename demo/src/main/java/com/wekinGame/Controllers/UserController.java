@@ -106,7 +106,7 @@ public class UserController{
         Document criteria2 = new Document("password",Hasher.hashPassword(param.get("password")));
         searchParameters.add(criteria1);
         searchParameters.add(criteria2);
-        Document searchQuery = new Document("$or", searchParameters);
+        Document searchQuery = new Document("$and", searchParameters);
         
         MongoCollection<Document> collection = database.getCollection("users");
         Document result = collection.find(searchQuery).projection(Projections.include("_id")).first();

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import axios from 'axios';
 import { API_URL,validEmail} from '../config';
 import { Link, useNavigate} from "react-router-dom";
+import React, { useState } from 'react';
 
 function CreationDeCompte(){
     const[name, setName]=useState('');
@@ -54,29 +54,34 @@ function CreationDeCompte(){
         return "Addresse email ou date de naissance invalide";
     }
 
+    const handleRetourClick = () => {
+        navigate(-1);
+    };
+
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div class="small-box">
+            <h2>Nouveau compte : </h2>
+            <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     E-mail :
                     <input
                         type="email"
                         name="Addresse E-Mail"
                         value={email}
+                        placeholder='Ex: "adresse@mail.com"'
                         onChange={handleInputEmailChange}
                     />
                 </label>
-                <br/>
                 <label>
-                    Nom :
+                    Pseudo :
                     <input
                         type="text"
                         name="Pseudo"
                         value={name}
+                        placeholder='Ex: "Jacob"'
                         onChange={handleInputNameChange}
                     />
                 </label>
-                <br/>
                 <label>
                     Mot de Passe :
                     <input
@@ -86,25 +91,24 @@ function CreationDeCompte(){
                         onChange={handleInputPasswordChange}
                     />
                 </label>
-                <br/>
                 <label>
-                    Date de naissance (au format dd/mm/yyyy) :
+                    Date de naissance :
                     <input
                         type="date"
                         name="dnaissance"
                         value={dnaissance}
+                        placeholder="(mm/dd/yyyy)"
                         onChange={handleInputBirthChange}
                     />
                 </label>
                 <br />
-                <button type="submit">Créer un compte</button>
+                <button class="button-highlight text-medium" type="submit">Créer un compte</button>
             </form>
             <br/>
             <div>
-                {!validEmail.test(email) && <p>Addresse E-mail Invalide</p>}
+                <div class="text-small">Déjà un Compte? <Link to="/account/connect">Se connecter</Link></div>
+                <button class="bottom-near right" onClick={handleRetourClick}>Retour</button>
             </div>
-            <br/>
-            <Link to="/account/connect">Déjà un Compte? Se connecter</Link>
         </div>
     );
 }

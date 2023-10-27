@@ -24,8 +24,8 @@ function Header() {
         <h1 style={{ cursor: 'pointer' }} onClick={handleClickTitle}>WekinGames</h1>
         <h2 class="highlight">La référence Wiki sur vos jeux favoris</h2>
       </div>
-      <div class="bottom-left"> <ButtonsAccount /> </div>
-      <div class="bottom-right"> <Recherche /> </div>
+      <div class="top right"> <ButtonsAccount /> </div>
+      <div class="bottom right"> <Recherche /> </div>
     </div>
   )
 }
