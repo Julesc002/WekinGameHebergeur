@@ -103,7 +103,7 @@ public class UserController{
         //return new Document("pseudo",param.get("pseudo")).append("password",param.get("password"));
         List<Document> searchParameters = new ArrayList<>();
         Document criteria1 = new Document("pseudo",param.get("pseudo"));
-        Document criteria2 = new Document("password",Hasher.hashPassword(param.get("password")));
+        Document criteria2 = new Document("mdp",Hasher.hashPassword(param.get("password")));
         searchParameters.add(criteria1);
         searchParameters.add(criteria2);
         Document searchQuery = new Document("$and", searchParameters);
