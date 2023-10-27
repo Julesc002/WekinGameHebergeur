@@ -41,6 +41,7 @@ function ConnexionAuCompte(){
 
     return (
         <div class="small-box">
+            <h2>Connexion : </h2>
             <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     Nom :
@@ -61,9 +62,7 @@ function ConnexionAuCompte(){
                     />
                 </label>
                 <br/>
-                <div class="align-right">
-                    <button class="button-highlight text-medium" type="submit">Se connecter</button>
-                </div>
+                <button class="button-highlight text-medium" type="submit">Se connecter</button>
             </form>
             <br/>
             <br/>

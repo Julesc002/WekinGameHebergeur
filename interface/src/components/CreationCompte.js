@@ -44,6 +44,7 @@ function CreationDeCompte(){
 
     return (
         <div class="small-box">
+            <h2>Nouveau compte : </h2>
             <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     E-mail :
@@ -85,7 +86,7 @@ function CreationDeCompte(){
                     />
                 </label>
                 <br />
-                <button type="submit">Créer un compte</button>
+                <button class="button-highlight text-medium" type="submit">Créer un compte</button>
             </form>
             <br/>
             <div>
