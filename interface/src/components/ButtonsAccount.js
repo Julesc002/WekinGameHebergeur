@@ -17,9 +17,9 @@ function ButtonsAccount() {
     return (
         <div>
             {isAccountEmpty ? (
-                <button style={{ cursor: 'pointer' }} onClick={handleButtonClick}>Se connecter</button>
+                <button class="button-highlight text-medium" onClick={handleButtonClick}>Se connecter</button>
             ) : (
-                <button style={{ cursor: 'pointer' }} onClick={handleButtonClickProfile}>Profil</button>
+                <button class="text-medium" onClick={handleButtonClickProfile}>Profil</button>
             )}
         </div>
     )

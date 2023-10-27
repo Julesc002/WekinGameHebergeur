@@ -5,10 +5,11 @@
     --middle-color: #31334b;
     --lightest-color: #7f91a3;
     --highlight-color: #ffc400;
+    --button-highlight-color: #f4aa21;
 
-    --slightly-yellow-color: #6f6fca;
-    --slightly-orange-color: #8459a1;
-    --yellow-color: #438bb8;
+    --link-color: #6f6fca;
+    --link-visited-color: #8459a1;
+    --link-hover-color: #438bb8;
 }
 
 body {
@@ -38,7 +39,7 @@ input, select, textarea, button {
 }
 
 button:hover {
-    background-color: var(--yellow-color);
+    background-color: var(--link-hover-color);
 }
 
 ::placeholder {
@@ -47,15 +48,15 @@ button:hover {
 }
 
 a {
-    color: var(--slightly-yellow-color);
+    color: var(--link-color);
 }
 
 a:visited {
-    color: var(--slightly-orange-color);
+    color: var(--link-visited-color);
 }
 
 a:hover {
-    color: var(--yellow-color);
+    color: var(--link-hover-color);
 }
 
 /* Scrollbar management */
@@ -69,17 +70,53 @@ a:hover {
     margin-bottom: 10px;
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--slightly-yellow-color);
+    background: var(--link-color);
     border-radius: 10px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--yellow-color);
+    background: var(--link-hover-color);
   }
 
-  .bottom-right {
-      position:absolute;
-      bottom: 30px;
-      right: 10px;
+  .small-box {
+    position: fixed;
+    left: 50%;
+    top: 50px;
+    transform: translateX(-50%);
+    border-style: solid;
+    border-color: var(--lightest-color);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--middle-color);
+    box-shadow: -2px 2px 15px 5px #05011746;
+  }
+
+  .flex-down{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bottom {
+    position:absolute;
+    bottom: 30px;
+  }
+
+  .bottom-near {
+    position: absolute;
+    bottom: 10px;
+  }
+
+  .top {
+    position:absolute;
+    top: 30px;
+  }
+
+  .align-right {
+    text-align: right;
+  }
+
+  .right {
+    position:absolute;
+    right: 10px;
   }
 
   .text-medium{
@@ -95,5 +132,13 @@ a:hover {
   }
 
   .highlight{
-    color: var(--highlight-color)
+    color: var(--highlight-color);
+  }
+
+  .button-highlight{
+    background-color: var(--button-highlight-color);
+  }
+
+  .button-highlight:hover{
+    background-color: var(--highlight-color);
   }

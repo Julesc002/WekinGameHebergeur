@@ -40,8 +40,8 @@ function ConnexionAuCompte(){
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div class="small-box">
+            <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     Nom :
                     <input
@@ -51,7 +51,6 @@ function ConnexionAuCompte(){
                         onChange={handleInputNameChange}
                     />
                 </label>
-                <br/>
                 <label>
                     Mot de Passe :
                     <input
@@ -61,12 +60,17 @@ function ConnexionAuCompte(){
                         onChange={handleInputPasswordChange}
                     />
                 </label>
-                <br />
-                <button type="submit">Se connecter</button>
+                <br/>
+                <div class="align-right">
+                    <button class="button-highlight text-medium" type="submit">Se connecter</button>
+                </div>
             </form>
             <br/>
-            <Link to="/account/new">Pas de Compte? Créer un Compte</Link>
-            <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
+            <br/>
+            <div>
+                <div class="text-small">Pas de Compte? <Link to="/account/new">Créer un Compte</Link></div>
+                <button class="bottom-near right" onClick={handleRetourClick}>Retour</button>
+            </div>
         </div>
     );
 }
