@@ -55,7 +55,7 @@ function ConnexionAuCompte(){
                 <label>
                     Mot de Passe :
                     <input
-                        type="text"
+                        type="password"
                         name="Mot de Passe"
                         value={password}
                         onChange={handleInputPasswordChange}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { API_URL, APP_URL } from '../config';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { API_URL,validEmail} from '../config';
+import { Link, useNavigate} from "react-router-dom";
 
 function CreationDeCompte(){
     const[name, setName]=useState('');
@@ -19,6 +19,17 @@ function CreationDeCompte(){
         axios.post(`${API_URL}/user/new`,formData);
     };
 
+    const formatToDdMmYyyy = (date) => {
+        const parts = date.split("-");
+        if (parts.length === 3) {
+            const year = parts[0];
+            const month = parts[1];
+            const day = parts[2];
+            return `${day}/${month}/${year}`;
+        }
+        return date; // En cas d'erreur, renvoyer la date d'origine.
+    }
+
     const handleInputNameChange = (e) => {
         setName(e.target.value);
     };
@@ -34,8 +45,13 @@ function CreationDeCompte(){
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        createAccount(name,password,dnaissance,email);
-        navigate(-1);
+        const date = formatToDdMmYyyy(dnaissance)
+        console.log(date);
+        if (validEmail.test(email)) {
+            createAccount(name,password,date,email);
+            navigate(-1);
+        }
+        return "Addresse email ou date de naissance invalide";
     }
 
     return (
@@ -64,7 +80,7 @@ function CreationDeCompte(){
                 <label>
                     Mot de Passe :
                     <input
-                        type="text"
+                        type="password"
                         name="Mot de Passe"
                         value={password}
                         onChange={handleInputPasswordChange}
@@ -72,9 +88,9 @@ function CreationDeCompte(){
                 </label>
                 <br/>
                 <label>
-                    Date de naissance (au format mm/dd/yyyy) :
+                    Date de naissance (au format dd/mm/yyyy) :
                     <input
-                        type="texte"
+                        type="date"
                         name="dnaissance"
                         value={dnaissance}
                         onChange={handleInputBirthChange}
@@ -83,6 +99,10 @@ function CreationDeCompte(){
                 <br />
                 <button type="submit">Créer un compte</button>
             </form>
+            <br/>
+            <div>
+                {!validEmail.test(email) && <p>Addresse E-mail Invalide</p>}
+            </div>
             <br/>
             <Link to="/account/connect">Déjà un Compte? Se connecter</Link>
         </div>
