@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API_URL, APP_URL } from '../config';
 
 function InfoCompte() {
     const [bday, setbday] = useState('');
     const [nom, setnom] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         searchDataCompte();
@@ -19,6 +21,7 @@ function InfoCompte() {
 
     const deleteDataCompte = () => {
         axios.get(`${API_URL}/user/`+ localStorage.getItem('account') +`/delete`).then(() => {
+            localStorage.removeItem('account');
             setTimeout(() => {
                 window.location.href = '/';
             }, 1);
@@ -33,12 +36,17 @@ function InfoCompte() {
         
     };
 
+    const handleRetourClick = () => {
+        navigate(-1);
+    };
+
     return (
         <div>
             <h1>compte de : {nom}</h1>
             <h1>Date de naissance : {bday}</h1>
             <button style={{ cursor: 'pointer' }} onClick={deleteDataCompte}>Supprimer le compte</button>
             <button style={{ cursor: 'pointer' }} onClick={decoCompte}>Se déconnecter</button>
+            <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
         </div>
     );
 }

@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { API_URL, APP_URL } from '../config';
 
 function ConnexionAuCompte(){
     const[name, setName]=useState('');
     const[password, setPassword]=useState('');
+    const navigate = useNavigate();
 
     const connectAccount = (name, password,dnaissance,email) =>{
         const data={
@@ -16,7 +17,7 @@ function ConnexionAuCompte(){
         .then((response) =>{
         console.log(response.data._id);
         localStorage.setItem("account",parseInt(response.data._id));
-        window.location.href = `${APP_URL}/account/info`;
+        window.location.href = `${APP_URL}/`;
 
         })
         .catch((error) =>console.error(error));
@@ -33,6 +34,10 @@ function ConnexionAuCompte(){
         e.preventDefault();
         connectAccount(name,password);
     }
+
+    const handleRetourClick = () => {
+        navigate(-1);
+    };
 
     return (
         <div>
@@ -61,6 +66,7 @@ function ConnexionAuCompte(){
             </form>
             <br/>
             <Link to="/account/new">Pas de Compte? Créer un Compte</Link>
+            <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
         </div>
     );
 }

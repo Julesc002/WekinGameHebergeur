@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import Recherche from '../components/Recherche';
 import '../styles/components/_header.css';
+import ButtonsAccount from './ButtonsAccount';
 
 function Header() {
 
@@ -23,6 +24,7 @@ function Header() {
         <h1 style={{ cursor: 'pointer' }} onClick={handleClickTitle}>WekinGames</h1>
         <h2 class="highlight">La référence Wiki sur vos jeux favoris</h2>
       </div>
+      <div class="bottom-left"> <ButtonsAccount /> </div>
       <div class="bottom-right"> <Recherche /> </div>
     </div>
   )

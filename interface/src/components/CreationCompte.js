@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { API_URL, APP_URL } from '../config';
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function CreationDeCompte(){
@@ -8,6 +8,7 @@ function CreationDeCompte(){
     const[email, setEmail]=useState('');
     const[password, setPassword]=useState('');
     const[dnaissance, setDnaissance]=useState('');
+    const navigate = useNavigate();
 
     const createAccount = (name, password,dnaissance,email) =>{
         const formData=new FormData()
@@ -34,6 +35,7 @@ function CreationDeCompte(){
     const handleSubmit = (e) => {
         e.preventDefault();
         createAccount(name,password,dnaissance,email);
+        navigate(-1);
     }
 
     return (
