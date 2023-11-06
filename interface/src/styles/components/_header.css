@@ -3,31 +3,31 @@
     position: sticky;
     top: 0;
     box-sizing: content-box;
-    margin: -0.5em;
-    margin-left: -1.5em;
-    margin-bottom: 2em;
-    padding: 0.75em;
+    margin: -0.5vw;
+    margin-left: -1.5vw;
+    margin-bottom: 2vw;
+    padding: 1vw;
     background-color: var(--middle-color);
     color: var(--lightest-color);
-    box-shadow: 0em 0em 1em 0.25em #05011746;
+    box-shadow: 0vw 0vw 1vw 0.25vw #05011746;
 }
 .popup-search {
     position: fixed;
     top: 25%;
-    right: 0.5em;
+    right: 0.5vw;
     max-height: 70%;
     max-width: 90%;
     overflow-y: auto;
     overflow-x: auto;
-    padding: 0.5em;
-    padding-top: 0em;
+    padding: 0.5vw;
+    padding-top: 0vw;
     border: solid;
     background: var(--middle-color);
-    border-radius: 1em;
+    border-radius: 1vw;
     border-style: solid;
     border-color: var(--lightest-color);
   }
 
   #logo{
-    margin-right: 1.25em;
+    margin-right: 1.25vw;
   }

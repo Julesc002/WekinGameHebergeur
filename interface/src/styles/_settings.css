@@ -16,26 +16,26 @@ body {
     background-color: var(--darkest-color);
     color: var(--lightest-color);
     font-family: "Noto Sans", "sans-serif";
-    padding-left: 1em;
+    padding-left: 1vw;
 }
 
 h1 {
     color: var(--highlight-color);
-    margin-bottom: 0em;
+    margin-bottom: 0vw;
 }
 
 h2 {
-    margin-top: 0em;
+    margin-top: 0vw;
     font-weight: normal;
 }
 
 input, select, textarea, button {
     background-color: var(--lightest-color);
     color: var(--darkest-color);
-    border-radius: 0.5em;
+    border-radius: 0.5vw;
     border-style: solid;
     border-color: var(--middle-color);
-    margin: 0.25em;
+    margin: 0.25vw;
 }
 
 button:hover {
@@ -61,12 +61,12 @@ a:hover {
 
 /* Scrollbar management */
 ::-webkit-scrollbar {
-    width: 0.3em;
-    height:0.3em;
+    width: 0.3vw;
+    height:0.3vw;
   }
   ::-webkit-scrollbar-track {
     background: none;
-    margin: 0.75em;
+    margin: 1vw;
   }
   ::-webkit-scrollbar-thumb {
     background: var(--link-color);
@@ -79,14 +79,14 @@ a:hover {
   .small-box {
     position: fixed;
     left: 50%;
-    top: 3em;
+    top: 3vw;
     transform: translateX(-50%);
     border-style: solid;
     border-color: var(--lightest-color);
-    border-radius: 0.75em;
-    padding: 1em;
+    border-radius: 0.75vw;
+    padding: 1vw;
     background-color: var(--middle-color);
-    box-shadow: -0.25em 0.25em 1em 0.5em #05011746;
+    box-shadow: -0.25vw 0.25vw 1vw 0.5vw #05011746;
   }
 
   .flex{
@@ -100,17 +100,17 @@ a:hover {
 
   .bottom {
     position:absolute;
-    bottom: 1.75em;
+    bottom: 1.75vw;
   }
 
   .bottom-near {
     position: absolute;
-    bottom: 1em;
+    bottom: 1vw;
   }
 
   .top {
     position:absolute;
-    top: 1.75em;
+    top: 1.75vw;
   }
 
   .align-right {
@@ -123,7 +123,7 @@ a:hover {
 
   .right {
     position:absolute;
-    right: 0.5em;
+    right: 0.5vw;
   }
 
   .text-medium{
@@ -135,11 +135,11 @@ a:hover {
   }
 
   .tabulate{
-    text-indent: 0.75em;
+    text-indent: 0.75vw;
   }
 
   .append{
-    margin-left: +1em;
+    margin-left: +1.5vw;
   }
 
   .highlight{
