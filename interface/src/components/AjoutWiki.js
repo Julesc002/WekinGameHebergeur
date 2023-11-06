@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { API_URL } from '../config';
+import { API_URL, APP_URL } from '../config';
 
 function AjoutWiki() {
     const { nomParDefaut } = useParams();
@@ -28,20 +28,20 @@ function AjoutWiki() {
         } else {
             setErrorMessage("");
             console.log(requestData);
-            /*
-            axios.patch( API_URL+'/wiki/'+ id + '/category/create', requestData).then((response) => {
+            axios.post( API_URL+'/wiki/create', requestData).then((response) => {
                 if (response.data.code === "200") {
-                    alert('Catégorie ajoutée avec succès');
+                    alert('Wiki créé avec succès');
                     setTimeout(() => {
-                        window.location.reload();
+                        /*
+                        window.location.href = `${APP_URL}/wiki/${id}`;
+                        */
                     }, 1);
                 } else if (response.data.code === "409") {
-                    alert('La catégorie existe déjà');
+                    alert('Le wiki existe déjà');
                 }
             }).catch((error) => {
-                console.error("Erreur lors de l'ajout de la catégorie :", error);
+                console.error("Erreur lors de la création du wiki :", error);
             });
-            */
         }
     }
 
