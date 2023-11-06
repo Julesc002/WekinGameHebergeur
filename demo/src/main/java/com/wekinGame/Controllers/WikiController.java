@@ -1,6 +1,7 @@
 package com.wekinGame.Controllers;
 
-import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,8 +10,12 @@ import java.util.Map;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -143,4 +148,43 @@ public class WikiController {
         return results;
     }
 
+    @PostMapping("/wiki/create")
+    public ResponseEntity<String> createWiki(@RequestBody Map<String, String> newWikiData) {
+        try {
+            MongoCollection<Document> collection = database.getCollection("wikis");
+            List<Integer> admins = new ArrayList<Integer>();
+            admins.add(Integer.valueOf(newWikiData.get("adminId")));
+            List<String> categories = new ArrayList<String>();
+            DateTimeFormatter patternJour = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String date = "" + LocalDate.now().format(patternJour);
+
+            Document dataToTransfer = new Document("_id", getIdMax() + 1)
+                    .append("nom", newWikiData.get("nom"))
+                    .append("description", newWikiData.get("description"))
+                    .append("admins", admins)
+                    .append("categories", categories)
+                    .append("date_creation", date);
+
+            System.out.println(dataToTransfer);
+
+            collection.insertOne(dataToTransfer);
+            return new ResponseEntity<>("200 OK", HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // Affichez l'erreur dans la console pour le débogage.
+            return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public Integer getIdMax() {
+
+        MongoCollection<Document> collectionEntrees = database.getCollection("wikis");
+
+        List<Document> sortedEntries = collectionEntrees.find()
+                .projection(new Document("_id", 1))
+                .sort(Sorts.descending("_id"))
+                .into(new ArrayList<>());
+        return (Integer) sortedEntries.get(0).get("_id");
+
+    }
 }
