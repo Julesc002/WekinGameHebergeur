@@ -27,18 +27,11 @@ function AjoutWiki() {
             setErrorMessage("Veuillez compléter les champs textuels");
         } else {
             setErrorMessage("");
-            console.log(requestData);
             axios.post( API_URL+'/wiki/create', requestData).then((response) => {
-                if (response.data.code === "200") {
-                    alert('Wiki créé avec succès');
-                    setTimeout(() => {
-                        /*
-                        window.location.href = `${APP_URL}/wiki/${id}`;
-                        */
-                    }, 1);
-                } else if (response.data.code === "409") {
-                    alert('Le wiki existe déjà');
-                }
+                alert('Wiki créé avec succès');
+                setTimeout(() => {
+                    window.location.href = `${APP_URL}/wiki/${response.data._id}`;
+                }, 1);
             }).catch((error) => {
                 console.error("Erreur lors de la création du wiki :", error);
             });
