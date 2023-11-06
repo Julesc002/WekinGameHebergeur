@@ -1,14 +1,14 @@
 import React from 'react';
-import AjoutEntree from '../components/AjoutEntree';
 import Header from '../components/Header';
+import AjoutWiki from '../components/AjoutWiki';
 
-const PageAjoutEntree = () => {
+const PageAjoutWiki = () => {
     return (
         <div>
             <Header />
-            <AjoutEntree />
+            <AjoutWiki />
         </div>
     );
 };
 
-export default PageAjoutEntree;
+export default PageAjoutWiki;

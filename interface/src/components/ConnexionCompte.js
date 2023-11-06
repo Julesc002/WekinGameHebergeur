@@ -17,6 +17,8 @@ function ConnexionAuCompte(){
         .then((response) =>{
         console.log(response.data._id);
         if(response.data._id === -1){
+            const errorElement = document.getElementById("error-message");
+            errorElement.innerHTML ="pseudo ou mot de passe incorrect";
             return;
         }
         localStorage.setItem("account",parseInt(response.data._id));
@@ -48,26 +50,31 @@ function ConnexionAuCompte(){
             <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     Nom :
-                    <input
-                        type="text"
-                        name="Pseudo"
-                        value={name}
-                        onChange={handleInputNameChange}
-                    />
+                    <div class="float-right">
+                        <input
+                            type="text"
+                            name="Pseudo"
+                            value={name}
+                            onChange={handleInputNameChange}
+                        />
+                    </div>
                 </label>
                 <label>
                     Mot de Passe :
-                    <input
-                        type="password"
-                        name="Mot de Passe"
-                        value={password}
-                        onChange={handleInputPasswordChange}
-                    />
+                    <div class="float-right">
+                        <input
+                            type="password"
+                            name="Mot de Passe"
+                            value={password}
+                            onChange={handleInputPasswordChange}
+                        />
+                    </div>
                 </label>
                 <br/>
                 <button class="button-highlight text-medium" type="submit">Se connecter</button>
             </form>
             <br/>
+                <div id="error-message" class="error-style"></div>
             <br/>
             <div>
                 <div class="text-small">Pas de Compte? <Link to="/account/new">Créer un Compte</Link></div>

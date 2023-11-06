@@ -33,22 +33,24 @@ function DetailEntree() {
                         </Link>
                         &nbsp;:
                     </h2>
-                    <h3>Catégories :</h3>
-                    {entry[0].categories.map((categorie) => (
-                        <Link to={`/categorie/${entry[0].id_wiki}/${categorie}`}>
-                            <p>{categorie}</p>
-                        </Link>
-                    ))}
                     <h2>{entry[0].nom}</h2>
-                    {entry[0].donnees.map((donnee, index) => (
-                        <div key={index}>
-                            <h3>{donnee.titre}</h3>
-                            <p class="tabulate">{donnee.contenu}</p>
-                        </div>
-                    ))}
+                    <div class="append">
+                        <h3>Catégories</h3>
+                        {entry[0].categories.map((categorie) => (
+                            <Link to={`/categorie/${entry[0].id_wiki}/${categorie}`}>
+                                <p class="append">{categorie}</p>
+                            </Link>
+                        ))}
+                        {entry[0].donnees.map((donnee, index) => (
+                            <div key={index}>
+                                <h3>{donnee.titre}</h3>
+                                <p class="append tabulate">{donnee.contenu}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
-            <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
+            <button onClick={handleRetourClick}>Retour</button>
         </div>
     );
 }

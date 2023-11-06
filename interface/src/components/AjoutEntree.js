@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_URL, APP_URL } from '../config';
 
@@ -108,28 +108,41 @@ function AjoutEntree() {
     };
 
     return (
-        <div>
-            <input type="text" placeholder="Nom de l'entrée" onChange={(e) => majNameEntree(e)} />
-            {categories && categories.map(function (categorie) {
-                return (
-                    <div>
-                        <input type="checkbox" name={categorie} onChange={handleCheckboxChange}/>
-                        <label for={categorie}>{categorie}</label>
-                    </div>
-                );
-            })}
-            {donnees && donnees.map(function (donnee, index) {
-                return (
-                    <div key={index}>
-                        <input type="text" placeholder="Titre" value={donnees[index][0]} onChange={(e) => handleMajDonneeTitle(e, index)} />
-                        <textarea value={donnees[index][1]} onChange={(e) => handleMajDonneeContent(e, index)} ></textarea>
-                        <button style={{ cursor: 'pointer' }} onClick={() => handleSupprDonnee(index)}>-</button>
-                    </div>
-                );
-            })}
-            <button style={{ cursor: 'pointer' }} onClick={handleAjoutDonnee}>+</button>
-            <button style={{ cursor: 'pointer' }} onClick={addEntree}>Ajouter l'entrée</button>
-            <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
+        <div class="flex-down">
+            <h2>Nouvelle entrée</h2>
+            <label>
+                Nom de l'entrée :
+                <input type="text" placeholder='Ex: "Master Sword"' onChange={(e) => majNameEntree(e)} />
+            </label>
+            <label>
+                Catégorie :
+                {categories && categories.map(function (categorie) {
+                    return (
+                        <div class="append">
+                            <input type="checkbox" name={categorie} onChange={handleCheckboxChange}/>
+                            <label for={categorie}>{categorie}</label>
+                        </div>
+                    );
+                })}
+            </label>
+            <label>
+                Donnée.s :
+                {donnees && donnees.map(function (donnee, index) {
+                    return (
+                        <div key={index}>
+                            <input type="text" placeholder="Titre" value={donnees[index][0]} onChange={(e) => handleMajDonneeTitle(e, index)} />
+                            <textarea value={donnees[index][1]} onChange={(e) => handleMajDonneeContent(e, index)} ></textarea>
+                            <button onClick={() => handleSupprDonnee(index)}>-</button>
+                        </div>
+                    );
+                })}
+                <button onClick={handleAjoutDonnee}>Ajouter une donnée</button>
+            </label>
+            <br/>
+            <div>
+                <button onClick={handleRetourClick}>Annuler</button>
+                <button class="button-highlight" onClick={addEntree}>Valider l'entrée</button>
+            </div>
             <p>{errorMessage}</p>
         </div>
     );

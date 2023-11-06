@@ -40,7 +40,7 @@ function DetailCategorie() {
                 &nbsp;:
             </h2>
             {entries.length > 0 && entries.map((entry) => (
-                <div key={entry._id}>
+                <div class="append" key={entry._id}>
                     <Link to={`/entree/${entry._id}`}>
                         <p style={{ cursor: 'pointer' }}>{entry.nom}</p>
                     </Link>
