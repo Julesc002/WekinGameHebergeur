@@ -16,26 +16,26 @@ body {
     background-color: var(--darkest-color);
     color: var(--lightest-color);
     font-family: "Noto Sans", "sans-serif";
-    padding-left: 20px;
+    padding-left: 1em;
 }
 
 h1 {
     color: var(--highlight-color);
-    margin-bottom: 0px;
+    margin-bottom: 0em;
 }
 
 h2 {
-    margin-top: 0px;
+    margin-top: 0em;
     font-weight: normal;
 }
 
 input, select, textarea, button {
     background-color: var(--lightest-color);
     color: var(--darkest-color);
-    border-radius: 6px;
+    border-radius: 0.5em;
     border-style: solid;
     border-color: var(--middle-color);
-    margin: 5px;
+    margin: 0.25em;
 }
 
 button:hover {
@@ -61,17 +61,16 @@ a:hover {
 
 /* Scrollbar management */
 ::-webkit-scrollbar {
-    width: 5px;
-    height:5px;
+    width: 0.3em;
+    height:0.3em;
   }
   ::-webkit-scrollbar-track {
     background: none;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 0.75em;
   }
   ::-webkit-scrollbar-thumb {
     background: var(--link-color);
-    border-radius: 10px;
+    border-radius: 1em;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--link-hover-color);
@@ -80,14 +79,18 @@ a:hover {
   .small-box {
     position: fixed;
     left: 50%;
-    top: 50px;
+    top: 3em;
     transform: translateX(-50%);
     border-style: solid;
     border-color: var(--lightest-color);
-    border-radius: 10px;
-    padding: 20px;
+    border-radius: 0.75em;
+    padding: 1em;
     background-color: var(--middle-color);
-    box-shadow: -2px 2px 15px 5px #05011746;
+    box-shadow: -0.25em 0.25em 1em 0.5em #05011746;
+  }
+
+  .flex{
+    display: flex;
   }
 
   .flex-down{
@@ -97,26 +100,30 @@ a:hover {
 
   .bottom {
     position:absolute;
-    bottom: 30px;
+    bottom: 1.75em;
   }
 
   .bottom-near {
     position: absolute;
-    bottom: 10px;
+    bottom: 1em;
   }
 
   .top {
     position:absolute;
-    top: 30px;
+    top: 1.75em;
   }
 
   .align-right {
     text-align: right;
   }
 
+  .float-right {
+    float: right;
+  }
+
   .right {
     position:absolute;
-    right: 10px;
+    right: 0.5em;
   }
 
   .text-medium{
@@ -128,11 +135,11 @@ a:hover {
   }
 
   .tabulate{
-    text-indent: 15px;
+    text-indent: 0.75em;
   }
 
   .append{
-    margin-left: +15px;
+    margin-left: +1em;
   }
 
   .highlight{

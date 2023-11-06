@@ -24,7 +24,7 @@ function CreationDeCompte(){
     };
     const handleInputEmailChange = (e) => {
         setEmail(e.target.value);
-    };  
+    };
     const handleInputPasswordChange = (e) => {
         setPassword(e.target.value);
     };
@@ -48,42 +48,50 @@ function CreationDeCompte(){
             <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     E-mail :
-                    <input
-                        type="email"
-                        name="Addresse E-Mail"
-                        value={email}
-                        placeholder='Ex: "adresse@mail.com"'
-                        onChange={handleInputEmailChange}
-                    />
+                    <div class="float-right">
+                        <input
+                            type="email"
+                            name="Addresse E-Mail"
+                            value={email}
+                            placeholder='Ex: "adresse@mail.com"'
+                            onChange={handleInputEmailChange}
+                        />
+                    </div>
                 </label>
                 <label>
                     Pseudo :
-                    <input
-                        type="text"
-                        name="Pseudo"
-                        value={name}
-                        placeholder='Ex: "Jacob"'
-                        onChange={handleInputNameChange}
-                    />
+                    <div class="float-right">
+                        <input
+                            type="text"
+                            name="Pseudo"
+                            value={name}
+                            placeholder='Ex: "Jacob"'
+                            onChange={handleInputNameChange}
+                        />
+                    </div>
                 </label>
                 <label>
                     Mot de Passe :
-                    <input
-                        type="password"
-                        name="Mot de Passe"
-                        value={password}
-                        onChange={handleInputPasswordChange}
-                    />
+                    <div class="float-right">
+                        <input
+                            type="password"
+                            name="Mot de Passe"
+                            value={password}
+                            onChange={handleInputPasswordChange}
+                        />
+                    </div>
                 </label>
                 <label>
                     Date de naissance :
-                    <input
-                        type="texte"
-                        name="dnaissance"
-                        value={dnaissance}
-                        placeholder="(mm/dd/yyyy)"
-                        onChange={handleInputBirthChange}
-                    />
+                    <div class="float-right">
+                        <input
+                            type="texte"
+                            name="dnaissance"
+                            value={dnaissance}
+                            placeholder="(mm/dd/yyyy)"
+                            onChange={handleInputBirthChange}
+                        />
+                    </div>
                 </label>
                 <br />
                 <button class="button-highlight text-medium" type="submit">Créer un compte</button>

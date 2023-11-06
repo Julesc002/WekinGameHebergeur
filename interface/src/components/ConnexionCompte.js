@@ -45,21 +45,25 @@ function ConnexionAuCompte(){
             <form class="flex-down" onSubmit={handleSubmit}>
                 <label>
                     Nom :
-                    <input
-                        type="text"
-                        name="Pseudo"
-                        value={name}
-                        onChange={handleInputNameChange}
-                    />
+                    <div class="float-right">
+                        <input
+                            type="text"
+                            name="Pseudo"
+                            value={name}
+                            onChange={handleInputNameChange}
+                        />
+                    </div>
                 </label>
                 <label>
                     Mot de Passe :
-                    <input
-                        type="password"
-                        name="Mot de Passe"
-                        value={password}
-                        onChange={handleInputPasswordChange}
-                    />
+                    <div class="float-right">
+                        <input
+                            type="password"
+                            name="Mot de Passe"
+                            value={password}
+                            onChange={handleInputPasswordChange}
+                        />
+                    </div>
                 </label>
                 <br/>
                 <button class="button-highlight text-medium" type="submit">Se connecter</button>
