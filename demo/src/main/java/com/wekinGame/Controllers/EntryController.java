@@ -23,6 +23,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
 import com.wekinGame.Model.Entry;
@@ -240,5 +241,11 @@ public Integer getIdMax(){
         return (Integer) sortedEntries.get(0).get("_id");
         
 }
+@GetMapping("/delete/entry/{_id}")
+public void deleteEntry(@PathVariable Integer _id){
+    MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
 
+    collectionEntrees.deleteOne(Filters.eq("_id",_id));
+    
+}
 }
