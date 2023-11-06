@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { NavLink } from 'react-router-dom';
 import { API_URL } from '../config';
 
 function AffichagesAllWikis() {
@@ -19,7 +20,7 @@ function AffichagesAllWikis() {
     const groupByLetter = (wikis) => {
         const groupedWikis = {};
         wikis.forEach((wiki) => {
-            const firstLetter = wiki.title[0].toUpperCase();
+            const firstLetter = wiki.nom[0].toUpperCase();
             if (!groupedWikis[firstLetter]) {
                 groupedWikis[firstLetter] = [wiki];
             } else {
@@ -36,7 +37,9 @@ function AffichagesAllWikis() {
                     <h2>{letter}</h2>
                     <ul>
                         {wikis[letter].map((wiki) => (
-                            <li key={wiki.id}>{wiki.title}</li>
+                            <NavLink to={`/wiki/${wiki._id}`}>
+                                <li key={wiki._id}>{wiki.nom}</li>
+                            </NavLink>
                         ))}
                     </ul>
                 </div>

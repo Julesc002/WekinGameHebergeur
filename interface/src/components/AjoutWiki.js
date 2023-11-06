@@ -32,7 +32,9 @@ function AjoutWiki() {
                 if (response.data.code === "200") {
                     alert('Wiki créé avec succès');
                     setTimeout(() => {
+                        /*
                         window.location.href = `${APP_URL}/wiki/${id}`;
+                        */
                     }, 1);
                 } else if (response.data.code === "409") {
                     alert('Le wiki existe déjà');
