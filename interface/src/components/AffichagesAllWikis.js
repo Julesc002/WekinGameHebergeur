@@ -10,7 +10,7 @@ function AffichagesAllWikis() {
     }, []);
 
     const getAllWikiAPI = () => {
-        axios.get(`${API_URL}/`).then((res) => {
+        axios.get(`${API_URL}/wikis`).then((res) => {
             const groupedWikis = groupByLetter(res.data);
             setWikis(groupedWikis);
         });
