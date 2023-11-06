@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bson.Document;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -125,7 +123,7 @@ public class WikiController {
     }
 
     @PostMapping("/wiki/create")
-    public ResponseEntity<String> createWiki(@RequestBody Map<String,String> newWikiData) {
+    public Document createWiki(@RequestBody Map<String,String> newWikiData) {
         try {
 
             MongoCollection<Document> collection = database.getCollection("wikis");
@@ -134,8 +132,9 @@ public class WikiController {
             List<String> categories = new ArrayList<String>();
             DateTimeFormatter patternJour = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             String date =""+LocalDate.now().format(patternJour);
+            int id =getIdMax()+1;
 
-            Document dataToTransfer = new Document("_id",getIdMax()+1)
+            Document dataToTransfer = new Document("_id",id)
                     .append("nom", newWikiData.get("nom"))
                     .append("description", newWikiData.get("description"))
                     .append("admins", admins)
@@ -146,11 +145,13 @@ public class WikiController {
                     System.out.println(dataToTransfer);
 
             collection.insertOne(dataToTransfer);
-            return new ResponseEntity<>("200 OK", HttpStatus.OK);
+            // return new ResponseEntity<>("200 OK "+id, HttpStatus.OK);
+            return new Document("_id",id);
 
         } catch (Exception e) {
             e.printStackTrace(); // Affichez l'erreur dans la console pour le débogage.
-            return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            // return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new Document("error",500);
         }
     }
 
