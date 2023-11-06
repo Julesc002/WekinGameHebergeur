@@ -142,3 +142,8 @@ a:hover {
   .button-highlight:hover{
     background-color: var(--highlight-color);
   }
+
+  .error-style{
+    font-size: small;
+    color:red;
+  }

@@ -210,7 +210,7 @@ public ResponseEntity<String> createEntry(@RequestBody Entry entry) {
             .append("titre", entry.getDonnees().get(i).getTitre())
             .append("contenu", entry.getDonnees().get(i).getContenu()));
         }
-        Document dataToTransfer = new Document("_id",getIdMax()+1) //TODO autoincrement
+        Document dataToTransfer = new Document("_id",getIdMax()+1)
                 .append("nom", entry.getNom())
                 .append("id_wiki", entry.getId_wiki())
                 .append("categories", entry.getCategories())
