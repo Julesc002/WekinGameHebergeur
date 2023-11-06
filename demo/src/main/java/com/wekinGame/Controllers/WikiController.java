@@ -3,11 +3,13 @@ package com.wekinGame.Controllers;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
 
 @RestController
@@ -124,26 +129,43 @@ public class WikiController {
         return result;
     }
 
-    @PostMapping("/wiki/create")
-    public ResponseEntity<String> createWiki(@RequestBody Map<String,String> newWikiData) {
-        try {
+    @GetMapping("/wikis")
+    public List<Document> getAllWikis() {
+        List<Document> results = new ArrayList<>();
 
+        List<Bson> pipeline = Arrays.asList(
+                Aggregates.project(Projections.fields(
+                        Projections.include("_id", "nom"))),
+                Aggregates.sort(Sorts.ascending("nom")));
+        AggregateIterable<Document> cursor = collection.aggregate(pipeline);
+
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while (cursorIterator.hasNext()) {
+                results.add(cursorIterator.next());
+            }
+        }
+
+        return results;
+    }
+
+    @PostMapping("/wiki/create")
+    public ResponseEntity<String> createWiki(@RequestBody Map<String, String> newWikiData) {
+        try {
             MongoCollection<Document> collection = database.getCollection("wikis");
             List<Integer> admins = new ArrayList<Integer>();
             admins.add(Integer.valueOf(newWikiData.get("adminId")));
             List<String> categories = new ArrayList<String>();
             DateTimeFormatter patternJour = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String date =""+LocalDate.now().format(patternJour);
+            String date = "" + LocalDate.now().format(patternJour);
 
-            Document dataToTransfer = new Document("_id",getIdMax()+1)
+            Document dataToTransfer = new Document("_id", getIdMax() + 1)
                     .append("nom", newWikiData.get("nom"))
                     .append("description", newWikiData.get("description"))
                     .append("admins", admins)
                     .append("categories", categories)
-                    .append("date_creation",date);
-                
-                
-                    System.out.println(dataToTransfer);
+                    .append("date_creation", date);
+
+            System.out.println(dataToTransfer);
 
             collection.insertOne(dataToTransfer);
             return new ResponseEntity<>("200 OK", HttpStatus.OK);
@@ -154,17 +176,15 @@ public class WikiController {
         }
     }
 
-    public Integer getIdMax(){
-        
+    public Integer getIdMax() {
+
         MongoCollection<Document> collectionEntrees = database.getCollection("wikis");
 
         List<Document> sortedEntries = collectionEntrees.find()
-            .projection(new Document("_id",1))
-            .sort(Sorts.descending("_id"))
-            .into(new ArrayList<>());
+                .projection(new Document("_id", 1))
+                .sort(Sorts.descending("_id"))
+                .into(new ArrayList<>());
         return (Integer) sortedEntries.get(0).get("_id");
-        
+
     }
 }
-
-
