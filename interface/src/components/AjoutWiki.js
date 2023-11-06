@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { API_URL, APP_URL } from '../config';
 
 function AjoutWiki() {
@@ -8,6 +9,7 @@ function AjoutWiki() {
     const [nom, setNom] = useState(nomParDefaut);
     const [description, setDescrition] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const nav = useNavigate();
 
     const majNom = (e) => {
         setNom(e.target.value);
@@ -16,6 +18,9 @@ function AjoutWiki() {
     const majDesc = (e) => {
         setDescrition(e.target.value);
     };
+    const connect=()=>{
+        nav('/account/connect');
+    }
 
     function handleAddWiki() {
         const requestData = {
@@ -41,7 +46,11 @@ function AjoutWiki() {
     return (
         <div>
           {localStorage.getItem('account') === null ? (
-            <h2>Vous devez être connecté pour créer un wiki</h2>
+            <div>
+                <h2>Vous devez être connecté pour créer un wiki</h2>
+                <br/>
+                <button onClick={connect}>Se connecter</button>
+            </div>
           ) : (
             <>
               <h2>Créer un wiki :</h2>
