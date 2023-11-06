@@ -3,13 +3,13 @@
     position: sticky;
     top: 0;
     box-sizing: content-box;
-    margin: -0.75em;
+    margin: -0.5em;
     margin-left: -1.5em;
     margin-bottom: 2em;
     padding: 0.75em;
     background-color: var(--middle-color);
     color: var(--lightest-color);
-  box-shadow: 0em 0em 1em 0.25em #05011746;
+    box-shadow: 0em 0em 1em 0.25em #05011746;
 }
 .popup-search {
     position: fixed;
