@@ -47,7 +47,7 @@ function RechercheDeWiki() {
           {wikis.length === 0 && recherche.length > 1 ? (
             <div>
               <p class="text-small">Pas de résultat</p>
-              <NavLink to="/createWiki">
+              <NavLink to={`/createWiki/${recherche}`}>
                 <button class="text-small">Créer le wiki {recherche}</button>
               </NavLink>
             </div>
