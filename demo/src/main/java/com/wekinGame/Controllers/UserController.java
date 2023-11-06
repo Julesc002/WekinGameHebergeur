@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.bson.Document;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +19,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Projections;
-import com.mongodb.client.model.Sorts;
 import com.wekinGame.ressources.Hasher;
 import com.wekinGame.ressources.JavaMail;
 import com.wekinGame.ressources.idGenerator;
@@ -103,10 +100,10 @@ public class UserController{
         //return new Document("pseudo",param.get("pseudo")).append("password",param.get("password"));
         List<Document> searchParameters = new ArrayList<>();
         Document criteria1 = new Document("pseudo",param.get("pseudo"));
-        Document criteria2 = new Document("password",Hasher.hashPassword(param.get("password")));
+        Document criteria2 = new Document("mdp",Hasher.hashPassword(param.get("password")));
         searchParameters.add(criteria1);
         searchParameters.add(criteria2);
-        Document searchQuery = new Document("$or", searchParameters);
+        Document searchQuery = new Document("$and", searchParameters);
         
         MongoCollection<Document> collection = database.getCollection("users");
         Document result = collection.find(searchQuery).projection(Projections.include("_id")).first();

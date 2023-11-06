@@ -7,7 +7,7 @@ const Home = () => {
             <Header />
             <h4>Bienvenue dans WekinGames, la référence du wiki jeux vidéo </h4>
             <p>
-                Je sais pas ce qu'il y aurais d'autre dans cette page pour l'instant du coup.
+                Je sais pas ce qu'il y aura d'autre dans cette page pour l'instant du coup.
                 J'aime les pommes.
             </p>
         </div>

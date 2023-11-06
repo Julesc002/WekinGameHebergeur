@@ -16,6 +16,9 @@ function ConnexionAuCompte(){
         axios.post(`${API_URL}/user/connect`,data)
         .then((response) =>{
         console.log(response.data._id);
+        if(response.data._id === -1){
+            return;
+        }
         localStorage.setItem("account",parseInt(response.data._id));
         window.location.href = `${APP_URL}/`;
 

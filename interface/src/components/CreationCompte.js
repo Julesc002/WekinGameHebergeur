@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { API_URL } from '../config';
+import { API_URL, validEmail } from '../config';
 
 function CreationDeCompte(){
     const[name, setName]=useState('');
@@ -19,6 +19,17 @@ function CreationDeCompte(){
         axios.post(`${API_URL}/user/new`,formData);
     };
 
+    const formatToDdMmYyyy = (date) => {
+        const parts = date.split("-");
+        if (parts.length === 3) {
+            const year = parts[0];
+            const month = parts[1];
+            const day = parts[2];
+            return `${day}/${month}/${year}`;
+        }
+        return date; // En cas d'erreur, renvoyer la date d'origine.
+    }
+
     const handleInputNameChange = (e) => {
         setName(e.target.value);
     };
@@ -34,8 +45,13 @@ function CreationDeCompte(){
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        createAccount(name,password,dnaissance,email);
-        navigate(-1);
+        const date = formatToDdMmYyyy(dnaissance)
+        console.log(date);
+        if (validEmail.test(email)) {
+            createAccount(name,password,date,email);
+            navigate(-1);
+        }
+        return "Addresse email ou date de naissance invalide";
     }
 
     const handleRetourClick = () => {
@@ -85,7 +101,7 @@ function CreationDeCompte(){
                     Date de naissance :
                     <div class="float-right">
                         <input
-                            type="texte"
+                            type="date"
                             name="dnaissance"
                             value={dnaissance}
                             placeholder="(mm/dd/yyyy)"
