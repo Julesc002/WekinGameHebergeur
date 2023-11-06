@@ -12,6 +12,7 @@ import Entree from './pages/Entree';
 import PageErreur from './pages/PageErreur';
 import PageAjoutEntree from './pages/PageAjoutEntree';
 import PageAjoutWiki from './pages/PageAjoutWiki';
+import PageAffichageAllWikis from './pages/PageAffichageAllWikis';
 
 const App = () => {
 
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/wiki/:id/ajoutEntree" element={<PageAjoutEntree />} />
         <Route path="/createWiki/:nomParDefaut" element={<PageAjoutWiki />} />
         <Route path="/createWiki" element={<PageAjoutWiki />} />
+        <Route path="/allWikis" element={<PageAffichageAllWikis />} />
       </Routes>
     </Layout>
   );
