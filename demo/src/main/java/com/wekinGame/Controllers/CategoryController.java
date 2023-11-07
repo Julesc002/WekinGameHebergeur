@@ -94,4 +94,15 @@ public class CategoryController {
         return response;
     }
 
+    private void removeCategoryFromWikiEntries(String idWiki, String category) {
+        MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
+
+        Document searchQuery = new Document();
+        searchQuery.put("id_wiki", Integer.parseInt(idWiki));
+        searchQuery.put("categories", category);
+
+        Document updateQuery = new Document("$pull", new Document("categories", category));
+        collectionEntrees.updateMany(searchQuery, updateQuery);
+    }
+
 }
