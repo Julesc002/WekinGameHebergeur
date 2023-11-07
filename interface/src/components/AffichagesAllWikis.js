@@ -8,7 +8,7 @@ function AffichagesAllWikis() {
 
     useEffect(() => {
         getAllWikiAPI();
-    }, []);
+    });
 
     const getAllWikiAPI = () => {
         axios.get(`${API_URL}/wikis`).then((res) => {
