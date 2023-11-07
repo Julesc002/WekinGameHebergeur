@@ -22,7 +22,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Updates;
 
 @RestController
 public class CategoryController {
@@ -92,6 +94,39 @@ public class CategoryController {
         }
 
         return response;
+    }
+
+    @PatchMapping("/{idWiki}/{nameCategory}/delete")
+    public void getDeleteCategory(@PathVariable("idWiki") Integer idWiki,
+        @PathVariable("nameCategory") String nameCategory) {
+
+        // List<Bson> pipeline = Arrays.asList(
+        //     Aggregates.match(Filters.eq("categories", nameCategory))
+        // );
+        // MongoCollection<Document> collectionEntry = database.getCollection("entrees");
+        // AggregateIterable<Document> cursor = collectionEntry.aggregate(pipeline);
+        // try{
+        //     while (cursor.iterator().hasNext()) {
+        //         Document document = cursor.iterator().next();
+        //         ObjectId documentId = document.getObjectId("_id");
+        //         long arraySize = collectionEntry.aggregate(Arrays.asList(
+        //             Aggregates.match(Filters.eq("_id", documentId)),
+        //             Aggregates.project(Projections.computed("arraySize", new Document("$size", "$categories")))
+        //         )).first().getLong("arraySize");
+        //         if( arraySize == 1){
+        //             Bson filter = Filters.eq("_id", documentId);
+        //             collectionEntry.deleteOne(filter);
+        //         } else{
+        //             Bson filter = Filters.eq("_id", documentId);
+        //             Bson update = Updates.pull("categories", nameCategory);
+
+        //             collectionEntry.updateOne(filter, update);
+        //         }
+        //     }
+        // } finally {
+        // }
+        MongoCollection<Document> collectionWiki = database.getCollection("wikis");
+        collectionWiki.updateOne(Filters.eq("_id", idWiki), Updates.pull("categories",nameCategory ));
     }
 
 }
