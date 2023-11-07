@@ -102,6 +102,7 @@ public class CategoryController {
         MongoCollection<Document> collectionWiki = database.getCollection("wikis");
         collectionWiki.updateOne(Filters.eq("_id", idWiki), Updates.pull("categories", nameCategory));
         removeCategoryFromWikiEntries(idWiki, nameCategory);
+        removeEntriesWithNoCategories();
     }
 
     private void removeCategoryFromWikiEntries(Integer idWiki, String category) {
@@ -113,6 +114,13 @@ public class CategoryController {
 
         Document updateQuery = new Document("$pull", new Document("categories", category));
         collectionEntrees.updateMany(searchQuery, updateQuery);
+    }
+
+    private void removeEntriesWithNoCategories() {
+        MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
+
+        Document query = new Document("categories", new Document("$size", 0));
+        collectionEntrees.deleteMany(query);
     }
 
 }
