@@ -45,7 +45,7 @@ function RechercheDeWiki() {
         <div class="popup-search">
           <h4>Wikis :</h4>
           {wikis.length === 0 && recherche.length > 1 ? (
-            <div>
+            <div class="append">
               <p class="text-small">Pas de résultat</p>
               <NavLink to="/createWiki">
                 <button class="text-small">Créer le wiki {recherche}</button>
@@ -63,15 +63,16 @@ function RechercheDeWiki() {
           )}
           <h4>Entrées :</h4>
           {entrees.length === 0 && recherche.length > 1 ? (
-            <p class="text-small">Pas de résultat</p>
+            <p class="append text-small">Pas de résultat</p>
           ) : (
             entrees.map(function (entree) {
               return (
-                <div key={entree._id}>
+                <div class="append" key={entree._id}>
                 <Link to={`/entree/${entree._id}`}>
-                  <p class="text-small">{entree.nom} : {entree.wiki.nom}</p>
+                  <p>{entree.nom} : {entree.wiki.nom}</p>
                 </Link>
-                  <h5> Catégorie(s) : </h5>
+                  <div class="append">
+                    <h5> Catégorie(s) : </h5>
                     <ul>
                       {entree.categories.map((categorie, index) => (
                         <Link to={`/categorie/${entree.wiki._id}/${categorie}`}>
@@ -79,21 +80,23 @@ function RechercheDeWiki() {
                         </Link>
                       ))}
                     </ul>
+                  </div>
                 </div>
               );
             })
           )}
           <h4>{recherche} est mentionné dans :</h4>
           {mentions.length === 0 && recherche.length > 1 ? (
-            <p class="text-small">Pas de résultat</p>
+            <p class="append text-small">Pas de résultat</p>
           ) : (
             mentions.map(function (mention) {
               return (
-                <div key={mention._id}>
+                <div class="append" key={mention._id}>
                   <Link to={`/entree/${mention._id}`}>
-                    <p class="text-small">{mention.nom} : {mention.wiki.nom}</p>
+                    <p>{mention.nom} : {mention.wiki.nom}</p>
                   </Link>
-                  <h5>Catégorie(s) :</h5>
+                  <div class="append">
+                    <h5>Catégorie(s) :</h5>
                     <ul>
                       {mention.categories.map((categorie, index) => (
                         <Link to={`/categorie/${mention.wiki._id}/${categorie}`}>
@@ -101,6 +104,7 @@ function RechercheDeWiki() {
                         </Link>
                       ))}
                     </ul>
+                  </div>
                 </div>
               );
             })

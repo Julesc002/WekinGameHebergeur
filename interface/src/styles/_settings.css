@@ -7,9 +7,9 @@
     --highlight-color: #ffc400;
     --button-highlight-color: #f4aa21;
 
-    --link-color: #6f6fca;
-    --link-visited-color: #8459a1;
-    --link-hover-color: #438bb8;
+    --link-color: rgb(128, 128, 255);
+    --link-visited-color: #cf86ff;
+    --link-hover-color: #4ea0d4;
 }
 
 body {
@@ -36,6 +36,12 @@ input, select, textarea, button {
     border-style: solid;
     border-color: var(--middle-color);
     margin: 0.25vw;
+}
+
+textarea{
+  font-family: "Noto Sans", "sans-serif";
+  padding: 0.75vw;
+  resize: none;
 }
 
 button:hover {
@@ -89,8 +95,22 @@ a:hover {
     box-shadow: -0.25vw 0.25vw 1vw 0.5vw #05011746;
   }
 
+  .small-box-content {
+    margin: 2vw;
+    width: 40%;
+    border-radius: 0.75vw;
+    padding: 1vw;
+    background-color: var(--middle-color);
+    box-shadow: -0.25vw 0.25vw 1vw 0.5vw #05011746;
+  }
+
   .flex{
     display: flex;
+  }
+
+  .flex-spaced{
+    display: flex;
+    justify-content: space-between;
   }
 
   .flex-down{
