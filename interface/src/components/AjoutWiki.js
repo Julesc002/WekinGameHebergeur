@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_URL, APP_URL } from '../config';
 
 function AjoutWiki() {
@@ -52,13 +51,17 @@ function AjoutWiki() {
                 <button onClick={connect}>Se connecter</button>
             </div>
           ) : (
-            <>
+            <div class="flex-down">
               <h2>Créer un wiki :</h2>
-              <input type="text" placeholder="Nom" value={nom} onChange={majNom} />
-              <textarea placeholder="Description" onChange={majDesc} />
-              <button onClick={handleAddWiki}>Valider</button>
+              <div>
+                <input type="text" placeholder="Nom" value={nom} onChange={majNom} />
+              </div>
+              <textarea rows="10" placeholder="Description" onChange={majDesc} />
+              <div>
+                  <button class="button-highlight" onClick={handleAddWiki}>Valider</button>
+              </div>
               <p>{errorMessage}</p>
-            </>
+            </div>
           )}
         </div>
       );
