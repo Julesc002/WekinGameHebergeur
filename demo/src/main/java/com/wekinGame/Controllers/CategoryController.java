@@ -22,7 +22,9 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
+import com.mongodb.client.model.Updates;
 
 @RestController
 public class CategoryController {
@@ -94,11 +96,19 @@ public class CategoryController {
         return response;
     }
 
-    private void removeCategoryFromWikiEntries(String idWiki, String category) {
+    @PatchMapping("/{idWiki}/{nameCategory}/delete")
+    public void getDeleteCategory(@PathVariable("idWiki") Integer idWiki,
+            @PathVariable("nameCategory") String nameCategory) {
+        MongoCollection<Document> collectionWiki = database.getCollection("wikis");
+        collectionWiki.updateOne(Filters.eq("_id", idWiki), Updates.pull("categories", nameCategory));
+        removeCategoryFromWikiEntries(idWiki, nameCategory);
+    }
+
+    private void removeCategoryFromWikiEntries(Integer idWiki, String category) {
         MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
 
         Document searchQuery = new Document();
-        searchQuery.put("id_wiki", Integer.parseInt(idWiki));
+        searchQuery.put("id_wiki", idWiki);
         searchQuery.put("categories", category);
 
         Document updateQuery = new Document("$pull", new Document("categories", category));

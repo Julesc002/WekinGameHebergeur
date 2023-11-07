@@ -126,13 +126,15 @@ function AjoutEntree() {
                 })}
             </label>
             <label>
-                Donnée.s :
+                Donnée·s :
                 {donnees && donnees.map(function (donnee, index) {
                     return (
-                        <div key={index}>
-                            <input type="text" placeholder="Titre" value={donnees[index][0]} onChange={(e) => handleMajDonneeTitle(e, index)} />
-                            <textarea value={donnees[index][1]} onChange={(e) => handleMajDonneeContent(e, index)} ></textarea>
-                            <button onClick={() => handleSupprDonnee(index)}>-</button>
+                        <div key={index} class="small-box-content flex-down">
+                                <div class="flex-spaced">
+                                    <input type="text" placeholder="Titre" value={donnees[index][0]} onChange={(e) => handleMajDonneeTitle(e, index)} />
+                                    <button class="float-right" onClick={() => handleSupprDonnee(index)}>x</button>
+                                </div>
+                                <textarea rows="10" value={donnees[index][1]} onChange={(e) => handleMajDonneeContent(e, index)} ></textarea>
                         </div>
                     );
                 })}
