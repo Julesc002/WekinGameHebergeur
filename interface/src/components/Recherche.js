@@ -46,7 +46,7 @@ function RechercheDeWiki() {
           <h4>Wikis :</h4>
           {wikis.length === 0 && recherche.length > 1 ? (
             <div class="append">
-              <p class="text-small">Pas de résultat</p>
+              <p>Pas de résultat</p>
               <NavLink to={`/createWiki/${recherche}`}>
                 <button class="text-small">Créer le wiki {recherche}</button>
               </NavLink>
@@ -54,16 +54,16 @@ function RechercheDeWiki() {
           ) : (
             wikis.map(function (wiki) {
               return(
-                <div>
+                <div class="append">
                   <Link to={`/wiki/${wiki._id}`}>
-                    <p class="text-small" key={wiki._id}>{wiki.nom}</p>
+                    <p key={wiki._id}>{wiki.nom}</p>
                   </Link>
                 </div>
               )})
           )}
           <h4>Entrées :</h4>
           {entrees.length === 0 && recherche.length > 1 ? (
-            <p class="append text-small">Pas de résultat</p>
+            <p class="append">Pas de résultat</p>
           ) : (
             entrees.map(function (entree) {
               return (
@@ -87,7 +87,7 @@ function RechercheDeWiki() {
           )}
           <h4>{recherche} est mentionné dans :</h4>
           {mentions.length === 0 && recherche.length > 1 ? (
-            <p class="append text-small">Pas de résultat</p>
+            <p class="append">Pas de résultat</p>
           ) : (
             mentions.map(function (mention) {
               return (

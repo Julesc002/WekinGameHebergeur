@@ -65,6 +65,10 @@ a:hover {
     color: var(--link-hover-color);
 }
 
+ul{
+  list-style: none;
+}
+
 /* Scrollbar management */
 ::-webkit-scrollbar {
     width: 0.3vw;
