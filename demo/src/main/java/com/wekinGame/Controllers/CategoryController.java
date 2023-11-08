@@ -98,35 +98,29 @@ public class CategoryController {
 
     @PatchMapping("/{idWiki}/{nameCategory}/delete")
     public void getDeleteCategory(@PathVariable("idWiki") Integer idWiki,
-        @PathVariable("nameCategory") String nameCategory) {
-
-        // List<Bson> pipeline = Arrays.asList(
-        //     Aggregates.match(Filters.eq("categories", nameCategory))
-        // );
-        // MongoCollection<Document> collectionEntry = database.getCollection("entrees");
-        // AggregateIterable<Document> cursor = collectionEntry.aggregate(pipeline);
-        // try{
-        //     while (cursor.iterator().hasNext()) {
-        //         Document document = cursor.iterator().next();
-        //         ObjectId documentId = document.getObjectId("_id");
-        //         long arraySize = collectionEntry.aggregate(Arrays.asList(
-        //             Aggregates.match(Filters.eq("_id", documentId)),
-        //             Aggregates.project(Projections.computed("arraySize", new Document("$size", "$categories")))
-        //         )).first().getLong("arraySize");
-        //         if( arraySize == 1){
-        //             Bson filter = Filters.eq("_id", documentId);
-        //             collectionEntry.deleteOne(filter);
-        //         } else{
-        //             Bson filter = Filters.eq("_id", documentId);
-        //             Bson update = Updates.pull("categories", nameCategory);
-
-        //             collectionEntry.updateOne(filter, update);
-        //         }
-        //     }
-        // } finally {
-        // }
+            @PathVariable("nameCategory") String nameCategory) {
         MongoCollection<Document> collectionWiki = database.getCollection("wikis");
-        collectionWiki.updateOne(Filters.eq("_id", idWiki), Updates.pull("categories",nameCategory ));
+        collectionWiki.updateOne(Filters.eq("_id", idWiki), Updates.pull("categories", nameCategory));
+        removeCategoryFromWikiEntries(idWiki, nameCategory);
+        removeEntriesWithNoCategories();
+    }
+
+    private void removeCategoryFromWikiEntries(Integer idWiki, String category) {
+        MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
+
+        Document searchQuery = new Document();
+        searchQuery.put("id_wiki", idWiki);
+        searchQuery.put("categories", category);
+
+        Document updateQuery = new Document("$pull", new Document("categories", category));
+        collectionEntrees.updateMany(searchQuery, updateQuery);
+    }
+
+    private void removeEntriesWithNoCategories() {
+        MongoCollection<Document> collectionEntrees = database.getCollection("entrees");
+
+        Document query = new Document("categories", new Document("$size", 0));
+        collectionEntrees.deleteMany(query);
     }
 
 }
