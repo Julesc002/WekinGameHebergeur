@@ -33,20 +33,19 @@ function WikiContent() {
         return false;
     };
 
-    function deleteEntry(entryId) {
+    function deleteEntry(entryId, entryName) {
+      if (window.confirm("Voulez vous vraiment supprimer l'entrée " + entryName)) {
         axios.get(`${API_URL}/delete/entry/${entryId}`).then((res) => {
-            if (res.status === 200) {
-                alert('Entrée supprimée avec succès');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1);
-            } else if (res.data.code === "409") {
-                alert("Erreur lors de la suppression de l'entrée");
-            }
+          if (res.status === 200) {
+            window.location.reload();
+          } else if (res.data.code === "409") {
+            alert("Erreur lors de la suppression de l'entrée");
+          }
         }).catch((error) => {
             console.error(error);
             alert("Erreur lors de la suppression de l'entrée");
         });
+      }
     };
 
     return (
@@ -76,7 +75,7 @@ function WikiContent() {
                                     <div className="append inline">{entree.nom}</div>
                                 </Link>
                                 {isUserAdmin() && (
-                                  <button class="text-x-small" onClick={() => deleteEntry(entree._id)}>X</button>
+                                  <button class="text-x-small" onClick={() => deleteEntry(entree._id, entree.nom)}>X</button>
                                 )}
                             </div>
                         ))}

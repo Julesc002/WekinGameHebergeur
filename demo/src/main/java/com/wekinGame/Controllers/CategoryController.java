@@ -96,7 +96,7 @@ public class CategoryController {
         return response;
     }
 
-    @PatchMapping("/{idWiki}/{nameCategory}/delete")
+    @PatchMapping("/wiki/{idWiki}/{nameCategory}/delete")
     public void getDeleteCategory(@PathVariable("idWiki") Integer idWiki,
             @PathVariable("nameCategory") String nameCategory) {
         MongoCollection<Document> collectionWiki = database.getCollection("wikis");
