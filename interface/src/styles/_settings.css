@@ -108,6 +108,10 @@ ul{
     box-shadow: -0.25vw 0.25vw 1vw 0.5vw #05011746;
   }
 
+  .inline{
+    display: inline;
+  }
+
   .flex{
     display: flex;
   }
@@ -120,6 +124,10 @@ ul{
   .flex-down{
     display: flex;
     flex-direction: column;
+  }
+
+  .vertically-center{
+    margin: 50%;
   }
 
   .bottom {
@@ -156,6 +164,10 @@ ul{
 
   .text-small{
     font-size: small;
+  }
+
+  .text-x-small{
+    font-size: x-small;
   }
 
   .tabulate{

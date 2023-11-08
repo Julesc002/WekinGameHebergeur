@@ -73,10 +73,10 @@ function WikiContent() {
                         {categorie.entrees.map((entree) => (
                             <div key={entree._id}>
                                 <Link to={`/entree/${entree._id}`}>
-                                    <p className="append">{entree.nom}</p>
+                                    <div className="append inline">{entree.nom}</div>
                                 </Link>
                                 {isUserAdmin() && (
-                                    <button onClick={() => deleteEntry(entree._id)}>Supprimer</button>
+                                  <button class="text-x-small" onClick={() => deleteEntry(entree._id)}>X</button>
                                 )}
                             </div>
                         ))}
