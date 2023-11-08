@@ -62,7 +62,9 @@ function WikiContent() {
               </Link>
             </div>
           )}
-          {wiki && wiki.categories.map((categorie) => (
+          {wiki.categories.length === 0 ?(
+            <p class="append">Aucune entrée dans le wiki.</p>
+          ) : (wiki && wiki.categories.map((categorie) => (
             <div key={categorie._id}>
               <Link to={`/categorie/${wiki?._id || ""}/${categorie.nom}`}>
                 <h3 style={{ cursor: 'pointer' }}>{categorie.nom} :</h3>
@@ -78,7 +80,7 @@ function WikiContent() {
                 </div>
               ))}
             </div>
-          ))}
+          )))}
           <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
         </div>
       );      
