@@ -48,6 +48,23 @@ function WikiContent() {
       }
     };
 
+    function deleteCategory(categoryName) {
+        if (window.confirm("Voulez vous vraiment supprimer la catégorie " + categoryName + " ?\n(celà supprimera TOUTES les entrées appartenant seulement a cette catégorie !)")) {
+            if (window.confirm("Cette action est irréversible !\nEtes vous VRAIMENT sûr ?")) {
+                axios.patch(`${API_URL}/wiki/${wiki._id}/${categoryName}/delete`).then((res) => {
+                    if (res.status === 200) {
+                      window.location.reload();
+                    } else if (res.data.code === "409") {
+                      alert("Erreur lors de la suppression de la catégorie");
+                    }
+                  }).catch((error) => {
+                      console.error(error);
+                      alert("Erreur lors de la suppression de la catégorie");
+                  });
+            }
+        }
+      };
+
     return (
         <div>
             <h2>Wiki {wiki?.nom || ""}</h2>
@@ -69,6 +86,9 @@ function WikiContent() {
                         <Link to={`/categorie/${wiki?._id || ""}/${categorie.nom}`}>
                             <h3 style={{ cursor: 'pointer' }}>{categorie.nom} :</h3>
                         </Link>
+                        {isUserAdmin() && (
+                                  <button class="text-x-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
+                                )}
                         {categorie.entrees.map((entree) => (
                             <div key={entree._id}>
                                 <Link to={`/entree/${entree._id}`}>
