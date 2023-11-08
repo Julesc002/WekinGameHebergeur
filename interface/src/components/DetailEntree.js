@@ -5,6 +5,7 @@ import { API_URL } from '../config';
 
 function DetailEntree() {
     const { id } = useParams();
+    const { wikiid }=useParams();
     const [entry, setEntry] = useState([]);
     const navigate = useNavigate();
 
