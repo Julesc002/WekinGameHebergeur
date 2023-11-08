@@ -26,62 +26,65 @@ function WikiContent() {
     };
 
     const isUserAdmin = () => {
-        if (localStorage.getItem('account') !== null) {
-            const isAdmin = wiki?.admins.some((adminId) => adminId === parseInt(localStorage.getItem('account')));
+        if (localStorage.getItem('account') !== null && wiki) {
+            const isAdmin = wiki.admins.some((adminId) => adminId === parseInt(localStorage.getItem('account')));
             return isAdmin;
         }
         return false;
     };
-    
-    function deleteEntry(entryId) {
+
+    function deleteEntry(entryId, entryName) {
+      if (window.confirm("Voulez vous vraiment supprimer l'entrée " + entryName)) {
         axios.get(`${API_URL}/delete/entry/${entryId}`).then((res) => {
-            if (res.status === 200) {
-                alert('Entrée supprimée avec succès');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1);
-            } else if (res.data.code === "409") {
-                alert("Erreur lors de la suppression de l'entrée");
-            }
+          if (res.status === 200) {
+            window.location.reload();
+          } else if (res.data.code === "409") {
+            alert("Erreur lors de la suppression de l'entrée");
+          }
         }).catch((error) => {
             console.error(error);
             alert("Erreur lors de la suppression de l'entrée");
         });
+      }
     };
 
     return (
         <div>
-          <h2>Wiki {wiki?.nom || ""}</h2>
-          <p>{wiki?.description || ""}</p>
-          {isUserAdmin() && (
-            <div>
-              <h3>Ajouter une catégorie :</h3>
-              <AjoutCategorie />
-              <Link to={`/wiki/${wiki?._id || ""}/ajoutEntree`}>
-                <button style={{ cursor: 'pointer' }}>Ajouter une entrée</button>
-              </Link>
-            </div>
-          )}
-          {wiki && wiki.categories.map((categorie) => (
-            <div key={categorie._id}>
-              <Link to={`/categorie/${wiki?._id || ""}/${categorie.nom}`}>
-                <h3 style={{ cursor: 'pointer' }}>{categorie.nom} :</h3>
-              </Link>
-              {categorie.entrees.map((entree) => (
-                <div key={entree._id}>
-                  <Link to={`/entree/${entree._id}`}>
-                    <p className="append">{entree.nom}</p>
-                  </Link>
-                  {isUserAdmin() && (
-                    <button onClick={() => deleteEntry(entree._id)}>Supprimer</button>
-                  )}
+            <h2>Wiki {wiki?.nom || ""}</h2>
+            <p>{wiki?.description || ""}</p>
+            {isUserAdmin() && (
+                <div>
+                    <h3>Ajouter une catégorie :</h3>
+                    <AjoutCategorie />
+                    <Link to={`/wiki/${wiki?._id || ""}/ajoutEntree`}>
+                        <button style={{ cursor: 'pointer' }}>Ajouter une entrée</button>
+                    </Link>
                 </div>
-              ))}
-            </div>
-          ))}
-          <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
+            )}
+            {wiki && wiki.categories.length === 0 ? (
+                <p className="append">Aucune entrée dans le wiki.</p>
+            ) : (
+                wiki && wiki.categories.map((categorie) => (
+                    <div key={categorie._id}>
+                        <Link to={`/categorie/${wiki?._id || ""}/${categorie.nom}`}>
+                            <h3 style={{ cursor: 'pointer' }}>{categorie.nom} :</h3>
+                        </Link>
+                        {categorie.entrees.map((entree) => (
+                            <div key={entree._id}>
+                                <Link to={`/entree/${entree._id}`}>
+                                    <div className="append inline">{entree.nom}</div>
+                                </Link>
+                                {isUserAdmin() && (
+                                  <button class="text-x-small" onClick={() => deleteEntry(entree._id, entree.nom)}>X</button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                ))
+            )}
+            <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
         </div>
-      );      
+    );
 }
 
 export default WikiContent;
