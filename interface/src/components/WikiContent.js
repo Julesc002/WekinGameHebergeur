@@ -63,7 +63,7 @@ function WikiContent() {
                   });
             }
         }
-      };
+    };
 
     return (
         <div>
@@ -87,8 +87,13 @@ function WikiContent() {
                             <h3 style={{ cursor: 'pointer' }}>{categorie.nom} :</h3>
                         </Link>
                         {isUserAdmin() && (
-                                  <button class="text-x-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
-                                )}
+                            <>
+                                <Link to={`/wiki/${wiki?._id || ""}/category/update`}>
+                                    <button class="text-x-small">Modifier</button>
+                                </Link>
+                                <button class="text-x-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
+                            </>
+                        )}
                         {categorie.entrees.map((entree) => (
                             <div key={entree._id}>
                                 <Link to={`/entree/${entree._id}`}>
