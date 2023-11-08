@@ -33,20 +33,36 @@ function WikiContent() {
         return false;
     };
 
-    function deleteEntry(entryId) {
+    function deleteEntry(entryId, entryName) {
+      if (window.confirm("Voulez vous vraiment supprimer l'entrée " + entryName)) {
         axios.get(`${API_URL}/delete/entry/${entryId}`).then((res) => {
-            if (res.status === 200) {
-                alert('Entrée supprimée avec succès');
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1);
-            } else if (res.data.code === "409") {
-                alert("Erreur lors de la suppression de l'entrée");
-            }
+          if (res.status === 200) {
+            window.location.reload();
+          } else if (res.data.code === "409") {
+            alert("Erreur lors de la suppression de l'entrée");
+          }
         }).catch((error) => {
             console.error(error);
             alert("Erreur lors de la suppression de l'entrée");
         });
+      }
+    };
+
+    function deleteCategory(categoryName) {
+        if (window.confirm("Voulez vous vraiment supprimer la catégorie " + categoryName + " ?\n(celà supprimera TOUTES les entrées appartenant seulement a cette catégorie !)")) {
+            if (window.confirm("Cette action est irréversible !\nEtes vous VRAIMENT sûr ?")) {
+                axios.patch(`${API_URL}/wiki/${wiki._id}/${categoryName}/delete`).then((res) => {
+                    if (res.status === 200) {
+                      window.location.reload();
+                    } else if (res.data.code === "409") {
+                      alert("Erreur lors de la suppression de la catégorie");
+                    }
+                  }).catch((error) => {
+                      console.error(error);
+                      alert("Erreur lors de la suppression de la catégorie");
+                  });
+            }
+        }
     };
 
     return (
@@ -70,13 +86,21 @@ function WikiContent() {
                         <Link to={`/categorie/${wiki?._id || ""}/${categorie.nom}`}>
                             <h3 style={{ cursor: 'pointer' }}>{categorie.nom} :</h3>
                         </Link>
+                        {isUserAdmin() && (
+                            <>
+                                <Link to={`/wiki/${wiki?._id || ""}/category/update`}>
+                                    <button class="text-x-small">Modifier</button>
+                                </Link>
+                                <button class="text-x-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
+                            </>
+                        )}
                         {categorie.entrees.map((entree) => (
                             <div key={entree._id}>
                                 <Link to={`/entree/${entree._id}`}>
-                                    <p className="append">{entree.nom}</p>
+                                    <div className="append inline">{entree.nom}</div>
                                 </Link>
                                 {isUserAdmin() && (
-                                    <button onClick={() => deleteEntry(entree._id)}>Supprimer</button>
+                                  <button class="text-x-small" onClick={() => deleteEntry(entree._id, entree.nom)}>X</button>
                                 )}
                             </div>
                         ))}

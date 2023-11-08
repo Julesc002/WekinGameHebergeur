@@ -214,6 +214,7 @@ public class EntryController {
         collectionEntrees.deleteOne(Filters.eq("_id", _id));
 
     }
+    
     @PutMapping("/modify/entry/{_id}")
 public ResponseEntity<String> modifyEntry(@RequestBody Entry entry, @PathVariable Integer _id) {
     try {
