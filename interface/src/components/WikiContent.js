@@ -88,7 +88,7 @@ function WikiContent() {
                         </Link>
                         {isUserAdmin() && (
                             <>
-                                <Link to={`/wiki/${wiki?._id || ""}/category/update`}>
+                                <Link to={`/wiki/${wiki?._id || ""}/category/${categorie.nom}/update`}>
                                     <button class="text-x-small">Modifier</button>
                                 </Link>
                                 <button class="text-x-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
