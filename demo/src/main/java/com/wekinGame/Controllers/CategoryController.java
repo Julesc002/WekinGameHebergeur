@@ -60,6 +60,7 @@ public class CategoryController {
         List<Document> resultsQuery = new ArrayList<Document>();
         Document searchQuery = new Document();
         searchQuery.put("id_wiki", Integer.parseInt(idWiki));
+        searchQuery.put("categories", nameCategory);
         List<Bson> pipeline = Arrays.asList(
                 Aggregates.match(searchQuery),
                 Aggregates.project(Projections.fields(
