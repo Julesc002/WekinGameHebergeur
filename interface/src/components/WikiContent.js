@@ -112,6 +112,24 @@ function WikiContent() {
                     </div>
                 ))
             )}
+            {isUserAdmin() && (
+                <div>
+                    <h3>Catégories sans entrées :</h3>
+                    {wiki && wiki.categoriesWithoutEntry.map((categorie) => (
+                        <div key={categorie}>
+                            <Link to={`/categorie/${wiki?._id || ""}/${categorie}`}>
+                            <h3 style={{ cursor: 'pointer' }}>{categorie}</h3>
+                            </Link>
+                            <div>
+                            <Link to={`/wiki/${wiki?._id || ""}/category/${categorie}/update`}>
+                                <button className="text-x-small">Modifier</button>
+                            </Link>
+                            <button className="text-x-small" onClick={() => deleteCategory(categorie)}>X</button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
             <button style={{ cursor: 'pointer' }} onClick={handleRetourClick}>Retour</button>
         </div>
     );

@@ -23,10 +23,7 @@ function AjoutCategorie() {
             setErrorMessage("");
             axios.patch( API_URL+'/wiki/'+ id + '/category/create', requestData).then((response) => {
                 if (response.data.code === "200") {
-                    alert('Catégorie ajoutée avec succès');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1);
+                    window.location.reload();
                 } else if (response.data.code === "409") {
                     alert('La catégorie existe déjà');
                 }

@@ -60,6 +60,7 @@ public class CategoryController {
         List<Document> resultsQuery = new ArrayList<Document>();
         Document searchQuery = new Document();
         searchQuery.put("id_wiki", Integer.parseInt(idWiki));
+        searchQuery.put("categories", nameCategory);
         List<Bson> pipeline = Arrays.asList(
                 Aggregates.match(searchQuery),
                 Aggregates.project(Projections.fields(
@@ -128,39 +129,45 @@ public class CategoryController {
     }
 
     @PutMapping("/modify/category/{newCategory}")
-    public ResponseEntity<String> modifyCategoryName(@RequestBody Map<String,Object> oldStringCategory, @PathVariable String newCategory) {
-    
+    public ResponseEntity<String> modifyCategoryName(@RequestBody Map<String, Object> oldStringCategory,
+            @PathVariable String newCategory) {
+
         if (newCategory.isEmpty() && oldStringCategory.isEmpty()) {
             return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
         }
-        Document setQuery = new Document("$set",new Document("categories.$",newCategory));
+        Document setQuery = new Document("$set", new Document("categories.$", newCategory));
         System.out.println(oldStringCategory);
-        String resultWikis = modifyCategoryNameForWikis( (String) oldStringCategory.get("categories"), (Integer) oldStringCategory.get("id"), setQuery);
-        String resultEntries = modifyCategoriesNameForEntries( (String) oldStringCategory.get("categories"), (Integer) oldStringCategory.get("id"), setQuery);
+        String resultWikis = modifyCategoryNameForWikis((String) oldStringCategory.get("categories"),
+                (Integer) oldStringCategory.get("id"), setQuery);
+        String resultEntries = modifyCategoriesNameForEntries((String) oldStringCategory.get("categories"),
+                (Integer) oldStringCategory.get("id"), setQuery);
 
         if (resultEntries.equals("404") && resultWikis.equals("404")) {
             return new ResponseEntity<>("404 Not Found", HttpStatus.NOT_FOUND);
-        }else if(resultEntries.equals("200") && resultWikis.equals("200")){
+        } else if (resultEntries.equals("200") && resultWikis.equals("200")) {
             return new ResponseEntity<>("200 OK", HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    private String modifyCategoryNameForWikis(String oldStringCategory, int idWiki, Document setQuery){
-        try{
+
+    private String modifyCategoryNameForWikis(String oldStringCategory, int idWiki, Document setQuery) {
+        try {
             MongoCollection<Document> collectionWiki = database.getCollection("wikis");
 
             Document searchQuery = new Document("$and", Arrays.asList(
+
             Filters.eq("_id", idWiki),
             Filters.eq("categories", oldStringCategory)));
             
             UpdateResult result = collectionWiki.updateOne(searchQuery,setQuery);
+
             if (result.getModifiedCount() == 0) {
                 return "404";
             }
-    
+
             return "200";
-    
+
         } catch (Exception e) {
             e.printStackTrace();
             return "500";
@@ -178,9 +185,9 @@ public class CategoryController {
         if (result.getModifiedCount() == 0) {
             return "404";
         }
-    
+
             return "200";
-    
+
         } catch (Exception e) {
             e.printStackTrace();
             return "500";
