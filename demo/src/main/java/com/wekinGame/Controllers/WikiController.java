@@ -107,12 +107,22 @@ public class WikiController {
 
         // Créer la liste d'objets pour la clé "categories"
         List<Document> categoryList = new ArrayList<>();
+        List<String> categoryListWithEntry = new ArrayList<>();
         for (Map.Entry<String, List<Document>> entry : categorizedEntries.entrySet()) {
             Document categoryObject = new Document();
             String categoryName = entry.getKey();
             categoryObject.put("nom", categoryName);
+            categoryListWithEntry.add(categoryName);
             categoryObject.put("entrees", entry.getValue());
             categoryList.add(categoryObject);
+        }
+
+        List<String> categoriesWithoutEntry = new ArrayList<>();
+
+        for (String category : (List<String>) wiki.get("categories")) {
+            if (!categoryListWithEntry.contains(category)) {
+                categoriesWithoutEntry.add(category);
+            }
         }
 
         // Créer le résultat final
@@ -123,7 +133,7 @@ public class WikiController {
         result.put("description", wiki.getString("description"));
         result.put("admins", wiki.get("admins"));
         result.put("categories", categoryList);
-        result.put("allCategories", wiki.get("categories"));
+        result.put("categoriesWithoutEntry", categoriesWithoutEntry);
 
         return result;
     }
