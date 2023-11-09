@@ -13,6 +13,7 @@ import org.bson.conversions.Bson;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -187,5 +188,26 @@ public class WikiController {
                 .into(new ArrayList<>());
         return (Integer) sortedEntries.get(0).get("_id");
 
+    }
+    
+    @GetMapping("wiki/{id}/admin")
+    public List<Document> GetAdmins(@PathVariable String id){
+        List<Document> results = new ArrayList<>();
+        List<Bson> pipeline = Arrays.asList(
+            Aggregates.match(new Document("_id",Integer.parseInt(id))),
+            Aggregates.lookup("users","admins","_id","adminsdata"),
+            Aggregates.unwind("$adminsdata"),
+            Aggregates.project(Projections.fields(
+                Projections.include("adminsdata.pseudo", "adminsdata._id")
+            ))
+        );
+        MongoCollection<Document> collection = database.getCollection("wikis");
+        AggregateIterable<Document> cursor = collection.aggregate(pipeline);
+        try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+            while (cursorIterator.hasNext()) {
+                results.add(cursorIterator.next());
+            }
+        }
+        return results;
     }
 }
