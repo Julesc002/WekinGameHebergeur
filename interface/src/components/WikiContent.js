@@ -100,7 +100,12 @@ function WikiContent() {
                                     <div className="append inline">{entree.nom}</div>
                                 </Link>
                                 {isUserAdmin() && (
-                                  <button class="text-x-small" onClick={() => deleteEntry(entree._id, entree.nom)}>X</button>
+                                    <>
+                                        <Link to={`/wiki/${wiki._id}/entry/${entree._id}/update`}>
+                                            <button class="text-x-small">Modifier</button>
+                                        </Link>
+                                        <button class="text-x-small" onClick={() => deleteEntry(entree._id, entree.nom)}>X</button>
+                                    </>
                                 )}
                             </div>
                         ))}
