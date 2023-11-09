@@ -7,7 +7,6 @@ import AjoutCategorie from "./AjoutCategorie";
 function WikiContent() {
     const { id } = useParams();
     const [wiki, setWiki] = useState(null);
-    const [categoriesSansEntrees, setCategoriesSansEntrees] = useState([]);
     const navigate = useNavigate();
 
     const handleRetourClick = () => {
@@ -21,14 +20,6 @@ function WikiContent() {
     const searchDataWiki = (id) => {
         axios.get(`${API_URL}/wiki/${id}/content`).then((res) => {
             setWiki(res.data);
-
-            const categoriesSansEntreesStock = [];
-            res.data.allCategories.forEach((categorie) => {
-                if (!res.data.categories.some((cat) => cat.nom === categorie)) {
-                    categoriesSansEntreesStock.push(categorie);
-                }
-            });
-            setCategoriesSansEntrees(categoriesSansEntreesStock);
         }).catch((error) => {
             console.error(error);
         });
@@ -124,7 +115,7 @@ function WikiContent() {
             {isUserAdmin() && (
                 <div>
                     <h3>Catégories sans entrées :</h3>
-                    {categoriesSansEntrees.map((categorie) => (
+                    {wiki && wiki.categoriesWithoutEntry.map((categorie) => (
                         <div key={categorie}>
                             <Link to={`/categorie/${wiki?._id || ""}/${categorie}`}>
                             <h3 style={{ cursor: 'pointer' }}>{categorie}</h3>
