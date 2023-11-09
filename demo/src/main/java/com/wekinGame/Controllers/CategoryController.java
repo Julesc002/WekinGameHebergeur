@@ -155,7 +155,6 @@ public class CategoryController {
             Filters.eq("categories", oldStringCategory)));
             
             UpdateResult result = collectionWiki.updateOne(searchQuery,setQuery);
-            System.out.println(result);
             if (result.getModifiedCount() == 0) {
                 return "404";
             }
@@ -176,7 +175,6 @@ public class CategoryController {
             Filters.eq("categories", oldStringCategory)));
             
         UpdateResult result = collectionEntry.updateMany(searchQuery,setQuery);
-        System.out.println(result);
         if (result.getModifiedCount() == 0) {
             return "404";
         }

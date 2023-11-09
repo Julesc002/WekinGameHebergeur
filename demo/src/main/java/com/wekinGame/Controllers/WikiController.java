@@ -10,9 +10,12 @@ import java.util.Map;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,8 +28,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
 
 @RestController
 public class WikiController {
@@ -187,5 +193,82 @@ public class WikiController {
                 .into(new ArrayList<>());
         return (Integer) sortedEntries.get(0).get("_id");
 
+    }
+    @PutMapping("/wiki/{id}/admin/add")
+    public ResponseEntity<String> addAdminOnWikis(@RequestBody Map<String,String> admin , @PathVariable String id) {
+        try{
+            if (admin.get("pseudo").isEmpty() && id.isEmpty()) {
+                return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+            }
+
+            int idAdmin = getIdAdminByNom(admin.get("pseudo"));
+            if (idAdmin == 400){
+                return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+            }else if(idAdmin == 500){
+                return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else{
+                MongoCollection<Document> collection = database.getCollection("wikis");
+                Document setQuery = new Document("$addToSet",new Document("admins",idAdmin));
+                
+                UpdateResult result = collection.updateOne(Filters.eq("_id",Integer.parseInt((id))),setQuery);
+                if (result.getModifiedCount() == 0) {
+                    return new ResponseEntity<>("404 Not Found", HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>("200 OK", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    private Integer getIdAdminByNom(String pseudo){
+        try{
+            if (pseudo.isEmpty()) {
+                return 400;
+            }
+            Document searchQuery = new Document("pseudo",pseudo);
+
+            MongoCollection<Document> collection = database.getCollection("users");
+            FindIterable<Document> cursor = collection.find(searchQuery);
+
+            Document resultsQuery = new Document();
+            try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+                while (cursorIterator.hasNext()) {
+                    resultsQuery = cursorIterator.next();
+                }
+            }
+
+        return (Integer) resultsQuery.get("_id");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 500;
+        }
+    }
+
+    @PutMapping("/wiki/{id}/admin/delete")
+    public ResponseEntity<String> deleteEntry(@RequestBody Map<String,String> admin, @PathVariable String id) {
+        try{
+            if (admin.get("pseudo").isEmpty() && id.isEmpty()) {
+                return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+            }
+
+            int idAdmin = getIdAdminByNom(admin.get("pseudo"));
+            if (idAdmin == 400){
+                return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+            }else if(idAdmin == 500){
+                return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else{
+                MongoCollection<Document> collection = database.getCollection("wikis");
+                collection.updateOne(Filters.eq("_id", Integer.parseInt(id)), Updates.pull("admins",idAdmin));
+                
+                return new ResponseEntity<>("200 OK", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
