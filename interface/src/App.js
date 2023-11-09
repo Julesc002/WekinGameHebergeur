@@ -13,7 +13,7 @@ import PageErreur from './pages/PageErreur';
 import PageAjoutEntree from './pages/PageAjoutEntree';
 import PageAjoutWiki from './pages/PageAjoutWiki';
 import PageAffichageAllWikis from './pages/PageAffichageAllWikis';
-import ModifEntree from './components/ModifEntree';
+import PageModifierCategorie from './pages/PageModifierCategorie';
 
 const App = () => {
 
@@ -32,7 +32,7 @@ const App = () => {
         <Route path="/createWiki/:nomParDefaut" element={<PageAjoutWiki />} />
         <Route path="/createWiki" element={<PageAjoutWiki />} />
         <Route path="/allWikis" element={<PageAffichageAllWikis />} />
-        <Route path="/test/:wikiid/:id" element={<ModifEntree/>}/>
+        <Route path='/wiki/:id/category/:oldCategoryName/update' element={<PageModifierCategorie />}/>
       </Routes>
     </Layout>
   );
