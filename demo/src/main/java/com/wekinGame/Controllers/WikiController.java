@@ -123,6 +123,7 @@ public class WikiController {
         result.put("description", wiki.getString("description"));
         result.put("admins", wiki.get("admins"));
         result.put("categories", categoryList);
+        result.put("allCategories", wiki.get("categories"));
 
         return result;
     }
@@ -147,17 +148,17 @@ public class WikiController {
     }
 
     @PostMapping("/wiki/create")
-    public Document createWiki(@RequestBody Map<String,String> newWikiData) {
+    public Document createWiki(@RequestBody Map<String, String> newWikiData) {
         try {
             MongoCollection<Document> collection = database.getCollection("wikis");
             List<Integer> admins = new ArrayList<Integer>();
             admins.add(Integer.valueOf(newWikiData.get("adminId")));
             List<String> categories = new ArrayList<String>();
             DateTimeFormatter patternJour = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String date =""+LocalDate.now().format(patternJour);
-            int id =getIdMax()+1;
+            String date = "" + LocalDate.now().format(patternJour);
+            int id = getIdMax() + 1;
 
-            Document dataToTransfer = new Document("_id",id)
+            Document dataToTransfer = new Document("_id", id)
                     .append("nom", newWikiData.get("nom"))
                     .append("description", newWikiData.get("description"))
                     .append("admins", admins)
@@ -168,12 +169,13 @@ public class WikiController {
 
             collection.insertOne(dataToTransfer);
             // return new ResponseEntity<>("200 OK "+id, HttpStatus.OK);
-            return new Document("_id",id);
+            return new Document("_id", id);
 
         } catch (Exception e) {
             e.printStackTrace(); // Affichez l'erreur dans la console pour le débogage.
-            // return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
-            return new Document("error",500);
+            // return new ResponseEntity<>("500 Internal Server Error",
+            // HttpStatus.INTERNAL_SERVER_ERROR);
+            return new Document("error", 500);
         }
     }
 
