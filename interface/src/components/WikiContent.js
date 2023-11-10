@@ -87,29 +87,31 @@ function WikiContent() {
             ) : (
                 wiki && wiki.categories.map((categorie) => (
                     <div key={categorie._id}>
-                        <Link to={`/categorie/${wiki?._id || ""}/${categorie.nom}`}>
-                            <h3 style={{ cursor: 'pointer' }}>{categorie.nom} :</h3>
-                        </Link>
-                        {isUserAdmin() && (
-                            <>
-                                <Link to={`/wiki/${wiki?._id || ""}/category/${categorie.nom}/update`}>
-                                    <button class="text-x-small">Modifier</button>
-                                </Link>
-                                <button class="text-x-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
-                            </>
-                        )}
+                        <div class="flex-align">
+                            <Link to={`/categorie/${wiki?._id || ""}/${categorie.nom}`}>
+                                <h3 style={{ cursor: 'pointer' }}>{categorie.nom} :</h3>
+                            </Link>
+                            {isUserAdmin() && (
+                                <div class="append">
+                                    <Link to={`/wiki/${wiki?._id || ""}/category/${categorie.nom}/update`}>
+                                        <button class="text-small"><b>···</b></button>
+                                    </Link>
+                                    <button class="text-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
+                                </div>
+                            )}
+                        </div>
                         {categorie.entrees.map((entree) => (
-                            <div key={entree._id}>
+                            <div class="flex-align" key={entree._id}>
                                 <Link to={`/entree/${entree._id}`}>
-                                    <div className="append inline">{entree.nom}</div>
+                                    <div className="append">{entree.nom}</div>
                                 </Link>
                                 {isUserAdmin() && (
-                                    <>
+                                    <div>
                                         <Link to={`/wiki/${wiki._id}/entry/${entree._id}/update`}>
-                                            <button class="text-x-small">Modifier</button>
+                                            <button class="text-x-small"><b>···</b></button>
                                         </Link>
                                         <button class="text-x-small" onClick={() => deleteEntry(entree._id, entree.nom)}>X</button>
-                                    </>
+                                    </div>
                                 )}
                             </div>
                         ))}
@@ -120,15 +122,15 @@ function WikiContent() {
                 <div>
                     <h3>Catégories sans entrées :</h3>
                     {wiki && wiki.categoriesWithoutEntry.map((categorie) => (
-                        <div key={categorie}>
+                        <div class="flex-align" key={categorie}>
                             <Link to={`/categorie/${wiki?._id || ""}/${categorie}`}>
                             <h3 style={{ cursor: 'pointer' }}>{categorie}</h3>
                             </Link>
-                            <div>
-                            <Link to={`/wiki/${wiki?._id || ""}/category/${categorie}/update`}>
-                                <button className="text-x-small">Modifier</button>
-                            </Link>
-                            <button className="text-x-small" onClick={() => deleteCategory(categorie)}>X</button>
+                            <div class="append">
+                                <Link to={`/wiki/${wiki?._id || ""}/category/${categorie.nom}/update`}>
+                                    <button class="text-small"><b>···</b></button>
+                                </Link>
+                                <button class="text-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
                             </div>
                         </div>
                     ))}

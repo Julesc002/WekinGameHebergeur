@@ -116,6 +116,11 @@ ul{
     display: flex;
   }
 
+  .flex-align{
+    display: flex;
+    align-items: center;
+  }
+
   .flex-spaced{
     display: flex;
     justify-content: space-between;
