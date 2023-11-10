@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { API_URL, APP_URL } from '../config';
+import { API_URL } from '../config';
 
 function AdminWiki() {
     const { wikiId} = useParams();
@@ -85,13 +85,15 @@ function AdminWiki() {
     return (
         <div className="flex-down">
             {admin && admin[0] && (
-                <>
+                <div>
                     <h2>Gestion des administrateurs :</h2>
-                    <label>
+                    <label class="append flex-down">
                         Ajouter un adinistrateur :
-                        <input type="text" placeholder='pseudo' onChange={(e) => majPseudo(e)}/>
+                        <div>
+                            <input type="text" placeholder='pseudo' onChange={(e) => majPseudo(e)}/>
+                            <button onClick={()=>addToAdmin(pseudo)}> Nouvel Administateur </button>
+                        </div>
                     </label>
-                    <button onClick={()=>addToAdmin(pseudo)}> Ajouter l'utilisateur aux administateurs</button>
                     <p id="adminadderror">{errorMessage}</p>
                     <div id="ici">
                         <h3>Administateurs Actuels :</h3>
@@ -111,7 +113,7 @@ function AdminWiki() {
                     </div>
                     <br/>
                     <button onClick={handleRetourClick}>Retour</button>
-                </>
+                </div>
             )}
         </div>
     );

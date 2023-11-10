@@ -1,6 +1,6 @@
 import React from 'react';
+import AdminWiki from '../components/AdministrationWiki';
 import Header from '../components/Header';
-import AdminWiki from '../components/administrationwiki';
 
 const PageAdministrerWiki = () => {
     return (
