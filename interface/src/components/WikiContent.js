@@ -127,10 +127,10 @@ function WikiContent() {
                             <h3 style={{ cursor: 'pointer' }}>{categorie}</h3>
                             </Link>
                             <div class="append">
-                                <Link to={`/wiki/${wiki?._id || ""}/category/${categorie.nom}/update`}>
+                                <Link to={`/wiki/${wiki?._id || ""}/category/${categorie}/update`}>
                                     <button class="text-small"><b>···</b></button>
                                 </Link>
-                                <button class="text-small" onClick={() => deleteCategory(categorie.nom)}>X</button>
+                                <button class="text-small" onClick={() => deleteCategory(categorie)}>X</button>
                             </div>
                         </div>
                     ))}
