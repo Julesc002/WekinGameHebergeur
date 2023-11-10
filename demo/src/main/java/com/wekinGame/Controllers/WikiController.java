@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +28,11 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Projections;
 import com.mongodb.client.model.Sorts;
+import com.mongodb.client.model.Updates;
+import com.mongodb.client.result.UpdateResult;
 
 @RestController
 public class WikiController {
@@ -108,12 +113,22 @@ public class WikiController {
 
         // Créer la liste d'objets pour la clé "categories"
         List<Document> categoryList = new ArrayList<>();
+        List<String> categoryListWithEntry = new ArrayList<>();
         for (Map.Entry<String, List<Document>> entry : categorizedEntries.entrySet()) {
             Document categoryObject = new Document();
             String categoryName = entry.getKey();
             categoryObject.put("nom", categoryName);
+            categoryListWithEntry.add(categoryName);
             categoryObject.put("entrees", entry.getValue());
             categoryList.add(categoryObject);
+        }
+
+        List<String> categoriesWithoutEntry = new ArrayList<>();
+
+        for (String category : (List<String>) wiki.get("categories")) {
+            if (!categoryListWithEntry.contains(category)) {
+                categoriesWithoutEntry.add(category);
+            }
         }
 
         // Créer le résultat final
@@ -124,6 +139,7 @@ public class WikiController {
         result.put("description", wiki.getString("description"));
         result.put("admins", wiki.get("admins"));
         result.put("categories", categoryList);
+        result.put("categoriesWithoutEntry", categoriesWithoutEntry);
 
         return result;
     }
@@ -148,17 +164,17 @@ public class WikiController {
     }
 
     @PostMapping("/wiki/create")
-    public Document createWiki(@RequestBody Map<String,String> newWikiData) {
+    public Document createWiki(@RequestBody Map<String, String> newWikiData) {
         try {
             MongoCollection<Document> collection = database.getCollection("wikis");
             List<Integer> admins = new ArrayList<Integer>();
             admins.add(Integer.valueOf(newWikiData.get("adminId")));
             List<String> categories = new ArrayList<String>();
             DateTimeFormatter patternJour = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String date =""+LocalDate.now().format(patternJour);
-            int id =getIdMax()+1;
+            String date = "" + LocalDate.now().format(patternJour);
+            int id = getIdMax() + 1;
 
-            Document dataToTransfer = new Document("_id",id)
+            Document dataToTransfer = new Document("_id", id)
                     .append("nom", newWikiData.get("nom"))
                     .append("description", newWikiData.get("description"))
                     .append("admins", admins)
@@ -169,12 +185,13 @@ public class WikiController {
 
             collection.insertOne(dataToTransfer);
             // return new ResponseEntity<>("200 OK "+id, HttpStatus.OK);
-            return new Document("_id",id);
+            return new Document("_id", id);
 
         } catch (Exception e) {
             e.printStackTrace(); // Affichez l'erreur dans la console pour le débogage.
-            // return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
-            return new Document("error",500);
+            // return new ResponseEntity<>("500 Internal Server Error",
+            // HttpStatus.INTERNAL_SERVER_ERROR);
+            return new Document("error", 500);
         }
     }
 
@@ -209,5 +226,83 @@ public class WikiController {
             }
         }
         return results;
+    }
+
+    @PutMapping("/wiki/{id}/admin/add")
+    public ResponseEntity<String> addAdminOnWikis(@RequestBody Map<String,String> admin , @PathVariable String id) {
+        try{
+            if (admin.get("pseudo").isEmpty() && id.isEmpty()) {
+                return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+            }
+
+            int idAdmin = getIdAdminByNom(admin.get("pseudo"));
+            if (idAdmin == 400){
+                return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+            }else if(idAdmin == 500){
+                return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else{
+                MongoCollection<Document> collection = database.getCollection("wikis");
+                Document setQuery = new Document("$addToSet",new Document("admins",idAdmin));
+                
+                UpdateResult result = collection.updateOne(Filters.eq("_id",Integer.parseInt((id))),setQuery);
+                if (result.getModifiedCount() == 0) {
+                    return new ResponseEntity<>("404 Not Found", HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>("200 OK", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    private Integer getIdAdminByNom(String pseudo){
+        try{
+            if (pseudo.isEmpty()) {
+                return 400;
+            }
+            Document searchQuery = new Document("pseudo",pseudo);
+
+            MongoCollection<Document> collection = database.getCollection("users");
+            FindIterable<Document> cursor = collection.find(searchQuery);
+
+            Document resultsQuery = new Document();
+            try (final MongoCursor<Document> cursorIterator = cursor.cursor()) {
+                while (cursorIterator.hasNext()) {
+                    resultsQuery = cursorIterator.next();
+                }
+            }
+
+        return (Integer) resultsQuery.get("_id");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 500;
+        }
+    }
+
+    @PutMapping("/wiki/{id}/admin/delete")
+    public ResponseEntity<String> deleteEntry(@RequestBody Map<String,String> admin, @PathVariable String id) {
+        try{
+            if (admin.get("pseudo").isEmpty() && id.isEmpty()) {
+                return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+            }
+
+            int idAdmin = getIdAdminByNom(admin.get("pseudo"));
+            if (idAdmin == 400){
+                return new ResponseEntity<>("400 Bad Request", HttpStatus.BAD_REQUEST);
+            }else if(idAdmin == 500){
+                return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else{
+                MongoCollection<Document> collection = database.getCollection("wikis");
+                collection.updateOne(Filters.eq("_id", Integer.parseInt(id)), Updates.pull("admins",idAdmin));
+                
+                return new ResponseEntity<>("200 OK", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("500 Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

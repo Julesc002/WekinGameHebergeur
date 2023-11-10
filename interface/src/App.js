@@ -15,7 +15,7 @@ import PageAjoutWiki from './pages/PageAjoutWiki';
 import PageAffichageAllWikis from './pages/PageAffichageAllWikis';
 import PageModificationEntree from './pages/PageModificationEntree';
 import PageModifierCategorie from './pages/PageModifierCategorie';
-import AdminWiki from './components/administrationwiki';
+import PageAdministrerWiki from './pages/PageAdministrerWiki';
 
 const App = () => {
 
@@ -36,7 +36,7 @@ const App = () => {
         <Route path="/allWikis" element={<PageAffichageAllWikis />} />
         <Route path="/wiki/:wikiId/entry/:entreeId/update" element={<PageModificationEntree />} />
         <Route path='/wiki/:id/category/:oldCategoryName/update' element={<PageModifierCategorie />}/>
-        <Route path="/test/:wikiId/" element={<AdminWiki/>} />
+        <Route path="/wiki/:wikiId/admin" element={<PageAdministrerWiki/>} />
       </Routes>
     </Layout>
   );
