@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import AjoutCategorie from '../components/AjoutCategorie';
 import { API_URL, APP_URL } from '../config';
 
 function AjoutEntree() {
@@ -122,6 +123,7 @@ function AjoutEntree() {
                     );
                 })}
             </label>
+            <AjoutCategorie />
             <label>
                 Donnée·s :
                 {donnees && donnees.map(function (donnee, index) {
