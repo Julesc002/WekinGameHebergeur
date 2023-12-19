@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/WekinGameHebergeur/static/css/main.996d7834.css",
+    "main.js": "/WekinGameHebergeur/static/js/main.8a430405.js",
+    "index.html": "/WekinGameHebergeur/index.html",
+    "main.996d7834.css.map": "/WekinGameHebergeur/static/css/main.996d7834.css.map",
+    "main.8a430405.js.map": "/WekinGameHebergeur/static/js/main.8a430405.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.996d7834.css",
+    "static/js/main.8a430405.js"
+  ]
+}
